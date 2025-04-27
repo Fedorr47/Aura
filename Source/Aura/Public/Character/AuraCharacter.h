@@ -19,7 +19,6 @@ class AURA_API AAuraCharacter : public AAuraCharacterBase
 	GENERATED_BODY()
 public:
 	AAuraCharacter();
-	void Look(const FInputActionValue& Value);
 
 	FORCEINLINE UCameraComponent* GetTopDownCameraComponent() const { return CameraComponent; }
 	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }

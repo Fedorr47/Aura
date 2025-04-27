@@ -6,8 +6,6 @@
 #include "EnhancedInputComponent.h"
 #include "Interaction/EnemyInterface.h"
 
-//#include "Character/AuraCharacter.h"
-
 AAuraPlayerController::AAuraPlayerController()
 {
 	bReplicates = true;
@@ -60,9 +58,11 @@ void AAuraPlayerController::BeginPlay()
 	{
 		check(AuraContext);
 		UEnhancedInputLocalPlayerSubsystem* localPlayerSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-		check(localPlayerSubsystem);
-		localPlayerSubsystem->AddMappingContext(AuraContext,0);
-	
+		if (IsValid(localPlayerSubsystem))
+		{
+			localPlayerSubsystem->AddMappingContext(AuraContext,0);
+		}
+		
 		bShowMouseCursor = true;
 		DefaultMouseCursor = EMouseCursor::Default;
 
@@ -115,13 +115,5 @@ void AAuraPlayerController::Look(const FInputActionValue& InputActionValue)
 
 	ControlledPawn->AddControllerYawInput(LookInput.X);
 	ControlledPawn->AddControllerPitchInput(LookInput.Y);
-	
-	
-	/*
-	if (AAuraCharacter* AuraCharacter = Cast<AAuraCharacter>(ControlledPawn))
-	{
-		AuraCharacter->Look(InputActionValue);
-	}
-	*/
 }
 
