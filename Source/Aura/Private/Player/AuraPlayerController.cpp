@@ -6,6 +6,8 @@
 #include "EnhancedInputComponent.h"
 #include "Interaction/EnemyInterface.h"
 
+//#include "Character/AuraCharacter.h"
+
 AAuraPlayerController::AAuraPlayerController()
 {
 	bReplicates = true;
@@ -53,28 +55,34 @@ void AAuraPlayerController::CursorTrace()
 void AAuraPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	check(AuraContext);
-
-	UEnhancedInputLocalPlayerSubsystem* localPlayerSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-	check(localPlayerSubsystem);
-	localPlayerSubsystem->AddMappingContext(AuraContext,0);
 	
-	bShowMouseCursor = true;
-	DefaultMouseCursor = EMouseCursor::Default;
+	if (GetNetMode() == NM_Client || IsLocalController())
+	{
+		check(AuraContext);
+		UEnhancedInputLocalPlayerSubsystem* localPlayerSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+		check(localPlayerSubsystem);
+		localPlayerSubsystem->AddMappingContext(AuraContext,0);
+	
+		bShowMouseCursor = true;
+		DefaultMouseCursor = EMouseCursor::Default;
 
-	FInputModeGameAndUI InputModeData;
-	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-	InputModeData.SetHideCursorDuringCapture(false);
-	SetInputMode(InputModeData);
+		FInputModeGameAndUI InputModeData;
+		InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+		InputModeData.SetHideCursorDuringCapture(false);
+		SetInputMode(InputModeData);
+	}
 }
 
 void AAuraPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
-
-	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
-
-	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
+	
+	if (GetNetMode() == NM_Client || IsLocalController())
+	{
+		UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
+		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
+		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Look);
+	}
 }
 
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
@@ -91,5 +99,21 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 		ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);
 		ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
 	}
+}
+
+void AAuraPlayerController::Look(const FInputActionValue& InputActionValue)
+{
+	APawn* ControlledPawn = GetPawn<APawn>();
+
+	if (!ControlledPawn)
+	{
+		return;
+	}
+	/*
+	if (AAuraCharacter* AuraCharacter = Cast<AAuraCharacter>(ControlledPawn))
+	{
+		AuraCharacter->Look(InputActionValue);
+	}
+	*/
 }
 

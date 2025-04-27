@@ -3,6 +3,7 @@
 
 #include "Character/AuraCharacter.h"
 
+#include "InputActionValue.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -27,4 +28,18 @@ AAuraCharacter::AAuraCharacter()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationRoll= false;
 	bUseControllerRotationYaw = false;
+}
+
+void AAuraCharacter::Look(const FInputActionValue& Value)
+{
+	float MinPitch = -80.f;
+	float MaxPitch = -30.f;
+	
+	FVector2D LookInput = Value.Get<FVector2D>();
+
+	FRotator NewRotation = CameraBoom->GetRelativeRotation();
+	NewRotation.Yaw += LookInput.X;
+	NewRotation.Pitch = FMath::Clamp(NewRotation.Pitch + LookInput.Y, MinPitch, MaxPitch);
+
+	CameraBoom->SetRelativeRotation(NewRotation);
 }
