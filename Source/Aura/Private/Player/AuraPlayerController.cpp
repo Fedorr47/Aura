@@ -109,6 +109,14 @@ void AAuraPlayerController::Look(const FInputActionValue& InputActionValue)
 	{
 		return;
 	}
+
+	FVector2D LookInput = InputActionValue.Get<FVector2D>();
+
+
+	ControlledPawn->AddControllerYawInput(LookInput.X);
+	ControlledPawn->AddControllerPitchInput(LookInput.Y);
+	
+	
 	/*
 	if (AAuraCharacter* AuraCharacter = Cast<AAuraCharacter>(ControlledPawn))
 	{
