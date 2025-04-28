@@ -7,6 +7,18 @@
 #include "AttributeSet.h"
 #include "AuraAttributeSet.generated.h"
 
+#define CLAMP_ATTRIBUTE(AttributeName, Attribute, MinAttributeValue, MaxAttributeValue, NewValue) \
+if (Attribute == Get##AttributeName##Attribute()) \
+{ \
+NewValue = FMath::Clamp(NewValue, MinAttributeValue, MaxAttributeValue); \
+}
+
+#define CLAMP_ATTRIBUTE_POST(AttributeName, Attribute, MinAttributeValue, MaxAttributeValue) \
+if (Attribute == Get##AttributeName##Attribute()) { \
+Set##AttributeName(FMath::Clamp(Get##AttributeName(), MinAttributeValue, MaxAttributeValue)); \
+}
+
+
 #define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
 GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
