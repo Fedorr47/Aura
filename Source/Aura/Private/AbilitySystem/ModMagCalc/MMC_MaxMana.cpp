@@ -6,9 +6,7 @@
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "Interaction/CombatInterface.h"
 
-static float BaseValue = 90.0f;
-static float Magnifier = 3.0f;
-static float AdditionalVal = 10.0f;
+using namespace MMC_MaxManaConstants;
 
 UMMC_MaxMana::UMMC_MaxMana()
 {

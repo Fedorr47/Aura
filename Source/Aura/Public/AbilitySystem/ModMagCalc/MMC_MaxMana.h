@@ -6,6 +6,13 @@
 #include "GameplayModMagnitudeCalculation.h"
 #include "MMC_MaxMana.generated.h"
 
+namespace MMC_MaxManaConstants
+{
+	inline constexpr float BaseValue = 90.0f;
+	inline constexpr float Magnifier = 3.0f;
+	inline constexpr float AdditionalVal = 15.0f;
+}
+
 /**
  * 
  */

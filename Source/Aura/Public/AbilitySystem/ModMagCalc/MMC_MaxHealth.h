@@ -6,6 +6,13 @@
 #include "GameplayModMagnitudeCalculation.h"
 #include "MMC_MaxHealth.generated.h"
 
+namespace MMC_MaxHealthConstants
+{
+	inline constexpr float BaseValue = 80.0f;
+	inline constexpr float Magnifier = 2.5f;
+	inline constexpr float AdditionalVal = 10.0f;
+}
+
 /**
  * 
  */

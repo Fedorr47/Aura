@@ -5,9 +5,7 @@
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "Interaction/CombatInterface.h"
 
-static float BaseValue = 80.0f;
-static float Magnifier = 2.5f;
-static float AdditionalVal = 10.0f;
+using namespace MMC_MaxHealthConstants;
 
 UMMC_MaxHealth::UMMC_MaxHealth()
 {
