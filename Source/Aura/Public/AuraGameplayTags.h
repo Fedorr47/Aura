@@ -5,6 +5,19 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 
+#define ADD_SECONDARY_TAG(Instance, AttributeName, TagComment) \
+Instance.Attribute_Secondary_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
+FName("Attributes.Secondary."#AttributeName), FString(TagComment))
+
+#define ADD_PRIMARY_TAG(Instance, AttributeName, TagComment) \
+Instance.Attribute_Primary_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
+FName("Attributes.Primary."#AttributeName), FString(TagComment))
+
+#define ADD_VITAL_TAG(Instance, AttributeName, TagComment) \
+Instance.Attribute_Vital_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
+FName("Attributes.Vital."#AttributeName), FString(TagComment))
+
+
 /**
  * AuraGameplayTags
  *

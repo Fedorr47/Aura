@@ -6,10 +6,31 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "GameplayEffectExtension.h"
 #include "GameFramework/Character.h"
+#include "AuraGameplayTags.h"
 #include "Net/UnrealNetwork.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
+	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+	
+	BIND_TAGS_WITH_FUNC(TagsToAttributes, GameplayTags, Primary, Strength);
+	BIND_TAGS_WITH_FUNC(TagsToAttributes, GameplayTags, Primary, Intelligence);
+	BIND_TAGS_WITH_FUNC(TagsToAttributes, GameplayTags, Primary, Resilience);
+	BIND_TAGS_WITH_FUNC(TagsToAttributes, GameplayTags, Primary, Vigor);
+	
+	BIND_TAGS_WITH_FUNC(TagsToAttributes, GameplayTags, Secondary, Armor);				
+	BIND_TAGS_WITH_FUNC(TagsToAttributes, GameplayTags, Secondary, ArmorPenetration);
+	BIND_TAGS_WITH_FUNC(TagsToAttributes, GameplayTags, Secondary, BlockChance);		
+	BIND_TAGS_WITH_FUNC(TagsToAttributes, GameplayTags, Secondary, CriticalHitChance);	
+	BIND_TAGS_WITH_FUNC(TagsToAttributes, GameplayTags, Secondary, CriticalHitDamage);	
+	BIND_TAGS_WITH_FUNC(TagsToAttributes, GameplayTags, Secondary, CriticalHitResistance);
+	BIND_TAGS_WITH_FUNC(TagsToAttributes, GameplayTags, Secondary, HealthRegeneration);
+	BIND_TAGS_WITH_FUNC(TagsToAttributes, GameplayTags, Secondary, ManaRegeneration);	
+	BIND_TAGS_WITH_FUNC(TagsToAttributes, GameplayTags, Secondary, MaxHealth);	
+	BIND_TAGS_WITH_FUNC(TagsToAttributes, GameplayTags, Secondary, MaxMana);
+
+	BIND_TAGS_WITH_FUNC(TagsToAttributes, GameplayTags, Vital, Health);
+	BIND_TAGS_WITH_FUNC(TagsToAttributes, GameplayTags, Vital, Mana);
 }
 
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -22,16 +43,16 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Resilience, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Vigor, COND_None, REPNOTIFY_Always);
 	// Secondary attributes
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Armor, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ArmorPenetration, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, BlockChance, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, CriticalHitChance, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, CriticalHitDamage, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, CriticalHitResistance, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, HealthRegeneration, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ManaRegeneration, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Armor,					COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ArmorPenetration, 		COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, BlockChance,				COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, CriticalHitChance,		COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, CriticalHitDamage,		COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, CriticalHitResistance,	COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, HealthRegeneration,		COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ManaRegeneration,			COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxHealth,				COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxMana,					COND_None, REPNOTIFY_Always);
 	// Vital attributes
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Health,	COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Mana, COND_None, REPNOTIFY_Always);

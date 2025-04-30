@@ -7,6 +7,9 @@
 #include "AttributeSet.h"
 #include "AuraAttributeSet.generated.h"
 
+template <typename T>
+using TStaticAttributeFuncPtr = typename TBaseStaticDelegateInstance<T, FDefaultDelegateUserPolicy>::FFuncPtr;
+
 #define CLAMP_ATTRIBUTE(AttributeName, Attribute, MinAttributeValue, MaxAttributeValue, NewValue) \
 if (Attribute == Get##AttributeName##Attribute()) \
 { \
@@ -18,12 +21,15 @@ if (Attribute == Get##AttributeName##Attribute()) { \
 Set##AttributeName(FMath::Clamp(Get##AttributeName(), MinAttributeValue, MaxAttributeValue)); \
 }
 
+#define BIND_TAGS_WITH_FUNC(TagsToAttributes, GameplayTags, AttributeType, AttributeName) \
+TagsToAttributes.Add(GameplayTags.Attribute_##AttributeType##_##AttributeName, Get##AttributeName##Attribute);
 
 #define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
 GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
+
 
 struct FGameplayEffectModCallbackData;
 class AController;
@@ -75,6 +81,8 @@ public:
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 
+	TMap<FGameplayTag, TStaticAttributeFuncPtr<FGameplayAttribute()>> TagsToAttributes;
+	
 	/*
 	 * Primary Attributes
 	 */
