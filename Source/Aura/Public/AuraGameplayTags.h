@@ -17,6 +17,10 @@ FName("Attributes.Primary."#AttributeName), FString(TagComment))
 Instance.Attribute_Vital_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
 FName("Attributes.Vital."#AttributeName), FString(TagComment))
 
+#define ADD_INPUT_TAG(Instance, InputName, TagComment) \
+Instance.InputTag_##InputName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
+FName("InputTag."#InputName), FString(TagComment))
+
 
 /**
  * AuraGameplayTags
@@ -54,6 +58,13 @@ public:
 	
 	FGameplayTag Attribute_Vital_Health;
 	FGameplayTag Attribute_Vital_Mana;
+
+	FGameplayTag InputTag_LMB;
+	FGameplayTag InputTag_RMB;
+	FGameplayTag InputTag_1;
+	FGameplayTag InputTag_2;
+	FGameplayTag InputTag_3;
+	FGameplayTag InputTag_4;
 
 protected:
 private:

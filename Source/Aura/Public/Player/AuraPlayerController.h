@@ -3,12 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "GameFramework/PlayerController.h"
 #include "AuraPlayerController.generated.h"
 
+class USplineComponent;
+class UAuraInputConfig;
 class UInputMappingContext;
 class UInputAction;
 class IEnemyInterface;
+class UAuraAbilitySystemComponent;
 
 struct FInputActionValue;
 
@@ -26,6 +30,20 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 private:
+	void Move(const FInputActionValue& InputActionValue);
+	void Look(const FInputActionValue& InputActionValue);
+
+	void CursorTrace();
+	void AutoRun();
+
+	void AbilityInputTagPressed(FGameplayTag InputTag);
+	void AbilityInputTagReleased(FGameplayTag InputTag);
+	void AbilityInputTagHeld(FGameplayTag InputTag);
+
+	UAuraAbilitySystemComponent* GetAbilitySystemComponent();
+
+	// -------------------------------------//
+
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputMappingContext> AuraContext;
 
@@ -34,12 +52,27 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> LookAction;
-
-	void Move(const FInputActionValue& InputActionValue);
-	void Look(const FInputActionValue& InputActionValue);
-
-	void CursorTrace();
-
+	
 	TScriptInterface<IEnemyInterface> LastActor;
 	TScriptInterface<IEnemyInterface> ThisActor;
+	FHitResult CursorHit;
+	
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	TObjectPtr<UAuraInputConfig> InputConfig;
+
+	UPROPERTY()
+	TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
+
+	FVector CachedDestination{FVector::ZeroVector};
+	float FollowTime{0.0f};
+	float ShortPressThreshold{0.5f};
+	bool bAutoRunning{false};
+	bool bTargeting{false};
+
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	float AutoRunAcceptableRadius{50.0f};
+
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<USplineComponent> SplineComponent{nullptr};
 };
+

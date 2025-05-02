@@ -30,4 +30,11 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	ADD_VITAL_TAG(Instance, Health, "");
 	ADD_VITAL_TAG(Instance, Mana, "");
 
+	// Input Tags
+	ADD_INPUT_TAG(Instance, LMB, "Input Tag for Left Mouse Button");
+	ADD_INPUT_TAG(Instance, RMB, "Input Tag for Right Mouse Button");
+	ADD_INPUT_TAG(Instance, 1, "Input Tag for 1 Key");
+	ADD_INPUT_TAG(Instance, 2, "Input Tag for 2 Key");
+	ADD_INPUT_TAG(Instance, 3, "Input Tag for 3 Key");
+	ADD_INPUT_TAG(Instance, 4, "Input Tag for 4 Key");
 }
