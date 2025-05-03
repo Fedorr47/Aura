@@ -2,6 +2,7 @@
 
 
 #include "Character/AuraEnemy.h"
+#include "Aura/Aura.h"
 
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
@@ -9,9 +10,11 @@
 AAuraEnemy::AAuraEnemy()
 {
 	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
+	GetMesh()->SetGenerateOverlapEvents(true);
 	GetMesh()->SetCustomDepthStencilValue(HighlightChannel);
 	Weapon->SetCustomDepthStencilValue(HighlightChannel);
-
+	
 	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
@@ -29,6 +32,8 @@ void AAuraEnemy::InitAbilityActorInfo()
 {
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
+
+	InitializeDefaultAttributes();
 }
 
 void AAuraEnemy::HighlightActor()

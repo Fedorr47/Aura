@@ -7,8 +7,6 @@
 #include "Interaction/EnemyInterface.h"
 #include "AuraEnemy.generated.h"
 
-static float HighlightChannel = 250.0f;
-
 /**
  * 
  */
