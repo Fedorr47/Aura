@@ -23,9 +23,8 @@ public:
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const {return AttributeSet;}
-
 	virtual void InitAbilityActorInfo();
-
+	
 protected:
 	virtual void BeginPlay() override;
 
@@ -56,7 +55,6 @@ protected:
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
 
 	void AddCharacterAbilities();
-
 	
 private:
 

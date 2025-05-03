@@ -32,6 +32,9 @@ protected:
 private:
 	void Move(const FInputActionValue& InputActionValue);
 	void Look(const FInputActionValue& InputActionValue);
+	
+	void ShiftPressed() {bShiftPressed = true;}
+	void ShiftReleased(){bShiftPressed = false;}
 
 	void CursorTrace();
 	void AutoRun();
@@ -51,6 +54,9 @@ private:
 	TObjectPtr<UInputAction> MoveAction;
 
 	UPROPERTY(EditAnywhere, Category="Input")
+	TObjectPtr<UInputAction> ShiftAction;
+
+	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> LookAction;
 	
 	TScriptInterface<IEnemyInterface> LastActor;
@@ -62,6 +68,8 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
+
+	bool bShiftPressed = false;
 
 	FVector CachedDestination{FVector::ZeroVector};
 	float FollowTime{0.0f};
