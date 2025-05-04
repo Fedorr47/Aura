@@ -82,6 +82,13 @@ public:
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 
 	TMap<FGameplayTag, TStaticAttributeFuncPtr<FGameplayAttribute()>> TagsToAttributes;
+
+	/*
+	 *	Meta Attributes
+	 */
+	UPROPERTY(BlueprintReadOnly, Category = "Meta Attribute")
+	FGameplayAttributeData IncomingDamage;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage)
 	
 	/*
 	 * Primary Attributes

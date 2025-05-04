@@ -70,12 +70,25 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 {
 	Super::PostGameplayEffectExecute(Data);
 
+	FEffectProperties Props;
+	SetEffectProperties(Data, Props);
+	
 	const auto Attribute = Data.EvaluatedData.Attribute;
 	CLAMP_ATTRIBUTE_POST(Health, Attribute, 0.0f, GetMaxHealth());
 	CLAMP_ATTRIBUTE_POST(Mana, Attribute, 0.0f, GetMaxMana());
 
-	FEffectProperties Props;
-	SetEffectProperties(Data, Props);
+	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
+	{
+		const float LocalIncomingDamage = GetIncomingDamage();
+		SetIncomingDamage(0.0f);
+		if (LocalIncomingDamage > 0.0f)
+		{
+			const float NewHealth = GetHealth() - LocalIncomingDamage;
+			SetHealth(FMath::Clamp(NewHealth, 0.0f, GetMaxHealth()));
+
+			const bool bFatal = NewHealth <= 0.0f;
+		}
+	}
 }
 
 void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const

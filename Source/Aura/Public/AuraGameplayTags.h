@@ -30,9 +30,6 @@ FName("InputTag."#InputName), FString(TagComment))
 struct FAuraGameplayTags
 {
 public:
-	FAuraGameplayTags(const FAuraGameplayTags&) = delete;
-	FAuraGameplayTags& operator=(const FAuraGameplayTags&) = delete;
-	
 	static const FAuraGameplayTags& Get()
 	{
 		return Instance;
@@ -65,6 +62,8 @@ public:
 	FGameplayTag InputTag_2;
 	FGameplayTag InputTag_3;
 	FGameplayTag InputTag_4;
+
+	FGameplayTag Damage;
 
 protected:
 private:
