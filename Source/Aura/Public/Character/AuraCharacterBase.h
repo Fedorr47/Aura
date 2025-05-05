@@ -12,6 +12,8 @@ class UGameplayAbility;
 class UGameplayEffect;
 class UAbilitySystemComponent;
 class UAttributeSet;
+class UAnimMontage;
+struct FGameplayTag;
 
 UCLASS(Abstract)
 class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
@@ -24,6 +26,22 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const {return AttributeSet;}
 	virtual void InitAbilityActorInfo();
+	
+	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
+	UFUNCTION(BlueprintCallable)
+	void SetHitReactMontages(TMap<FGameplayTag, UAnimMontage*> InHitMontages);
+	virtual UAnimMontage* GetHitReactMontage_Implementation(const FGameplayTag HitTag) override;
+	
+	virtual void Die() override;
+	UFUNCTION(NetMulticast, Reliable)
+	virtual void MulticastHandleDeath();
+	
+	//-----------------------------------------------------------------------//
+	UPROPERTY(BlueprintReadOnly, Category = "Combat")
+	bool bHitReacting {false};
+
+	UPROPERTY(BlueprintReadOnly, Category = "Combat")
+	float MaxWalkSpeed {0.0f};
 	
 protected:
 	virtual void BeginPlay() override;
@@ -60,4 +78,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> GrantedAbilities;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TMap<FGameplayTag, TObjectPtr<UAnimMontage>> HitMontages;
 };

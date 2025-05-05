@@ -65,6 +65,8 @@ public:
 
 	FGameplayTag Damage;
 
+	FGameplayTag Effects_HitReact_Fire;
+
 protected:
 private:
 	static FAuraGameplayTags Instance;

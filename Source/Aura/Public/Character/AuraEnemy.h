@@ -30,6 +30,13 @@ public:
 	virtual int32 GetPlayerLevel() override;
 	/* End Combat Interface */
 
+	virtual void Die() override;
+
+	//-----------------------------------------------------///
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
+	float LifeSpan{5.0f};
+	
 	UPROPERTY(BlueprintAssignable)
 	FOnAttributeChangedSignature OnHealthChanged;
 

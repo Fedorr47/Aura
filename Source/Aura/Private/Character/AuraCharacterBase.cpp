@@ -3,9 +3,12 @@
 #include "Character/AuraCharacterBase.h"
 
 #include "AbilitySystemComponent.h"
+#include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystem/AuraAttributeSet.h"
 #include "Aura/Aura.h"
 #include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
@@ -31,9 +34,63 @@ void AAuraCharacterBase::InitAbilityActorInfo()
 {
 }
 
+UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation(const FGameplayTag HitTag)
+{
+	for (auto HitReactPair : HitMontages)
+	{
+		if (HitReactPair.Key.MatchesTagExact(HitTag))
+		{
+			return HitReactPair.Value;
+		}
+	}
+	return nullptr;
+}
+
+void AAuraCharacterBase::Die()
+{
+	Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
+	MulticastHandleDeath();
+}
+
+void AAuraCharacterBase::MulticastHandleDeath_Implementation()
+{
+	Weapon->SetSimulatePhysics(true);
+	Weapon->SetEnableGravity(true);
+	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+
+	GetMesh()->SetSimulatePhysics(true);
+	GetMesh()->SetEnableGravity(true);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+	
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+void AAuraCharacterBase::SetHitReactMontages(TMap<FGameplayTag, UAnimMontage*> InHitMontages)
+{
+	for (auto Pair: InHitMontages)
+	{
+		HitMontages.Add(Pair.Key, Pair.Value);
+	}
+}
+
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	MaxWalkSpeed = GetCharacterMovement()->MaxWalkSpeed;
+	if (const UAuraAttributeSet* AuraAS = CastChecked<UAuraAttributeSet>(AttributeSet))
+	{
+		AbilitySystemComponent->RegisterGameplayTagEvent(
+			FAuraGameplayTags::Get().Effects_HitReact_Fire, EGameplayTagEventType::NewOrRemoved).AddUObject(
+				this, &ThisClass::HitReactTagChanged);
+	}
+}
+
+void AAuraCharacterBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	bHitReacting = NewCount > 0;
+	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? (MaxWalkSpeed/2.0f) : MaxWalkSpeed;
 }
 
 FVector AAuraCharacterBase::GetCombatSocketLocation()
