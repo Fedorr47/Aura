@@ -20,6 +20,8 @@ class AURA_API AAuraCharacter : public AAuraCharacterBase
 public:
 	AAuraCharacter();
 
+	virtual void BeginPlay() override;
+
 	FORCEINLINE UCameraComponent* GetTopDownCameraComponent() const { return CameraComponent; }
 	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 

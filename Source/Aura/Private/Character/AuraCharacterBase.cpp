@@ -5,7 +5,6 @@
 #include "AbilitySystemComponent.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
-#include "AbilitySystem/AuraAttributeSet.h"
 #include "Aura/Aura.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -64,6 +63,8 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation()
 	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 	
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	Dissolve();
 }
 
 void AAuraCharacterBase::SetHitReactMontages(TMap<FGameplayTag, UAnimMontage*> InHitMontages)
@@ -77,14 +78,7 @@ void AAuraCharacterBase::SetHitReactMontages(TMap<FGameplayTag, UAnimMontage*> I
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-
 	MaxWalkSpeed = GetCharacterMovement()->MaxWalkSpeed;
-	if (const UAuraAttributeSet* AuraAS = CastChecked<UAuraAttributeSet>(AttributeSet))
-	{
-		AbilitySystemComponent->RegisterGameplayTagEvent(
-			FAuraGameplayTags::Get().Effects_HitReact_Fire, EGameplayTagEventType::NewOrRemoved).AddUObject(
-				this, &ThisClass::HitReactTagChanged);
-	}
 }
 
 void AAuraCharacterBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
@@ -115,6 +109,24 @@ void AAuraCharacterBase::AddCharacterAbilities()
 	if (!HasAuthority()) return;
 
 	AuraASC->AddCharacterAbilities(GrantedAbilities);
+}
+
+void AAuraCharacterBase::Dissolve()
+{
+	if (IsValid(DissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMaterialInstance = UMaterialInstanceDynamic::Create(
+			DissolveMaterialInstance, this);
+		GetMesh()->SetMaterial(0, DynamicMaterialInstance);
+		StartDissolveTimeLine(DynamicMaterialInstance);
+	}
+	if (IsValid(WeaponDissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* WeaponDynamicMaterialInstance = UMaterialInstanceDynamic::Create(
+			WeaponDissolveMaterialInstance, this);
+		Weapon->SetMaterial(0, WeaponDynamicMaterialInstance);
+		StartWeaponDissolveTimeLine(WeaponDynamicMaterialInstance);
+	}
 }
 
 void AAuraCharacterBase::InitializeDefaultAttributes() const

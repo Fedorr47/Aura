@@ -2,6 +2,8 @@
 
 
 #include "Character/AuraEnemy.h"
+
+#include "AuraGameplayTags.h"
 #include "Aura/Aura.h"
 
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
@@ -54,6 +56,10 @@ void AAuraEnemy::BeginPlay()
 				OnMaxHealthChanged.Broadcast(Data.NewValue);
 			}
 		);
+
+		AbilitySystemComponent->RegisterGameplayTagEvent(
+			FAuraGameplayTags::Get().Effects_HitReact_Fire, EGameplayTagEventType::NewOrRemoved).AddUObject(
+				this, &ThisClass::HitReactTagChanged);
 
 		OnHealthChanged.Broadcast(AuraAS->GetHealth());
 		OnMaxHealthChanged.Broadcast(AuraAS->GetMaxHealth());

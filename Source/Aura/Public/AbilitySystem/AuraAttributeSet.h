@@ -86,6 +86,7 @@ public:
 	/*
 	 *	Meta Attributes
 	 */
+	
 	UPROPERTY(BlueprintReadOnly, Category = "Meta Attribute")
 	FGameplayAttributeData IncomingDamage;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage)
@@ -210,4 +211,5 @@ public:
 	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
 private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const;
+	void ShowFloatingText(const FEffectProperties& Props, float Damage);
 };

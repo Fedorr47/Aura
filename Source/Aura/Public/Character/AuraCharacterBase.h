@@ -69,10 +69,25 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
 
+	/* Dissolve Effects*/
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Material")
+	TObjectPtr<UMaterialInstance> DissolveMaterialInstance;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Material")
+	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
+	
+	//-----------------------------------------------------------------------------//
 	virtual void InitializeDefaultAttributes() const;
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
 
 	void AddCharacterAbilities();
+
+	/* Dissolve Effects*/
+	void Dissolve();
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartDissolveTimeLine(UMaterialInstanceDynamic* DynamicMaterialInstance);
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartWeaponDissolveTimeLine(UMaterialInstanceDynamic* DynamicMaterialInstance);
 	
 private:
 
