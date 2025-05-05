@@ -7,7 +7,6 @@
 #include "AbilitySystemComponent.h"
 #include "AuraGameplayTags.h"
 #include "EnhancedInputSubsystems.h"
-#include "MovieSceneTracksComponentTypes.h"
 #include "NavigationPath.h"
 #include "NavigationSystem.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
