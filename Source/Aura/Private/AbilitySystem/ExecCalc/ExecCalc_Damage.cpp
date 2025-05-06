@@ -4,6 +4,7 @@
 #include "AbilitySystem/ExecCalc/ExecCalc_Damage.h"
 
 #include "AbilitySystemComponent.h"
+#include "AuraAbilityTypes.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
@@ -104,6 +105,11 @@ void UExecCalc_Damage::Execute_Implementation(
 	// TODO: change 100.0f to MaxBlockChance
 	const bool IsSuccessfulBlock = FMath::RandRange(0.0f, 100.0f) < TargetBlockChance;
 	Damage = IsSuccessfulBlock ? (Damage / 2.0f) : Damage;
+
+	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
+	FGameplayEffectContext* Context = EffectContextHandle.Get();
+	FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(Context);
+	AuraContext->SetIsBlockedHit(IsSuccessfulBlock);
 	
 	// Armor
 	float TargetArmor = 0.0f;
