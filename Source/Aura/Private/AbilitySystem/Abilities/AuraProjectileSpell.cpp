@@ -54,7 +54,6 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 		EffectContextHandle.AddHitResult(HitResult);
 		
 		const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), EffectContextHandle);
-		const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 
 		for (auto& Pair : DamageTypes)
 		{
