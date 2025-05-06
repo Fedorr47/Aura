@@ -70,6 +70,7 @@ void UExecCalc_Damage::Execute_Implementation(
 	EvaluateParams.TargetTags = TargetTags;
 
 	const UCharacterClassInfo* CharacterClassInfo = UAuraAbilitySystemLibrary::GetCharacterClassInfo(SourceAvatar);
+	FGameplayEffectContextHandle Context = Spec.GetContext();
 
 	// Get Damage Set by Caller Magnitude
 	float Damage = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get().Damage);
@@ -105,11 +106,8 @@ void UExecCalc_Damage::Execute_Implementation(
 	// TODO: change 100.0f to MaxBlockChance
 	const bool IsSuccessfulBlock = FMath::RandRange(0.0f, 100.0f) < TargetBlockChance;
 	Damage = IsSuccessfulBlock ? (Damage / 2.0f) : Damage;
-
-	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
-	FGameplayEffectContext* Context = EffectContextHandle.Get();
-	FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(Context);
-	AuraContext->SetIsBlockedHit(IsSuccessfulBlock);
+	
+	UAuraAbilitySystemLibrary::SetBlockedHit(Context, IsSuccessfulBlock);
 	
 	// Armor
 	float TargetArmor = 0.0f;
@@ -138,6 +136,8 @@ void UExecCalc_Damage::Execute_Implementation(
 
 	const bool IsSuccessfulCriticalHit = FMath::RandRange(0.0f, 100.0f) < SourceCriticalHitDamage;
 	Damage = IsSuccessfulCriticalHit ? ((Damage * 2.0f) + SourceCriticalHitDamage) : Damage;
+
+	UAuraAbilitySystemLibrary::SetCriticalHit(Context, IsSuccessfulCriticalHit);
 	
 	const FGameplayModifierEvaluatedData EvaluatedData(UAuraAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
