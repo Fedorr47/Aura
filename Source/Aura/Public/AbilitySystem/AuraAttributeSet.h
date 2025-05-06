@@ -24,6 +24,9 @@ Set##AttributeName(FMath::Clamp(Get##AttributeName(), MinAttributeValue, MaxAttr
 #define BIND_TAGS_WITH_FUNC(TagsToAttributes, GameplayTags, AttributeType, AttributeName) \
 TagsToAttributes.Add(GameplayTags.Attribute_##AttributeType##_##AttributeName, Get##AttributeName##Attribute);
 
+#define BIND_TAGS_RESISTANCE_WITH_FUNC(TagsToAttributes, GameplayTags, AttributeType, AttributeName) \
+TagsToAttributes.Add(GameplayTags.Attribute_##AttributeType##_##AttributeName, Get##AttributeName##Resistance##Attribute);
+
 #define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
 GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
@@ -209,6 +212,56 @@ public:
 
 	UFUNCTION()
 	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
+
+
+	/*
+	 * Resistance attribures 
+	 */
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_FireResistance, Category = "Resistance Attribute")
+	FGameplayAttributeData FireResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, FireResistance)
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_WaterResistance, Category = "Resistance Attribute")
+	FGameplayAttributeData WaterResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, WaterResistance)
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_AirResistance, Category = "Resistance Attribute")
+	FGameplayAttributeData AirResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, AirResistance)
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ArcaneResistance, Category = "Resistance Attribute")
+	FGameplayAttributeData ArcaneResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ArcaneResistance)
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_LightningResistance, Category = "Resistance Attribute")
+	FGameplayAttributeData LightningResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, LightningResistance)
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PhysicalResistance, Category = "Resistance Attribute")
+	FGameplayAttributeData PhysicalResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, PhysicalResistance)
+
+	UFUNCTION()
+	void OnRep_FireResistance(const FGameplayAttributeData& OldFireResistance) const;
+
+	UFUNCTION()
+	void OnRep_WaterResistance(const FGameplayAttributeData& OldWaterResistance) const;
+
+	UFUNCTION()
+	void OnRep_AirResistance(const FGameplayAttributeData& OldAirResistance) const;
+
+	UFUNCTION()
+	void OnRep_ArcaneResistance(const FGameplayAttributeData& OldArcaneResistance) const;
+
+	UFUNCTION()
+	void OnRep_LightningResistance(const FGameplayAttributeData& OldLightningResistance) const;
+
+	UFUNCTION()
+	void OnRep_PhysicalResistance(const FGameplayAttributeData& OldPhysicalResistance) const;
+
+
+	
 private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const;
 	void ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bCriticalHit);

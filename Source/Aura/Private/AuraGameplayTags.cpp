@@ -41,6 +41,31 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	Instance.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Damage"), FString("Damage"));
 
+	// Damage types
+	ADD_DAMAGE_TAG(Instance, Fire, "Fire Damage Type");
+	ADD_DAMAGE_TAG(Instance, Water, "Water Damage Type");
+	ADD_DAMAGE_TAG(Instance, Air, "Air Damage Type");
+	ADD_DAMAGE_TAG(Instance, Lightning, "Lightning Damage Type");
+	ADD_DAMAGE_TAG(Instance, Arcane, "Arcane Damage Type");
+	ADD_DAMAGE_TAG(Instance, Physical, "Physical Damage Type");
+
+	// Damage Resistance types
+	ADD_DAMAGE_RESISTANCE_TAG(Instance, Fire, "Resistance to Fire Damage");
+	ADD_DAMAGE_RESISTANCE_TAG(Instance, Water, "Resistance to Water Damage");
+	ADD_DAMAGE_RESISTANCE_TAG(Instance, Air, "Resistance to Air Damage");
+	ADD_DAMAGE_RESISTANCE_TAG(Instance, Lightning, "Resistance to Lightning Damage");
+	ADD_DAMAGE_RESISTANCE_TAG(Instance, Arcane, "Resistance to Arcane Damage");
+	ADD_DAMAGE_RESISTANCE_TAG(Instance, Physical, "Resistance to Physical Damage");
+
+	// Map of Damage types to Resistances
+	Instance.DamageTypesToResistance.Add(Instance.Damage_Fire, Instance.Attribute_Resistance_Fire);
+	Instance.DamageTypesToResistance.Add(Instance.Damage_Air, Instance.Attribute_Resistance_Air);
+	Instance.DamageTypesToResistance.Add(Instance.Damage_Arcane, Instance.Attribute_Resistance_Arcane);
+	Instance.DamageTypesToResistance.Add(Instance.Damage_Water, Instance.Attribute_Resistance_Water);
+	Instance.DamageTypesToResistance.Add(Instance.Damage_Lightning, Instance.Attribute_Resistance_Lightning);
+	Instance.DamageTypesToResistance.Add(Instance.Damage_Physical, Instance.Attribute_Resistance_Physical);
+	
+
 	Instance.Effects_HitReact_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Effects.HitReact.FireDamage"), FString("A hit reaction to fire damage"));
 }

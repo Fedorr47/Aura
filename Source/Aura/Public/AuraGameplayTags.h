@@ -21,6 +21,14 @@ FName("Attributes.Vital."#AttributeName), FString(TagComment))
 Instance.InputTag_##InputName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
 FName("InputTag."#InputName), FString(TagComment))
 
+#define ADD_DAMAGE_TAG(Instance, AttributeName, TagComment) \
+Instance.Damage_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
+FName("Damage."#AttributeName), FString(TagComment))
+
+#define ADD_DAMAGE_RESISTANCE_TAG(Instance, AttributeName, TagComment) \
+Instance.Attribute_Resistance_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
+FName("Attributes.Resistance."#AttributeName), FString(TagComment))
+
 
 /**
  * AuraGameplayTags
@@ -56,6 +64,13 @@ public:
 	FGameplayTag Attribute_Vital_Health;
 	FGameplayTag Attribute_Vital_Mana;
 
+	FGameplayTag Attribute_Resistance_Fire;
+	FGameplayTag Attribute_Resistance_Water;
+	FGameplayTag Attribute_Resistance_Air;
+	FGameplayTag Attribute_Resistance_Lightning;
+	FGameplayTag Attribute_Resistance_Arcane;
+	FGameplayTag Attribute_Resistance_Physical;
+
 	FGameplayTag InputTag_LMB;
 	FGameplayTag InputTag_RMB;
 	FGameplayTag InputTag_1;
@@ -64,6 +79,14 @@ public:
 	FGameplayTag InputTag_4;
 
 	FGameplayTag Damage;
+	FGameplayTag Damage_Fire;
+	FGameplayTag Damage_Water;
+	FGameplayTag Damage_Air;
+	FGameplayTag Damage_Lightning;
+	FGameplayTag Damage_Arcane;
+	FGameplayTag Damage_Physical;
+
+	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistance;
 
 	FGameplayTag Effects_HitReact_Fire;
 
