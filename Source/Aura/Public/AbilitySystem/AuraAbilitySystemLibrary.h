@@ -48,6 +48,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
 	static void SetCriticalHit(UPARAM(ref) FGameplayEffectContextHandle& ContextHandle, bool bInIsCriticalHit);
 
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayUtils")
+	static void GetLivePlayersWithRadius(
+		const FGameplayEffectContextHandle& ContextHandle,
+		TArray<AActor*>& OutOverlappingActors,
+		const TArray<AActor*>& ActorsToIgnore,
+		float Radius,
+		const FVector& SphereLocation);
+
 	template <typename TController>
 	static TController* GetWidgetController(const UObject* WorldContextObject, TController* (AAuraHUD::*Getter)(const FWidgetControllerParams&))
 	{

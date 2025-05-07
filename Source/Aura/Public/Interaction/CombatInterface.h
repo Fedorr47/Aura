@@ -39,5 +39,11 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	UAnimMontage* GetMeleeAttackMontage(const FGameplayTag AttackTag);
 
-	virtual void Die() {};
+	virtual void Die() = 0;
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	bool IsDead() const;
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	AActor* GetAvatar();
 };

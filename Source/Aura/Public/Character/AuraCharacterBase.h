@@ -36,10 +36,16 @@ public:
 	void SetHitReactMontages(TMap<FGameplayTag, UAnimMontage*> InHitMontages);
 	UFUNCTION(BlueprintCallable)
 	void SetAttackMontages(TMap<FGameplayTag, UAnimMontage*> InAttackMontages);
+	
+	/* Combat Interface */
+	virtual void Die() override;
+	virtual FVector GetCombatSocketLocation_Implementation() override;
+	virtual bool IsDead_Implementation() const override;
+	virtual AActor* GetAvatar_Implementation() override;
 	virtual UAnimMontage* GetHitReactMontage_Implementation(const FGameplayTag HitTag) override;
 	virtual UAnimMontage* GetMeleeAttackMontage_Implementation(const FGameplayTag HitTag) override;
+	/* End Combat Interface */
 	
-	virtual void Die() override;
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath();
 	
@@ -59,8 +65,7 @@ protected:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketName;
 
-	virtual FVector GetCombatSocketLocation_Implementation();
-
+	
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
@@ -85,6 +90,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Character Class Defaults")
 	ECharacterClass CharacterClass{ECharacterClass::Player};
+
+	UPROPERTY(Transient)
+	bool bDead {false};
 	
 	//-----------------------------------------------------------------------------//
 	virtual void InitializeDefaultAttributes() const;

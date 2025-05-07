@@ -119,4 +119,15 @@ void UAuraAbilitySystemLibrary::SetCriticalHit(FGameplayEffectContextHandle& Con
 	}
 }
 
+void UAuraAbilitySystemLibrary::GetLivePlayersWithRadius(
+	const FGameplayEffectContextHandle& ContextHandle,
+	TArray<AActor*>& OutOverlappingActors,
+	const TArray<AActor*>& ActorsToIgnore,
+	float Radius,
+	const FVector& SphereLocation)
+{
+	//FCollisionQueryParams QueryParams
+	//UGameplayStatics::ApplyRadialDamageWithFalloff()
+}
+
 
