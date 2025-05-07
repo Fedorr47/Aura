@@ -81,7 +81,7 @@ void AAuraCharacterBase::BeginPlay()
 	MaxWalkSpeed = GetCharacterMovement()->MaxWalkSpeed;
 }
 
-void AAuraCharacterBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+ void AAuraCharacterBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 {
 	bHitReacting = NewCount > 0;
 	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? (MaxWalkSpeed/2.0f) : MaxWalkSpeed;

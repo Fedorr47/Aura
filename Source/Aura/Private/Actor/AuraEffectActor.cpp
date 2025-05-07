@@ -5,6 +5,7 @@
 
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "Character/AuraCharacterBase.h"
 
 AAuraEffectActor::AAuraEffectActor()
 {
@@ -20,22 +21,39 @@ void AAuraEffectActor::BeginPlay()
 
 void AAuraEffectActor::ApplyEffectToActor(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
 {
+	if (TargetActor->ActorHasTag(EnemyTag) && !bApplyEffectsToEnemies)
+	{
+		return;
+	}
+	
 	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
-	if (TargetASC == nullptr) return;
+	if (TargetASC == nullptr)
+	{
+		return;
+	}
 
 	check(GameplayEffectClass);
 	FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(this);
 	const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffectClass, ActorLevel, EffectContextHandle);
 	const FActiveGameplayEffectHandle ActiveGameplayEffectHandle = TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
+
+	EGameplayEffectDurationType DurationPolicyVal = EffectSpecHandle.Data.Get()->Def.Get()->DurationPolicy;
+	if (DurationPolicyVal != EGameplayEffectDurationType::Infinite && bDestroyOnEffectApplication)
+	{
+		Destroy();
+		return;
+	}
 	
-	switch (EffectSpecHandle.Data.Get()->Def.Get()->DurationPolicy)
+	switch (DurationPolicyVal)
 	{
 	case EGameplayEffectDurationType::Infinite:
 		ActiveEffectHandles.Add(ActiveGameplayEffectHandle, TargetASC);
 		break;
 	case EGameplayEffectDurationType::Instant:
-		ActiveInstantEffectHandles.Add(ActiveGameplayEffectHandle);
+		{
+			ActiveInstantEffectHandles.Add(ActiveGameplayEffectHandle);
+		}
 		break;
 	case EGameplayEffectDurationType::HasDuration:
 		ActiveDurationEffectHandles.Add(ActiveGameplayEffectHandle);

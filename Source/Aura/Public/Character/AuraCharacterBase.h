@@ -8,6 +8,9 @@
 #include "Interaction/CombatInterface.h"
 #include "AuraCharacterBase.generated.h"
 
+#define PlayerTag FName("Player")
+#define EnemyTag FName("Enemy")
+
 class UGameplayAbility;
 class UGameplayEffect;
 class UAbilitySystemComponent;
@@ -27,7 +30,7 @@ public:
 	UAttributeSet* GetAttributeSet() const {return AttributeSet;}
 	virtual void InitAbilityActorInfo();
 	
-	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
+	virtual void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 	UFUNCTION(BlueprintCallable)
 	void SetHitReactMontages(TMap<FGameplayTag, UAnimMontage*> InHitMontages);
 	virtual UAnimMontage* GetHitReactMontage_Implementation(const FGameplayTag HitTag) override;

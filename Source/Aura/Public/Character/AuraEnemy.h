@@ -37,6 +37,8 @@ public:
 
 	virtual void PossessedBy(AController* NewController) override;
 
+	virtual void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount) override;
+
 	//-----------------------------------------------------///
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
