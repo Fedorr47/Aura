@@ -29,6 +29,10 @@ FName("Damage."#AttributeName), FString(TagComment))
 Instance.Attribute_Resistance_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
 FName("Attributes.Resistance."#AttributeName), FString(TagComment))
 
+#define ADD_ABILITIES_TAG(Instance, AttributeName, TagComment) \
+Instance.Abilities_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
+FName("Abilities."#AttributeName), FString(TagComment))
+
 
 /**
  * AuraGameplayTags
@@ -89,6 +93,8 @@ public:
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistance;
 
 	FGameplayTag Effects_HitReact_Fire;
+
+	FGameplayTag Abilities_Attack;
 
 protected:
 private:

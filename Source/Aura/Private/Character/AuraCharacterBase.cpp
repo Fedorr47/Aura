@@ -45,6 +45,34 @@ UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation(const FGamep
 	return nullptr;
 }
 
+UAnimMontage* AAuraCharacterBase::GetMeleeAttackMontage_Implementation(const FGameplayTag AttackTag)
+{
+	for (auto AttackPair : AttackMontages)
+	{
+		if (AttackPair.Key.MatchesTagExact(AttackTag))
+		{
+			return AttackPair.Value;
+		}
+	}
+	return nullptr;
+}
+
+void AAuraCharacterBase::SetHitReactMontages(TMap<FGameplayTag, UAnimMontage*> InHitMontages)
+{
+	for (auto Pair: InHitMontages)
+	{
+		HitMontages.Add(Pair.Key, Pair.Value);
+	}
+}
+
+void AAuraCharacterBase::SetAttackMontages(TMap<FGameplayTag, UAnimMontage*> InAttackMontages)
+{
+	for (auto Pair: InAttackMontages)
+	{
+		AttackMontages.Add(Pair.Key, Pair.Value);
+	}
+}
+
 void AAuraCharacterBase::Die()
 {
 	Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
@@ -67,30 +95,22 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation()
 	Dissolve();
 }
 
-void AAuraCharacterBase::SetHitReactMontages(TMap<FGameplayTag, UAnimMontage*> InHitMontages)
-{
-	for (auto Pair: InHitMontages)
-	{
-		HitMontages.Add(Pair.Key, Pair.Value);
-	}
-}
-
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
 	MaxWalkSpeed = GetCharacterMovement()->MaxWalkSpeed;
 }
 
- void AAuraCharacterBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
-{
-	bHitReacting = NewCount > 0;
-	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? (MaxWalkSpeed/2.0f) : MaxWalkSpeed;
-}
-
-FVector AAuraCharacterBase::GetCombatSocketLocation()
+FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation()
 {
 	check(Weapon);
 	return Weapon->GetSocketLocation(WeaponTipSocketName);
+}
+
+void AAuraCharacterBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	bHitReacting = NewCount > 0;
+	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? (MaxWalkSpeed/2.0f) : MaxWalkSpeed;
 }
 
 void AAuraCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const

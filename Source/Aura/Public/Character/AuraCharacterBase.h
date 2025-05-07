@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
+#include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "Interaction/CombatInterface.h"
 #include "AuraCharacterBase.generated.h"
 
@@ -33,7 +34,10 @@ public:
 	virtual void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 	UFUNCTION(BlueprintCallable)
 	void SetHitReactMontages(TMap<FGameplayTag, UAnimMontage*> InHitMontages);
+	UFUNCTION(BlueprintCallable)
+	void SetAttackMontages(TMap<FGameplayTag, UAnimMontage*> InAttackMontages);
 	virtual UAnimMontage* GetHitReactMontage_Implementation(const FGameplayTag HitTag) override;
+	virtual UAnimMontage* GetMeleeAttackMontage_Implementation(const FGameplayTag HitTag) override;
 	
 	virtual void Die() override;
 	UFUNCTION(NetMulticast, Reliable)
@@ -55,7 +59,7 @@ protected:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketName;
 
-	virtual FVector GetCombatSocketLocation() override;
+	virtual FVector GetCombatSocketLocation_Implementation();
 
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
@@ -78,6 +82,9 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Material")
 	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Character Class Defaults")
+	ECharacterClass CharacterClass{ECharacterClass::Player};
 	
 	//-----------------------------------------------------------------------------//
 	virtual void InitializeDefaultAttributes() const;
@@ -99,4 +106,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TMap<FGameplayTag, TObjectPtr<UAnimMontage>> HitMontages;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TMap<FGameplayTag, TObjectPtr<UAnimMontage>> AttackMontages;
 };

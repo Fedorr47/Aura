@@ -57,6 +57,9 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	ADD_DAMAGE_RESISTANCE_TAG(Instance, Arcane, "Resistance to Arcane Damage");
 	ADD_DAMAGE_RESISTANCE_TAG(Instance, Physical, "Resistance to Physical Damage");
 
+	// Abilities types
+	ADD_ABILITIES_TAG(Instance, Attack, "Ability Attack");
+
 	// Map of Damage types to Resistances
 	Instance.DamageTypesToResistance.Add(Instance.Damage_Fire, Instance.Attribute_Resistance_Fire);
 	Instance.DamageTypesToResistance.Add(Instance.Damage_Air, Instance.Attribute_Resistance_Air);

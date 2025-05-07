@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "Character/AuraCharacterBase.h"
 #include "Interaction/EnemyInterface.h"
-#include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AuraEnemy.generated.h"
 
@@ -34,10 +33,10 @@ public:
 	/* End Combat Interface */
 
 	virtual void Die() override;
-
 	virtual void PossessedBy(AController* NewController) override;
-
 	virtual void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount) override;
+	virtual void SetCombatTarget_Implementation(AActor* CombatTarget) override;
+	virtual AActor* GetCombatTarget_Implementation() override;
 
 	//-----------------------------------------------------///
 
@@ -50,6 +49,9 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnAttributeChangedSignature OnMaxHealthChanged;
 
+	UPROPERTY(BlueprintReadWrite, Category="Combat")
+	TObjectPtr<AActor> CombatTarget;
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;
@@ -59,9 +61,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Character Class Defaults")
 	int32 Level{1};
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Character Class Defaults")
-	ECharacterClass CharacterClass{ECharacterClass::Magic};
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> HealthBar;
