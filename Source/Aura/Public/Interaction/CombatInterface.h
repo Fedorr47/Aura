@@ -9,6 +9,18 @@
 
 class UAnimMontage;
 
+USTRUCT(BlueprintType, Blueprintable)
+struct FTaggedMontage
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UAnimMontage* Montage;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FGameplayTag MontageTag;
+};
+
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI, BlueprintType)
 class UCombatInterface : public UInterface
@@ -28,7 +40,7 @@ public:
 	virtual int32 GetPlayerLevel() {return 0; }
 	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	FVector GetCombatSocketLocation();
+	FVector GetCombatSocketLocation(const FGameplayTag& SocketTag);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void SetFacingWrapping(const FVector& TargetLocation);
@@ -37,7 +49,7 @@ public:
 	UAnimMontage* GetHitReactMontage(const FGameplayTag HitTag);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	UAnimMontage* GetMeleeAttackMontage(const FGameplayTag AttackTag);
+	TArray<FTaggedMontage> GetAttackMontage();
 
 	virtual void Die() = 0;
 	

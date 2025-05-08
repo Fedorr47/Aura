@@ -33,6 +33,9 @@ FName("Attributes.Resistance."#AttributeName), FString(TagComment))
 Instance.Abilities_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
 FName("Abilities."#AttributeName), FString(TagComment))
 
+#define ADD_MONTAGE_ATTACK_TAG(Instance, AttributeName, TagComment) \
+Instance.Montage_Attack_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
+FName("Montage.Attack."#AttributeName), FString(TagComment))
 
 /**
  * AuraGameplayTags
@@ -95,6 +98,10 @@ public:
 	FGameplayTag Effects_HitReact_Fire;
 
 	FGameplayTag Abilities_Attack;
+
+	FGameplayTag Montage_Attack_Weapon;
+	FGameplayTag Montage_Attack_LeftHand;
+	FGameplayTag Montage_Attack_RightHand;
 
 protected:
 private:

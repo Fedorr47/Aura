@@ -5,6 +5,7 @@
 
 #include "AbilitySystemComponent.h"
 #include "AuraAbilityTypes.h"
+#include "Character/AuraCharacterBase.h"
 #include "GameModes/AuraGameModeBase.h"
 #include "Interaction/CombatInterface.h"
 
@@ -120,13 +121,28 @@ void UAuraAbilitySystemLibrary::SetCriticalHit(FGameplayEffectContextHandle& Con
 }
 
 void UAuraAbilitySystemLibrary::GetLivePlayersWithRadius(
-	const FGameplayEffectContextHandle& ContextHandle,
+	const UObject* WorldContextObject,
 	TArray<AActor*>& OutOverlappingActors,
 	const TArray<AActor*>& ActorsToIgnore,
 	float Radius,
-	const FVector& SphereLocation)
+	const FVector& SphereOrigin)
 {
-	//FCollisionQueryParams QueryParams
+	FCollisionQueryParams SphereParams;
+	SphereParams.AddIgnoredActors(ActorsToIgnore);
+
+	TArray<FOverlapResult> Overlaps;
+	if (UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+	{
+		World->OverlapMultiByObjectType(Overlaps, SphereOrigin, FQuat::Identity, FCollisionObjectQueryParams(FCollisionObjectQueryParams::InitType::AllDynamicObjects), FCollisionShape::MakeSphere(Radius), SphereParams);
+		for (FOverlapResult& OverlapResult : Overlaps)
+		{
+			const bool IsCombatActor = OverlapResult.GetActor()->Implements<UCombatInterface>();
+			if (IsCombatActor && !ICombatInterface::Execute_IsDead(OverlapResult.GetActor()))
+			{
+				OutOverlappingActors.AddUnique(OverlapResult.GetActor());
+			}
+		}
+	}
 	//UGameplayStatics::ApplyRadialDamageWithFalloff()
 }
 

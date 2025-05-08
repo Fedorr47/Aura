@@ -141,8 +141,10 @@ void AAuraEnemy::PossessedBy(AController* NewController)
 void AAuraEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 {
 	Super::HitReactTagChanged(CallbackTag, NewCount);
-	if (!HasAuthority()) return;
-	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), true);
+	if (IsValid(AuraAIController) && IsValid(AuraAIController->GetBlackboardComponent()))
+	{
+		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), true);
+	}
 }
 
 void AAuraEnemy::SetCombatTarget_Implementation(AActor* InCombatTarget)

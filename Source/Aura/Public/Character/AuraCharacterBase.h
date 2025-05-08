@@ -19,6 +19,25 @@ class UAttributeSet;
 class UAnimMontage;
 struct FGameplayTag;
 
+UENUM(Blueprintable, BlueprintType)
+enum class ESkeletalSocketType : uint8
+{
+	WeaponSocket,
+	MeshSocket
+};
+
+USTRUCT(Blueprintable, BlueprintType)
+struct FSkeletalSocketType
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	ESkeletalSocketType SocketType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName SocketName;
+};
+
 UCLASS(Abstract)
 class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
 {
@@ -33,21 +52,24 @@ public:
 	
 	virtual void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 	UFUNCTION(BlueprintCallable)
-	void SetHitReactMontages(TMap<FGameplayTag, UAnimMontage*> InHitMontages);
+	void SetHitReactMontages(TArray<FTaggedMontage> InHitMontages);
 	UFUNCTION(BlueprintCallable)
-	void SetAttackMontages(TMap<FGameplayTag, UAnimMontage*> InAttackMontages);
+	void SetAttackMontages(TArray<FTaggedMontage> InAttackMontages);
 	
 	/* Combat Interface */
 	virtual void Die() override;
-	virtual FVector GetCombatSocketLocation_Implementation() override;
+	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag) override;
 	virtual bool IsDead_Implementation() const override;
 	virtual AActor* GetAvatar_Implementation() override;
 	virtual UAnimMontage* GetHitReactMontage_Implementation(const FGameplayTag HitTag) override;
-	virtual UAnimMontage* GetMeleeAttackMontage_Implementation(const FGameplayTag HitTag) override;
+	virtual TArray<FTaggedMontage> GetAttackMontage_Implementation() override;
 	/* End Combat Interface */
 	
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath();
+
+	UFUNCTION(BlueprintCallable)
+	bool IsHitReacting();
 	
 	//-----------------------------------------------------------------------//
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
@@ -63,7 +85,7 @@ protected:
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Combat")
-	FName WeaponTipSocketName;
+	TMap<FGameplayTag, FSkeletalSocketType> TagToWeaponTipSocketInfo;
 
 	
 	UPROPERTY()
@@ -109,12 +131,14 @@ protected:
 	
 private:
 
+	USceneComponent* GetSkeletalSocketOwner(ESkeletalSocketType InSkeletalSocketType);
+
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> GrantedAbilities;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
-	TMap<FGameplayTag, TObjectPtr<UAnimMontage>> HitMontages;
+	TArray<FTaggedMontage> HitMontages;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
-	TMap<FGameplayTag, TObjectPtr<UAnimMontage>> AttackMontages;
+	TArray<FTaggedMontage> AttackMontages;
 };

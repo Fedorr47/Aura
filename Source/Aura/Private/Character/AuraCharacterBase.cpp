@@ -33,10 +33,20 @@ void AAuraCharacterBase::InitAbilityActorInfo()
 {
 }
 
-FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation()
+FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag)
 {
-	check(Weapon);
-	return Weapon->GetSocketLocation(WeaponTipSocketName);
+	for (auto SocketPair : TagToWeaponTipSocketInfo)
+	{
+		if (SocketPair.Key.MatchesTagExact(SocketTag))
+		{
+			auto SocketOwner = GetSkeletalSocketOwner(SocketPair.Value.SocketType);
+			if (IsValid(SocketOwner))
+			{
+				return SocketOwner->GetSocketLocation(SocketPair.Value.SocketName);
+			}
+		}
+	}
+	return FVector::ZeroVector;
 }
 
 bool AAuraCharacterBase::IsDead_Implementation() const
@@ -51,42 +61,34 @@ AActor* AAuraCharacterBase::GetAvatar_Implementation()
 
 UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation(const FGameplayTag HitTag)
 {
-	for (auto HitReactPair : HitMontages)
+	for (auto HitReact : HitMontages)
 	{
-		if (HitReactPair.Key.MatchesTagExact(HitTag))
+		if (HitReact.MontageTag.MatchesTagExact(HitTag))
 		{
-			return HitReactPair.Value;
+			return HitReact.Montage;
 		}
 	}
 	return nullptr;
 }
 
-UAnimMontage* AAuraCharacterBase::GetMeleeAttackMontage_Implementation(const FGameplayTag AttackTag)
+TArray<FTaggedMontage> AAuraCharacterBase::GetAttackMontage_Implementation()
 {
-	for (auto AttackPair : AttackMontages)
-	{
-		if (AttackPair.Key.MatchesTagExact(AttackTag))
-		{
-			return AttackPair.Value;
-		}
-	}
-	return nullptr;
+	return AttackMontages;
 }
 
-void AAuraCharacterBase::SetHitReactMontages(TMap<FGameplayTag, UAnimMontage*> InHitMontages)
+bool AAuraCharacterBase::IsHitReacting()
 {
-	for (auto Pair: InHitMontages)
-	{
-		HitMontages.Add(Pair.Key, Pair.Value);
-	}
+	return bHitReacting;
 }
 
-void AAuraCharacterBase::SetAttackMontages(TMap<FGameplayTag, UAnimMontage*> InAttackMontages)
+void AAuraCharacterBase::SetHitReactMontages(TArray<FTaggedMontage> InHitMontages)
 {
-	for (auto Pair: InAttackMontages)
-	{
-		AttackMontages.Add(Pair.Key, Pair.Value);
-	}
+	HitMontages = InHitMontages;
+}
+
+void AAuraCharacterBase::SetAttackMontages(TArray<FTaggedMontage> InAttackMontages)
+{
+	AttackMontages = InAttackMontages;
 }
 
 void AAuraCharacterBase::Die()
@@ -158,6 +160,20 @@ void AAuraCharacterBase::Dissolve()
 			WeaponDissolveMaterialInstance, this);
 		Weapon->SetMaterial(0, WeaponDynamicMaterialInstance);
 		StartWeaponDissolveTimeLine(WeaponDynamicMaterialInstance);
+	}
+}
+
+USceneComponent* AAuraCharacterBase::GetSkeletalSocketOwner(ESkeletalSocketType InSkeletalSocketType)
+{
+	switch (InSkeletalSocketType)
+	{
+	case ESkeletalSocketType::WeaponSocket:
+		return Weapon;
+		break;
+	case ESkeletalSocketType::MeshSocket:
+		[[fallthrough]];
+		default:
+			return GetMesh();
 	}
 }
 

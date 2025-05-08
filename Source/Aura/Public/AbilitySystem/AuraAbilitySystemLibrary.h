@@ -50,11 +50,11 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayUtils")
 	static void GetLivePlayersWithRadius(
-		const FGameplayEffectContextHandle& ContextHandle,
+		const UObject* WorldContextObject,
 		TArray<AActor*>& OutOverlappingActors,
 		const TArray<AActor*>& ActorsToIgnore,
 		float Radius,
-		const FVector& SphereLocation);
+		const FVector& SphereOrigin);
 
 	template <typename TController>
 	static TController* GetWidgetController(const UObject* WorldContextObject, TController* (AAuraHUD::*Getter)(const FWidgetControllerParams&))

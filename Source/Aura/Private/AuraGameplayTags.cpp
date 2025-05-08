@@ -71,4 +71,8 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 
 	Instance.Effects_HitReact_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Effects.HitReact.FireDamage"), FString("A hit reaction to fire damage"));
+
+	ADD_MONTAGE_ATTACK_TAG(Instance, Weapon, "Weapon");
+	ADD_MONTAGE_ATTACK_TAG(Instance, LeftHand, "LeftHand");
+	ADD_MONTAGE_ATTACK_TAG(Instance, RightHand, "RightHand");
 }
