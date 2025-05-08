@@ -56,6 +56,9 @@ public:
 		float Radius,
 		const FVector& SphereOrigin);
 
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayUtils")
+	static bool IsNotFriend(AActor* FirstActor, AActor* SecondFriend);
+
 	template <typename TController>
 	static TController* GetWidgetController(const UObject* WorldContextObject, TController* (AAuraHUD::*Getter)(const FWidgetControllerParams&))
 	{

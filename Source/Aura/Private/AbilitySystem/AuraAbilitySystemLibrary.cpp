@@ -146,4 +146,12 @@ void UAuraAbilitySystemLibrary::GetLivePlayersWithRadius(
 	//UGameplayStatics::ApplyRadialDamageWithFalloff()
 }
 
-
+bool UAuraAbilitySystemLibrary::IsNotFriend(AActor* FirstActor, AActor* SecondFriend)
+{
+	const bool bFirstIsPlayer = FirstActor->ActorHasTag(FName("Player"));
+	const bool bSecondIsPlayer = SecondFriend->ActorHasTag(FName("Player"));
+	const bool bFirstIsEnemy = FirstActor->ActorHasTag(FName("Enemy"));
+	const bool bSecondIsEnemy = SecondFriend->ActorHasTag(FName("Enemy"));
+	const bool bIsFriends = (bFirstIsPlayer && bSecondIsPlayer) || (bFirstIsEnemy || bSecondIsEnemy);
+	return !bIsFriends;
+}
