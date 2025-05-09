@@ -5,6 +5,7 @@
 #include "AbilitySystemComponent.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AI/AuraAIController.h"
 #include "Aura/Aura.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -35,14 +36,17 @@ void AAuraCharacterBase::InitAbilityActorInfo()
 
 FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag)
 {
-	for (auto SocketPair : TagToWeaponTipSocketInfo)
+	if (HasAuthority())
 	{
-		if (SocketPair.Key.MatchesTagExact(SocketTag))
+		for (auto SocketPair : TagToWeaponTipSocketInfo)
 		{
-			auto SocketOwner = GetSkeletalSocketOwner(SocketPair.Value.SocketType);
-			if (IsValid(SocketOwner))
+			if (SocketPair.Key.MatchesTagExact(SocketTag))
 			{
-				return SocketOwner->GetSocketLocation(SocketPair.Value.SocketName);
+				auto SocketOwner = GetSkeletalSocketOwner(SocketPair.Value.SocketType);
+				if (IsValid(SocketOwner))
+				{
+					return SocketOwner->GetSocketTransform(SocketPair.Value.SocketName, ERelativeTransformSpace::RTS_World).GetLocation();
+				}
 			}
 		}
 	}
