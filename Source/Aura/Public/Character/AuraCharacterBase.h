@@ -71,6 +71,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool IsHitReacting();
+
+	USkeletalMeshComponent* GetWeapon() { return Weapon; }
 	
 	//-----------------------------------------------------------------------//
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")

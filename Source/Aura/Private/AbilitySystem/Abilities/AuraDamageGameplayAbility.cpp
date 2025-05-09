@@ -5,6 +5,7 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
+#include "Interaction/CombatInterface.h"
 
 void UAuraDamageGameplayAbility::DoDamage(AActor* TargetActor)
 {
@@ -18,5 +19,14 @@ void UAuraDamageGameplayAbility::DoDamage(AActor* TargetActor)
 	GetAbilitySystemComponentFromActorInfo()->ApplyGameplayEffectSpecToTarget(
 		*DamageSpecHandle.Data.Get(),
 		UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor));
-	
+}
+
+FTaggedMontage UAuraDamageGameplayAbility::GetRandomTaggedAttackMontage(const TArray<FTaggedMontage>& TaggedMontages) const
+{
+	if (TaggedMontages.Num() != 0)
+	{
+		const int32 RandomIndex = FMath::RandRange(0, TaggedMontages.Num() - 1);
+		return TaggedMontages[RandomIndex];
+	}
+	return FTaggedMontage();
 }
