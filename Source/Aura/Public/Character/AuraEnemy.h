@@ -26,6 +26,9 @@ public:
 	/* Enemy Interface */
 	virtual void HighlightActor() override;
 	virtual void UnHighlightActor() override;
+	virtual UAnimInstance* GetWeaponAnimInstance_Implementation() override;
+	virtual void SetCombatTarget_Implementation(AActor* CombatTarget) override;
+	virtual AActor* GetCombatTarget_Implementation() override;
 	/* End Enemy Interface */
 
 	/* Combat Interface */
@@ -35,8 +38,6 @@ public:
 	virtual void Die() override;
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount) override;
-	virtual void SetCombatTarget_Implementation(AActor* CombatTarget) override;
-	virtual AActor* GetCombatTarget_Implementation() override;
 
 	//-----------------------------------------------------///
 

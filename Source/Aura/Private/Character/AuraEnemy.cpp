@@ -112,6 +112,15 @@ void AAuraEnemy::UnHighlightActor()
 	Weapon->SetRenderCustomDepth(false);
 }
 
+UAnimInstance* AAuraEnemy::GetWeaponAnimInstance_Implementation()
+{
+	if (IsValid(Weapon))
+	{
+		return Weapon->GetAnimInstance();
+	}
+	return nullptr;
+}
+
 int32 AAuraEnemy::GetPlayerLevel()
 {
 	return Level;

@@ -7,7 +7,7 @@
 #include "EnemyInterface.generated.h"
 
 // This class does not need to be modified.
-UINTERFACE(MinimalAPI)
+UINTERFACE(MinimalAPI, BlueprintType)
 class UEnemyInterface : public UInterface
 {
 	GENERATED_BODY()
@@ -30,4 +30,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	AActor* GetCombatTarget();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UAnimInstance* GetWeaponAnimInstance();
 };
