@@ -23,6 +23,10 @@ AAuraEnemy::AAuraEnemy()
 	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
 	GetMesh()->SetGenerateOverlapEvents(true);
 	GetMesh()->SetCustomDepthStencilValue(HighlightChannel);
+	GetMesh()->SetComponentTickEnabled(true);
+	GetMesh()->SetUpdateAnimationInEditor(true);
+	GetMesh()->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::AlwaysTickPoseAndRefreshBones;
+	
 	Weapon->SetCustomDepthStencilValue(HighlightChannel);
 	
 	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
