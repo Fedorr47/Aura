@@ -124,6 +124,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character|Effects")
 	TMap<FGameplayTag, UNiagaraSystem*> EffectsToTag;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character|Effects")
+	USoundBase* DeathSound {nullptr};
 	
 	//-----------------------------------------------------------------------------//
 	virtual void InitializeDefaultAttributes() const;
