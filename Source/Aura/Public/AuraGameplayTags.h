@@ -35,7 +35,11 @@ FName("Abilities."#AttributeName), FString(TagComment))
 
 #define ADD_MONTAGE_ATTACK_TAG(Instance, AttributeName, TagComment) \
 Instance.Montage_Attack_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
-FName("Montage.Attack."#AttributeName), FString(TagComment))
+FName("Montage.Attack"#AttributeName), FString(TagComment))
+
+#define ADD_COMBAT_SOCKET_TAG(Instance, AttributeName, TagComment) \
+Instance.CombatSocket_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
+FName("CombatSocket."#AttributeName), FString(TagComment))
 
 /**
  * AuraGameplayTags
@@ -96,12 +100,18 @@ public:
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistance;
 
 	FGameplayTag Effects_HitReact_Fire;
+	FGameplayTag Effects_HitReact_Physical;
 
 	FGameplayTag Abilities_Attack;
 
-	FGameplayTag Montage_Attack_Weapon;
-	FGameplayTag Montage_Attack_LeftHand;
-	FGameplayTag Montage_Attack_RightHand;
+	FGameplayTag Montage_Attack_1;
+	FGameplayTag Montage_Attack_2;
+	FGameplayTag Montage_Attack_3;
+	FGameplayTag Montage_Attack_4;
+	
+	FGameplayTag CombatSocket_RightHand;
+	FGameplayTag CombatSocket_LeftHand;
+	FGameplayTag CombatSocket_Weapon;
 
 protected:
 private:

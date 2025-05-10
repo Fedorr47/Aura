@@ -7,6 +7,7 @@
 #include "UObject/Interface.h"
 #include "CombatInterface.generated.h"
 
+class UNiagaraSystem;
 class UAnimMontage;
 
 USTRUCT(BlueprintType, Blueprintable)
@@ -15,10 +16,16 @@ struct FTaggedMontage
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UAnimMontage* Montage;
+	UAnimMontage* Montage{nullptr};;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FGameplayTag MontageTag;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FGameplayTag SocketTag;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	USoundBase* SoundImpact{nullptr};
 };
 
 // This class does not need to be modified.
@@ -58,4 +65,10 @@ public:
 	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	AActor* GetAvatar();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UNiagaraSystem* GetEffectByTag(const FGameplayTag&Tag);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	FTaggedMontage GetTaggedMontageByTag(const FGameplayTag& Tag);
 };

@@ -76,6 +76,32 @@ TArray<FTaggedMontage> AAuraCharacterBase::GetAttackMontage_Implementation()
 	return AttackMontages;
 }
 
+UNiagaraSystem* AAuraCharacterBase::GetEffectByTag_Implementation(const FGameplayTag& Tag)
+{
+	for (auto EffectPair : EffectsToTag)
+	{
+		if (EffectPair.Key.MatchesTagExact(Tag))
+		{
+			return EffectPair.Value;
+		}
+	}
+	return nullptr;
+}
+
+FTaggedMontage AAuraCharacterBase::GetTaggedMontageByTag_Implementation(const FGameplayTag& Tag)
+{
+	auto TaggedMontages = HitMontages;
+	TaggedMontages.Append(AttackMontages);
+	for (auto TaggedMontage : TaggedMontages)
+	{
+		if (TaggedMontage.MontageTag.MatchesTagExact(Tag))
+		{
+			return TaggedMontage;
+		}
+	}
+	return FTaggedMontage();
+}
+
 bool AAuraCharacterBase::IsHitReacting()
 {
 	return bHitReacting;

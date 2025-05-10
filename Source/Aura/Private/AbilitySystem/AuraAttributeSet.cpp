@@ -8,6 +8,7 @@
 #include "GameFramework/Character.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
+#include "AbilitySystem/Abilities/AuraDamageGameplayAbility.h"
 #include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
@@ -114,9 +115,19 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			}
 			else
 			{
-				FGameplayTagContainer TagContainer;
-				TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact_Fire);
-				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+				const FGameplayEffectContextHandle& EffectContext = Data.EffectSpec.GetEffectContext();
+				FGameplayTagContainer TagHitReactContainer;
+				if (const FGameplayEffectContext* Context = EffectContext.Get())
+				{
+					if (const UAuraDamageGameplayAbility* AuraDamageGameplayAbility = Cast<UAuraDamageGameplayAbility>(Context->GetAbility()))
+					{
+						TagHitReactContainer.AddTag(AuraDamageGameplayAbility->HitReactType);
+					}
+				}
+				if (TagHitReactContainer.Num() > 0)
+				{
+					Props.TargetASC->TryActivateAbilitiesByTag(TagHitReactContainer);
+				}
 			}
 
 			const bool bBlockHit = UAuraAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);
