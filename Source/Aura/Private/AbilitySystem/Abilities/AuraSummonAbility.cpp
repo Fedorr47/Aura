@@ -10,40 +10,50 @@
 TArray<FVector> UAuraSummonAbility::GetSpawnLocations()
 {
 	const FVector Origin = GetAvatarActorFromActorInfo()->GetActorLocation();
-	const FVector ForwardVector = GetAvatarActorFromActorInfo()->GetActorForwardVector();
-	const FVector UpVector = FVector::UpVector;
+	const FVector Forward = GetAvatarActorFromActorInfo()->GetActorForwardVector();
+	const FVector Up = FVector::UpVector;
 
-	const float CapsuleRadius = GetMaxMinionCapsuleRadius();
-	const int32 Num = FMath::Max(NumMinions, 1);
-	const float AngleStep = 2 * PI / Num;
-	const float Radius = CapsuleRadius / FMath::Sin(PI / Num);
+	const float UnitRadius = GetMaxMinionCapsuleRadius();
+	const float ArcSpacing = 2.0f * UnitRadius * 1.1f;
+
+	const float OffsetMin = SpawnRange.GetLowerBoundValue();
+	const float OffsetMax = SpawnRange.GetUpperBoundValue();
+
+	const int32 TotalToSpawn = FMath::Max(NumMinions, 1);
 
 	TArray<FVector> SpawnLocations;
+	int32 Spawned = 0;
+	float RingBaseRadius = UnitRadius * 2.0f;
 
-	for (int32 i = 0; i < Num; ++i)
+	while (Spawned < TotalToSpawn)
 	{
-		const float AngleRad = i * AngleStep;
-		const FVector Direction = ForwardVector.RotateAngleAxis(FMath::RadiansToDegrees(AngleRad), UpVector);
-		FVector SpawnLocation = Origin + Direction * (Radius + FMath::FRandRange(
-			SpawnRange.GetLowerBoundValue(), SpawnRange.GetUpperBoundValue()));
-		FHitResult Hit;
-		const FVector LineTraceStart = FVector(0.0f, 0.0f, 400.0f);
-		const FVector LineTraceEnd = FVector(0.0f, 0.0f, -400.0f);
-		GetWorld()->LineTraceSingleByChannel(
-			Hit,
-			SpawnLocation + LineTraceStart,
-			SpawnLocation - LineTraceEnd,
-			ECollisionChannel::ECC_Visibility);
-		if (Hit.bBlockingHit)
-		{
-			SpawnLocation = Hit.ImpactPoint;
-		}
-		SpawnLocations.Add(SpawnLocation);
+		float RingRadius = RingBaseRadius;
+		float Circumference = 2 * PI * (RingRadius + OffsetMax);
+		int32 PointsOnRing = FMath::FloorToInt(Circumference / ArcSpacing);
+		PointsOnRing = FMath::Max(PointsOnRing, 1);
 
-		// Debug - delete later
-		UKismetSystemLibrary::DrawDebugSphere(GetWorld(), SpawnLocation, 18.0f, 12, FColor::Green, 3.0f, 1.0f);
-		UKismetSystemLibrary::DrawDebugArrow(GetWorld(), Origin, SpawnLocation, 4.0f, FColor::Red, 3.0f);
-		// Debug End - delete later
+		for (int32 i = 0; i < PointsOnRing && Spawned < TotalToSpawn; ++i)
+		{
+			float Angle = (2 * PI / PointsOnRing) * i;
+			FVector Direction = Forward.RotateAngleAxis(FMath::RadiansToDegrees(Angle), Up);
+			float RandomOffset = FMath::FRandRange(OffsetMin, OffsetMax);
+			FVector SpawnLoc = Origin + Direction * (RingRadius + RandomOffset);
+
+			// Line trace to ground
+			FHitResult Hit;
+			const FVector TraceStart = SpawnLoc + FVector(0.f, 0.f, 400.f);
+			const FVector TraceEnd = SpawnLoc - FVector(0.f, 0.f, 400.f);
+			if (GetWorld()->LineTraceSingleByChannel(Hit, TraceStart, TraceEnd, ECC_Visibility))
+			{
+				SpawnLoc = Hit.ImpactPoint;
+			}
+
+			SpawnLocations.Add(SpawnLoc);
+			//UKismetSystemLibrary::DrawDebugSphere(GetWorld(), SpawnLoc, 16.0f, 12, FColor::Green, 3.0f, 1.0f);
+			++Spawned;
+		}
+		
+		RingBaseRadius += OffsetMax + UnitRadius * 2.0f;
 	}
 
 	return SpawnLocations;
