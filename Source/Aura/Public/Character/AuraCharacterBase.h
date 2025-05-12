@@ -67,6 +67,8 @@ public:
 	virtual TArray<FTaggedMontage> GetAttackMontage_Implementation() override;
 	virtual UNiagaraSystem* GetEffectByTag_Implementation(const FGameplayTag& Tag) override;
 	virtual FTaggedMontage GetTaggedMontageByTag_Implementation(const FGameplayTag& Tag) override;
+	virtual int32 GetMinionCount_Implementation() override;
+	virtual void SetMinionCount_Implementation(int32 Amount) override;
 	/* End Combat Interface */
 	
 	UFUNCTION(NetMulticast, Reliable)
@@ -127,6 +129,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character|Effects")
 	USoundBase* DeathSound {nullptr};
+
+	UPROPERTY()
+	int32 MinionCount {0};
 	
 	//-----------------------------------------------------------------------------//
 	virtual void InitializeDefaultAttributes() const;

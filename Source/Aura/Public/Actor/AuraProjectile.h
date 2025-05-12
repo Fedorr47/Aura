@@ -39,15 +39,15 @@ protected:
 		bool bFromSweep,
 		const FHitResult& SweepResult);
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<USphereComponent> Sphere;
+
 private:
 
 	UPROPERTY(EditDefaultsOnly)
 	float LifeSpan {0.0f};
 	
 	bool bHit {false};
-	
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<USphereComponent> Sphere;
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UNiagaraSystem> ImpactEffect;

@@ -103,6 +103,7 @@ public:
 	FGameplayTag Effects_HitReact_Physical;
 
 	FGameplayTag Abilities_Attack;
+	FGameplayTag Abilities_Summon;
 
 	FGameplayTag Montage_Attack_1;
 	FGameplayTag Montage_Attack_2;

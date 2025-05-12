@@ -59,6 +59,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 
 	// Abilities types
 	ADD_ABILITIES_TAG(Instance, Attack, "Ability Attack");
+	ADD_ABILITIES_TAG(Instance, Summon, "Ability Summon");
 
 	// Map of Damage types to Resistances
 	Instance.DamageTypesToResistance.Add(Instance.Damage_Fire, Instance.Attribute_Resistance_Fire);

@@ -79,3 +79,10 @@ float UAuraSummonAbility::GetMaxMinionCapsuleRadius() const
 
 	return MaxRadius;
 }
+
+TSubclassOf<APawn> UAuraSummonAbility::GetRandomSummoningClass() const
+{
+	if (MinionsClass.Num() == 0) return nullptr;
+	const int32 RandomIndex = FMath::RandRange(0, MinionsClass.Num() - 1);
+	return MinionsClass[RandomIndex];
+}

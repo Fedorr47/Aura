@@ -103,6 +103,16 @@ FTaggedMontage AAuraCharacterBase::GetTaggedMontageByTag_Implementation(const FG
 	return FTaggedMontage();
 }
 
+int32 AAuraCharacterBase::GetMinionCount_Implementation()
+{
+	return MinionCount;
+}
+
+void AAuraCharacterBase::SetMinionCount_Implementation(int32 Amount)
+{
+	MinionCount += Amount;
+}
+
 bool AAuraCharacterBase::IsHitReacting()
 {
 	return bHitReacting;

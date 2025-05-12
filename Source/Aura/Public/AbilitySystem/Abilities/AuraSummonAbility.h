@@ -18,6 +18,9 @@ public:
 	TArray<FVector> GetSpawnLocations();
 	float GetMaxMinionCapsuleRadius() const;
 
+	UFUNCTION(BlueprintPure, Category="Summoning")
+	TSubclassOf<APawn> GetRandomSummoningClass() const;
+
 	//----------------------------------------------------------//
 	UPROPERTY(EditDefaultsOnly, Category = "Summoning")
 	int32 NumMinions {0};
