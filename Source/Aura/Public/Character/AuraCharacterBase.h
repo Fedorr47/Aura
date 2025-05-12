@@ -117,6 +117,7 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Material")
 	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
+	/* Dissolve Effects end */
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Character Class Defaults")
 	ECharacterClass CharacterClass{ECharacterClass::Player};
