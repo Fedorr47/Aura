@@ -28,6 +28,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")
 	TMap<FGameplayTag, FScalableFloat> DamageTypes;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "HitRaction")
+	FGameplayTag HitReactType;
+
 	UFUNCTION(BlueprintPure)
 	FTaggedMontage GetRandomTaggedAttackMontage(const TArray<FTaggedMontage>& TaggedMontages) const;	
 };

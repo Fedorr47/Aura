@@ -12,6 +12,7 @@
 #define PlayerTag FName("Player")
 #define EnemyTag FName("Enemy")
 
+class UNiagaraSystem;
 class UGameplayAbility;
 class UGameplayEffect;
 class UAbilitySystemComponent;
@@ -64,6 +65,10 @@ public:
 	virtual AActor* GetAvatar_Implementation() override;
 	virtual UAnimMontage* GetHitReactMontage_Implementation(const FGameplayTag HitTag) override;
 	virtual TArray<FTaggedMontage> GetAttackMontage_Implementation() override;
+	virtual UNiagaraSystem* GetEffectByTag_Implementation(const FGameplayTag& Tag) override;
+	virtual FTaggedMontage GetTaggedMontageByTag_Implementation(const FGameplayTag& Tag) override;
+	virtual int32 GetMinionCount_Implementation() override;
+	virtual void SetMinionCount_Implementation(int32 Amount) override;
 	/* End Combat Interface */
 	
 	UFUNCTION(NetMulticast, Reliable)
@@ -112,12 +117,22 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Material")
 	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
+	/* Dissolve Effects end */
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Character Class Defaults")
 	ECharacterClass CharacterClass{ECharacterClass::Player};
 
 	UPROPERTY(Transient)
 	bool bDead {false};
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character|Effects")
+	TMap<FGameplayTag, UNiagaraSystem*> EffectsToTag;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character|Effects")
+	USoundBase* DeathSound {nullptr};
+
+	UPROPERTY()
+	int32 MinionCount {0};
 	
 	//-----------------------------------------------------------------------------//
 	virtual void InitializeDefaultAttributes() const;

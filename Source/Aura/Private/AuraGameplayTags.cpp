@@ -59,6 +59,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 
 	// Abilities types
 	ADD_ABILITIES_TAG(Instance, Attack, "Ability Attack");
+	ADD_ABILITIES_TAG(Instance, Summon, "Ability Summon");
 
 	// Map of Damage types to Resistances
 	Instance.DamageTypesToResistance.Add(Instance.Damage_Fire, Instance.Attribute_Resistance_Fire);
@@ -68,11 +69,17 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	Instance.DamageTypesToResistance.Add(Instance.Damage_Lightning, Instance.Attribute_Resistance_Lightning);
 	Instance.DamageTypesToResistance.Add(Instance.Damage_Physical, Instance.Attribute_Resistance_Physical);
 	
-
 	Instance.Effects_HitReact_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Effects.HitReact.FireDamage"), FString("A hit reaction to fire damage"));
+	Instance.Effects_HitReact_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Effects.HitReact.PhysicalDamage"), FString("A hit reaction to Physical damage"));
+	
+	ADD_COMBAT_SOCKET_TAG(Instance, Weapon, "Weapon");
+	ADD_COMBAT_SOCKET_TAG(Instance, LeftHand, "LeftHand");
+	ADD_COMBAT_SOCKET_TAG(Instance, RightHand, "RightHand");
 
-	ADD_MONTAGE_ATTACK_TAG(Instance, Weapon, "Weapon");
-	ADD_MONTAGE_ATTACK_TAG(Instance, LeftHand, "LeftHand");
-	ADD_MONTAGE_ATTACK_TAG(Instance, RightHand, "RightHand");
+	ADD_MONTAGE_ATTACK_TAG(Instance, 1, "Attack 1");
+	ADD_MONTAGE_ATTACK_TAG(Instance, 2, "Attack 2");
+	ADD_MONTAGE_ATTACK_TAG(Instance, 3, "Attack 3");
+	ADD_MONTAGE_ATTACK_TAG(Instance, 4, "Attack 4");
 }
