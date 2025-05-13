@@ -63,7 +63,7 @@ void UWaitCooldownChange::OnActiveEffectAdded(
 
 	if (AssetsTags.HasTagExact(CooldownTag) || GrantedTags.HasTagExact(CooldownTag))
 	{
-		FGameplayEffectQuery GameplayEffectQuery = FGameplayEffectQuery::MakeQuery_MatchAnyEffectTags(CooldownTag.GetSingleTagContainer());
+		FGameplayEffectQuery GameplayEffectQuery = FGameplayEffectQuery::MakeQuery_MatchAnyOwningTags(CooldownTag.GetSingleTagContainer());
 		TArray<float> TimesRemaining = ASC->GetActiveEffectsTimeRemaining(GameplayEffectQuery);
 		if (TimesRemaining.Num() > 0)
 		{
