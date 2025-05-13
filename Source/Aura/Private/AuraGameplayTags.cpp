@@ -82,5 +82,6 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	ADD_MONTAGE_ATTACK_TAG(Instance, 2, "Attack 2");
 	ADD_MONTAGE_ATTACK_TAG(Instance, 3, "Attack 3");
 
-	ADD_ABILITY_TYPE_TAG(Instance, Fire, FireBolt, "");
+	ADD_ABILITY_TYPE_TAG(Instance, Fire, FireBolt, "Fire Bolt Ability Tag");
+	ADD_ABILITY_COOLDOWN_TYPE_TAG(Instance, Fire, FireBolt, "Fire Bolt Cooldown Tag");
 }

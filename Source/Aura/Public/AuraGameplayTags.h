@@ -45,6 +45,10 @@ FName("CombatSocket."#AttributeName), FString(TagComment))
 Instance.Abilities_##AbilityType##_##AbilityName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
 FName(TEXT("Abilities." #AbilityType "." #AbilityName)), FString(TagComment))
 
+#define ADD_ABILITY_COOLDOWN_TYPE_TAG(Instance, AbilityType, AbilityName, TagComment) \
+Instance.Cooldown_##AbilityType##_##AbilityName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
+FName(TEXT("Cooldown." #AbilityType "." #AbilityName)), FString(TagComment))
+
 /**
  * AuraGameplayTags
  *
@@ -119,6 +123,8 @@ public:
 	FGameplayTag CombatSocket_Weapon;
 
 	FGameplayTag Abilities_Fire_FireBolt;
+
+	FGameplayTag Cooldown_Fire_FireBolt;
 
 protected:
 private:
