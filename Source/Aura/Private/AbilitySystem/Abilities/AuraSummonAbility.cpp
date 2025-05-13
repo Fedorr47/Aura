@@ -14,11 +14,10 @@ TArray<FVector> UAuraSummonAbility::GetSpawnLocations()
 	const FVector Up = FVector::UpVector;
 
 	const float UnitRadius = GetMaxMinionCapsuleRadius();
-	const float ArcSpacing = 2.0f * UnitRadius * 1.1f;
+	const float MinArcLength = 2.0f * UnitRadius * 1.1f;
 
 	const float OffsetMin = SpawnRange.GetLowerBoundValue();
 	const float OffsetMax = SpawnRange.GetUpperBoundValue();
-
 	const int32 TotalToSpawn = FMath::Max(NumMinions, 1);
 
 	TArray<FVector> SpawnLocations;
@@ -27,30 +26,41 @@ TArray<FVector> UAuraSummonAbility::GetSpawnLocations()
 
 	while (Spawned < TotalToSpawn)
 	{
-		float RingRadius = RingBaseRadius;
-		float Circumference = 2 * PI * (RingRadius + OffsetMax);
-		int32 PointsOnRing = FMath::FloorToInt(Circumference / ArcSpacing);
-		PointsOnRing = FMath::Max(PointsOnRing, 1);
+		const float RingRadius = RingBaseRadius;
+		float AngleDegrees = 0.f;
+		const float AngleStepDegrees = FMath::RadiansToDegrees(MinArcLength / RingRadius);
 
-		for (int32 i = 0; i < PointsOnRing && Spawned < TotalToSpawn; ++i)
+		while (AngleDegrees < 360.f && Spawned < TotalToSpawn)
 		{
-			float Angle = (2 * PI / PointsOnRing) * i;
-			FVector Direction = Forward.RotateAngleAxis(FMath::RadiansToDegrees(Angle), Up);
-			float RandomOffset = FMath::FRandRange(OffsetMin, OffsetMax);
-			FVector SpawnLoc = Origin + Direction * (RingRadius + RandomOffset);
+			const float AngleRad = FMath::DegreesToRadians(AngleDegrees);
+			const FVector Dir = Forward.RotateAngleAxis(AngleDegrees, Up);
+			const float RandOffset = FMath::FRandRange(OffsetMin, OffsetMax);
+			float FinalRadius = RingRadius + RandOffset;
 
-			// Line trace to ground
-			FHitResult Hit;
-			const FVector TraceStart = SpawnLoc + FVector(0.f, 0.f, 400.f);
-			const FVector TraceEnd = SpawnLoc - FVector(0.f, 0.f, 400.f);
-			if (GetWorld()->LineTraceSingleByChannel(Hit, TraceStart, TraceEnd, ECC_Visibility))
+			FVector TryLoc = Origin + FVector(
+			FinalRadius * FMath::Cos(AngleRad),
+			FinalRadius * FMath::Sin(AngleRad),
+			0.0f
+			);
+			
+			if (IsSpawnPointValid(Origin, TryLoc))
 			{
-				SpawnLoc = Hit.ImpactPoint;
-			}
+				FHitResult Hit;
+				if (GetWorld()->LineTraceSingleByChannel(Hit, TryLoc + FVector(0,0,400), TryLoc - FVector(0,0,400), ECC_Visibility))
+				{
+					TryLoc = Hit.ImpactPoint;
+				}
 
-			SpawnLocations.Add(SpawnLoc);
-			//UKismetSystemLibrary::DrawDebugSphere(GetWorld(), SpawnLoc, 16.0f, 12, FColor::Green, 3.0f, 1.0f);
-			++Spawned;
+				SpawnLocations.Add(TryLoc);
+				DrawDebugSphere(GetWorld(), TryLoc, 18.f, 12, FColor::Green, false, 3.0f, 0, 1.0f);
+				++Spawned;
+			}
+			else
+			{
+				DrawDebugSphere(GetWorld(), TryLoc, 18.f, 12, FColor::Red, false, 3.0f, 0, 1.0f);
+			}
+			
+			AngleDegrees += AngleStepDegrees;
 		}
 		
 		RingBaseRadius += OffsetMax + UnitRadius * 2.0f;
@@ -78,6 +88,24 @@ float UAuraSummonAbility::GetMaxMinionCapsuleRadius() const
 	}
 
 	return MaxRadius;
+}
+
+bool UAuraSummonAbility::IsSpawnPointValid(const FVector& From, const FVector& To)
+{
+	FHitResult Hit;
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(GetAvatarActorFromActorInfo());
+
+	if (GetWorld()->LineTraceSingleByChannel(Hit, From, To, ECC_Visibility, Params))
+	{
+		return false;
+	}
+
+	TArray<FOverlapResult> Overlaps;
+	const float Radius = GetMaxMinionCapsuleRadius();
+	FCollisionShape Shape = FCollisionShape::MakeSphere(Radius);
+
+	return !GetWorld()->OverlapMultiByChannel(Overlaps, To, FQuat::Identity, ECC_Pawn, Shape, Params);
 }
 
 TSubclassOf<APawn> UAuraSummonAbility::GetRandomSummoningClass() const

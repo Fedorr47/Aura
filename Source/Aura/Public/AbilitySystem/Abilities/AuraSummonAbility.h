@@ -17,6 +17,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	TArray<FVector> GetSpawnLocations();
 	float GetMaxMinionCapsuleRadius() const;
+	bool IsSpawnPointValid(const FVector& From, const FVector& To);
 
 	UFUNCTION(BlueprintPure, Category="Summoning")
 	TSubclassOf<APawn> GetRandomSummoningClass() const;
