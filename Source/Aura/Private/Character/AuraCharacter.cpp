@@ -33,6 +33,9 @@ AAuraCharacter::AAuraCharacter()
 	GetCharacterMovement()->bConstrainToPlane = true;
 	GetCharacterMovement()->bSnapToPlaneAtStart = true;
 
+	GetMesh()->SetUpdateAnimationInEditor(true);
+	GetMesh()->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::AlwaysTickPoseAndRefreshBones;
+
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationRoll= false;
 	bUseControllerRotationYaw = false;
