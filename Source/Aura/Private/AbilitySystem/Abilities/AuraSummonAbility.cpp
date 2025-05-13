@@ -90,7 +90,7 @@ float UAuraSummonAbility::GetMaxMinionCapsuleRadius() const
 	return MaxRadius;
 }
 
-bool UAuraSummonAbility::IsSpawnPointValid(const FVector& From, const FVector& To)
+bool UAuraSummonAbility::IsSpawnPointValid(const FVector& From, const FVector& To) const
 {
 	FHitResult Hit;
 	FCollisionQueryParams Params;

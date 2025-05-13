@@ -58,8 +58,8 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	ADD_DAMAGE_RESISTANCE_TAG(Instance, Physical, "Resistance to Physical Damage");
 
 	// Abilities types
-	ADD_ABILITIES_TAG(Instance, Attack, "Ability Attack");
-	ADD_ABILITIES_TAG(Instance, Summon, "Ability Summon");
+	ADD_ABILITY_TAG(Instance, Attack, "Ability Attack");
+	ADD_ABILITY_TAG(Instance, Summon, "Ability Summon");
 
 	// Map of Damage types to Resistances
 	Instance.DamageTypesToResistance.Add(Instance.Damage_Fire, Instance.Attribute_Resistance_Fire);
@@ -81,5 +81,6 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	ADD_MONTAGE_ATTACK_TAG(Instance, 1, "Attack 1");
 	ADD_MONTAGE_ATTACK_TAG(Instance, 2, "Attack 2");
 	ADD_MONTAGE_ATTACK_TAG(Instance, 3, "Attack 3");
-	ADD_MONTAGE_ATTACK_TAG(Instance, 4, "Attack 4");
+
+	ADD_ABILITY_TYPE_TAG(Instance, Fire, FireBolt, "");
 }

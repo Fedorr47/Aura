@@ -29,7 +29,7 @@ FName("Damage."#AttributeName), FString(TagComment))
 Instance.Attribute_Resistance_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
 FName("Attributes.Resistance."#AttributeName), FString(TagComment))
 
-#define ADD_ABILITIES_TAG(Instance, AttributeName, TagComment) \
+#define ADD_ABILITY_TAG(Instance, AttributeName, TagComment) \
 Instance.Abilities_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
 FName("Abilities."#AttributeName), FString(TagComment))
 
@@ -40,6 +40,10 @@ FName("Montage.Attack"#AttributeName), FString(TagComment))
 #define ADD_COMBAT_SOCKET_TAG(Instance, AttributeName, TagComment) \
 Instance.CombatSocket_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
 FName("CombatSocket."#AttributeName), FString(TagComment))
+
+#define ADD_ABILITY_TYPE_TAG(Instance, AbilityType, AbilityName, TagComment) \
+Instance.Abilities_##AbilityType##_##AbilityName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
+FName(TEXT("Abilities." #AbilityType "." #AbilityName)), FString(TagComment))
 
 /**
  * AuraGameplayTags
@@ -113,6 +117,8 @@ public:
 	FGameplayTag CombatSocket_RightHand;
 	FGameplayTag CombatSocket_LeftHand;
 	FGameplayTag CombatSocket_Weapon;
+
+	FGameplayTag Abilities_Fire_FireBolt;
 
 protected:
 private:
