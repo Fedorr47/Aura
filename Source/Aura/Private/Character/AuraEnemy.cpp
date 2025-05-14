@@ -125,11 +125,6 @@ UAnimInstance* AAuraEnemy::GetWeaponAnimInstance_Implementation()
 	return nullptr;
 }
 
-int32 AAuraEnemy::GetPlayerLevel()
-{
-	return Level;
-}
-
 void AAuraEnemy::Die()
 {
 	SetLifeSpan(LifeSpan);
@@ -172,4 +167,9 @@ void AAuraEnemy::SetCombatTarget_Implementation(AActor* InCombatTarget)
 AActor* AAuraEnemy::GetCombatTarget_Implementation()
 {
 	return CombatTarget;
+}
+
+int32 AAuraEnemy::GetPlayerLevel_Implementation()
+{
+	return Level;
 }

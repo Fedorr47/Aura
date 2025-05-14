@@ -95,9 +95,6 @@ void UExecCalc_Damage::Execute_Implementation(
 	AActor* SourceAvatar = SourceASC ? SourceASC->GetAvatarActor() : nullptr;
 	AActor* TargetAvatar = TargetASC ? TargetASC->GetAvatarActor() : nullptr;
 
-	ICombatInterface* SourceCombatInterface = Cast<ICombatInterface>(SourceAvatar);
-	ICombatInterface* TargetCombatInterface = Cast<ICombatInterface>(TargetAvatar);
-
 	const FGameplayEffectSpec Spec = ExecutionParams.GetOwningSpec();
 
 	const FGameplayTagContainer* SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();
@@ -106,6 +103,17 @@ void UExecCalc_Damage::Execute_Implementation(
 	FAggregatorEvaluateParameters EvaluateParams;
 	EvaluateParams.SourceTags = SourceTags;
 	EvaluateParams.TargetTags = TargetTags;
+
+	int32 SourcePlayerLevel = 1;
+	if (SourceAvatar->Implements<UCombatInterface>())
+	{
+		SourcePlayerLevel = ICombatInterface::Execute_GetPlayerLevel(SourceAvatar);
+	}
+	int32 TargetPlayerLevel = 1;
+	if (TargetAvatar->Implements<UCombatInterface>())
+	{
+		TargetPlayerLevel = ICombatInterface::Execute_GetPlayerLevel(TargetAvatar);
+	}	
 
 	const UCharacterClassInfo* CharacterClassInfo = UAuraAbilitySystemLibrary::GetCharacterClassInfo(SourceAvatar);
 	FGameplayEffectContextHandle Context = Spec.GetContext();
@@ -155,7 +163,7 @@ void UExecCalc_Damage::Execute_Implementation(
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().CriticalHitResistanceDef, EvaluateParams, TargetCriticalHitResistanceChance);
 	TargetCriticalHitResistanceChance = FMath::Max(0.0f, TargetCriticalHitResistanceChance);
 
-	float TargetCriticalHitResistanceCoefficient = EvalCurve("CriticalHitResistance", TargetCombatInterface->GetPlayerLevel());
+	float TargetCriticalHitResistanceCoefficient = EvalCurve("CriticalHitResistance", TargetPlayerLevel);
 	TargetCriticalHitResistanceChance *= TargetCriticalHitResistanceCoefficient;
 	
 	// Critical hit damage
@@ -181,8 +189,8 @@ void UExecCalc_Damage::Execute_Implementation(
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ArmorPenetrationDef, EvaluateParams, SourceArmorPenetration);
 	SourceArmorPenetration = FMath::Max(0.0f, SourceArmorPenetration);
 	
-	float ArmorPenetrationCoefficient = EvalCurve("ArmorPenetration", SourceCombatInterface->GetPlayerLevel());
-	float EffectiveArmorCoefficient = EvalCurve("EffectiveArmor", TargetCombatInterface->GetPlayerLevel());
+	float ArmorPenetrationCoefficient = EvalCurve("ArmorPenetration", SourcePlayerLevel);
+	float EffectiveArmorCoefficient = EvalCurve("EffectiveArmor", TargetPlayerLevel);
 	
 	// TODO: change 100.0f to MaxArmorPenetration
 	const float EffectiveArmor = TargetArmor *= FMath::Max((100.0f - SourceArmorPenetration * ArmorPenetrationCoefficient), 0.0f) / 100.0f;

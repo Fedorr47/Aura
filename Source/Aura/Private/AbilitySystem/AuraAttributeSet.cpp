@@ -166,12 +166,10 @@ void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float D
 
 void UAuraAttributeSet::SendExperiencePoints(const FEffectProperties& Props)
 {
-	ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetCharacter);
-	
 	int32 RewardAmount = UAuraAbilitySystemLibrary::GetReward(
 		Props.TargetCharacter,
-		CombatInterface->Execute_GetCharacterClass(Props.TargetCharacter),
-		CombatInterface->GetPlayerLevel());
+		ICombatInterface::Execute_GetCharacterClass(Props.TargetCharacter),
+		ICombatInterface::Execute_GetPlayerLevel(Props.TargetCharacter));
 
 	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 	FGameplayEventData Payload;
