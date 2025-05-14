@@ -23,6 +23,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 {
 	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
 	AuraPlayerState->OnExperiencePointsChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnExperiencePointsChanged);
+	AuraPlayerState->OnLevelChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnLevelChanged);
 	
 	const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
 
@@ -92,6 +93,11 @@ void UOverlayWidgetController::OnExperiencePointsChanged(int32 ExperiencePoints)
 		const float ExperiencePointsPercent = static_cast<float>(ExperiencePointsForLevel) / static_cast<float>(DeltaLevelRequirement);
 		OnExperiencePointsChangedDelegate.Broadcast(ExperiencePointsPercent);
 	}
+}
+
+void UOverlayWidgetController::OnLevelChanged(int32 LevelCount) const
+{
+	OnLevelPointsChangedDelegate.Broadcast(LevelCount);
 }
 
 void UOverlayWidgetController::OnInitializedStartupAbilities(UAuraAbilitySystemComponent* AuraAbilitySystemComponent) const

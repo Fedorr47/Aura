@@ -3,9 +3,9 @@
 
 #include "Character/AuraCharacter.h"
 
+
 #include "AbilitySystemComponent.h"
 #include "AuraGameplayTags.h"
-#include "InputActionValue.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
@@ -15,19 +15,25 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Player/AuraPlayerController.h"
 #include "Player/AuraPlayerState.h"
+#include "NiagaraComponent.h"
 #include "UI/HUD/AuraHUD.h"
 
 AAuraCharacter::AAuraCharacter()
 {
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
-	//CameraBoom->SetUsingAbsoluteRotation(true);
+	CameraBoom->SetUsingAbsoluteRotation(true);
 	CameraBoom->TargetArmLength = 800.0f;
 	CameraBoom->SetRelativeRotation(FRotator(-60.0f, -50.0f, 0.0f));
 	CameraBoom->bDoCollisionTest = false;
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("CharacterCamera"));
 	CameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+	CameraComponent->bUsePawnControlRotation = false;
+
+	LevelUpEffect = CreateDefaultSubobject<UNiagaraComponent>(TEXT("LevelUpEffect"));
+	LevelUpEffect->SetupAttachment(GetRootComponent());
+	LevelUpEffect->bAutoActivate = false;
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 400.0f, 0.0f);
@@ -69,6 +75,24 @@ void AAuraCharacter::InitAbilityActorInfo()
 	}
 	
 }
+
+void AAuraCharacter::MulticastLevelUpEffect_Implementation()
+{
+	if (IsValid(LevelUpEffect))
+	{
+		const FVector CameraLocation = CameraComponent->GetComponentLocation();
+		const FVector NiagaraLocation = LevelUpEffect->GetComponentLocation();
+		const FRotator ToCameraRotation = (CameraLocation - NiagaraLocation).Rotation();
+		LevelUpEffect->SetWorldRotation(ToCameraRotation);
+		LevelUpEffect->Activate(true);
+	}
+}
+
+void AAuraCharacter::LevelUp_Implementation()
+{
+	MulticastLevelUpEffect();
+}
+
 
 void AAuraCharacter::PossessedBy(AController* NewController)
 {
@@ -117,11 +141,6 @@ int32 AAuraCharacter::GetExperiencePoints_Implementation() const
 	check(AuraPlayerState);
 	
 	return AuraPlayerState->GetExperiencePoints();
-}
-
-void AAuraCharacter::LevelUp_Implementation()
-{
-	
 }
 
 int32 AAuraCharacter::FindLevelForExperiencePoints_Implementation(int32 InExperiencePoints) const
