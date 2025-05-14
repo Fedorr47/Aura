@@ -94,6 +94,10 @@ public:
 	FGameplayAttributeData IncomingDamage;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage)
 	
+	UPROPERTY(BlueprintReadOnly, Category = "Meta Attribute")
+	FGameplayAttributeData IncomingExperiencePoints;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingExperiencePoints)
+	
 	/*
 	 * Primary Attributes
 	 */

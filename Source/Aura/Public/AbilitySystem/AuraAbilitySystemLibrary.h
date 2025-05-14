@@ -57,7 +57,10 @@ public:
 		const FVector& SphereOrigin);
 
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayUtils")
-	static bool IsNotFriend(AActor* FirstActor, AActor* SecondFriend);
+	static bool IsNotFriend(AActor* FirstActor, AActor* SecondActor);
+
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayUtils")
+	static int32 GetReward(const UObject* WorldContextObject, ECharacterClass InCharacterClass, int32 InLevel);
 
 	template <typename TController>
 	static TController* GetWidgetController(const UObject* WorldContextObject, TController* (AAuraHUD::*Getter)(const FWidgetControllerParams&))

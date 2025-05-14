@@ -10,7 +10,6 @@
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/Abilities/AuraDamageGameplayAbility.h"
 #include "Interaction/CombatInterface.h"
-#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 #include "Player/AuraPlayerController.h"
 
@@ -133,6 +132,11 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			const bool bBlockHit = UAuraAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);
 			const bool bCriticalHit = UAuraAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandle);
 			ShowFloatingText(Props, LocalIncomingDamage, bBlockHit, bCriticalHit);
+		}
+		if (Data.EvaluatedData.Attribute == GetIncomingExperiencePointsAttribute())
+		{
+			const float LocalIncomingExperiencePoints= GetIncomingExperiencePoints();
+			SetIncomingExperiencePoints(0.0f);
 		}
 	}
 }

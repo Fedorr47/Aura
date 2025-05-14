@@ -146,12 +146,24 @@ void UAuraAbilitySystemLibrary::GetLivePlayersWithRadius(
 	//UGameplayStatics::ApplyRadialDamageWithFalloff()
 }
 
-bool UAuraAbilitySystemLibrary::IsNotFriend(AActor* FirstActor, AActor* SecondFriend)
+bool UAuraAbilitySystemLibrary::IsNotFriend(AActor* FirstActor, AActor* SecondActor)
 {
 	const bool bFirstIsPlayer = FirstActor->ActorHasTag(FName("Player"));
-	const bool bSecondIsPlayer = SecondFriend->ActorHasTag(FName("Player"));
+	const bool bSecondIsPlayer = SecondActor->ActorHasTag(FName("Player"));
 	const bool bFirstIsEnemy = FirstActor->ActorHasTag(FName("Enemy"));
-	const bool bSecondIsEnemy = SecondFriend->ActorHasTag(FName("Enemy"));
+	const bool bSecondIsEnemy = SecondActor->ActorHasTag(FName("Enemy"));
 	const bool bIsFriends = (bFirstIsPlayer && bSecondIsPlayer) || (bFirstIsEnemy && bSecondIsEnemy);
 	return !bIsFriends;
+}
+
+int32 UAuraAbilitySystemLibrary::GetReward(const UObject* WorldContextObject, ECharacterClass InCharacterClass, int32 InLevel)
+{
+	if (UCharacterClassInfo* CharacterClassInfo = GetCharacterClassInfo(WorldContextObject))
+	{
+		FString EnumValueAsString = StaticEnum<ECharacterClass>()->GetNameStringByValue(static_cast<uint8>(InCharacterClass));
+		const FCharacterClassDefaultInfo ClassDefaultInfo = CharacterClassInfo->GetClassDefaultInfo(InCharacterClass);
+
+		return static_cast<int32>(ClassDefaultInfo.ExperienceReward.GetValueAtLevel(InLevel));
+	}
+	return 0;
 }

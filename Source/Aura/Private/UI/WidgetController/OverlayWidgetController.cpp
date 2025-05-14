@@ -6,6 +6,8 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/AbilityInfo.h"
+#include "AbilitySystem/Data/LevelUpInfo.h"
+#include "Player/AuraPlayerState.h"
 
 void UOverlayWidgetController::BroadcastInitialValues()
 {
@@ -19,7 +21,12 @@ void UOverlayWidgetController::BroadcastInitialValues()
 
 void UOverlayWidgetController::BindCallbacksToDependencies()
 {
+	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
+	AuraPlayerState->OnExperiencePointsChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnExperiencePointsChanged);
+
+	
 	const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
+	
 
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
 		AuraAttributeSet->GetHealthAttribute()).AddLambda([this](const FOnAttributeChangeData& Data){
@@ -68,7 +75,28 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	);
 }
 
-void UOverlayWidgetController::OnInitializedStartupAbilities(UAuraAbilitySystemComponent* AuraAbilitySystemComponent)
+void UOverlayWidgetController::OnExperiencePointsChanged(int32 ExperiencePoints) const
+{
+	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
+	ULevelUpInfo* LevelUpInfo = AuraPlayerState->LevelUpInfo;
+	checkf(LevelUpInfo, L"Level up info is null, please set it in AuraPlayerState Blueprint");
+
+	const int32 Level = LevelUpInfo->FindLevelUpInfoByXP(ExperiencePoints);
+
+	if (const int32 MaxLevel = LevelUpInfo->LevelUpInformation.Num(); Level > 0 && Level <= MaxLevel)
+	{
+		const int32 LevelUpRequirement = LevelUpInfo->LevelUpInformation[Level].LevelUpRequirement;
+		const int32 PrevLevelUpRequirement = LevelUpInfo->LevelUpInformation[Level-1].LevelUpRequirement;
+
+		const int32 DeltaLevelRequirement = LevelUpRequirement - PrevLevelUpRequirement;
+		const int32 ExperiencePointsForLevel = ExperiencePoints - PrevLevelUpRequirement;
+
+		const float ExperiencePointsPercent = static_cast<float>(ExperiencePointsForLevel) / static_cast<float>(DeltaLevelRequirement);
+		OnExperiencePointsChangedDelegate.Broadcast(ExperiencePointsPercent);
+	}
+}
+
+void UOverlayWidgetController::OnInitializedStartupAbilities(UAuraAbilitySystemComponent* AuraAbilitySystemComponent) const
 {
 	if (!AuraAbilitySystemComponent->bStartupAbilitiesGiven)
 	{

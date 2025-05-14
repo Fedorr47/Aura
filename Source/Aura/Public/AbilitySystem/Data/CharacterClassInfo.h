@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ScalableFloat.h"
 #include "Engine/DataAsset.h"
 #include "CharacterClassInfo.generated.h"
 
@@ -17,7 +18,8 @@ enum class ECharacterClass : uint8
 	Warrior,
 	Ranger,
 
-	Player
+	Player,
+	None
 };
 
 USTRUCT(BlueprintType)
@@ -36,6 +38,9 @@ struct FCharacterClassDefaultInfo
 
 	UPROPERTY(EditDefaultsOnly, Category = "Class Defaults")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Class Defaults|Rewards")
+	FScalableFloat ExperienceReward = FScalableFloat();
 };
 
 /**
