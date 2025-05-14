@@ -9,7 +9,6 @@
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/Abilities/AuraDamageGameplayAbility.h"
-#include "Aura/AuraLogChannels.h"
 #include "Interaction/CombatInterface.h"
 #include "Interaction/PlayerInterface.h"
 #include "Net/UnrealNetwork.h"
@@ -141,8 +140,31 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	{
 		const float LocalIncomingExperiencePoints = GetIncomingExperiencePoints();
 		SetIncomingExperiencePoints(0.0f);
-		if (Props.SourceCharacter->Implements<UPlayerInterface>())
+		if (Props.SourceCharacter->Implements<UPlayerInterface>() && Props.SourceCharacter->Implements<UCombatInterface>())
 		{
+			const int32 CurrentLevel = ICombatInterface::Execute_GetPlayerLevel(Props.SourceCharacter);
+			const int32 CurrentExperiencePoints = IPlayerInterface::Execute_GetExperiencePoints(Props.SourceCharacter);
+
+			const int32 NewLevel = IPlayerInterface::Execute_FindLevelForExperiencePoints(
+				Props.SourceCharacter,
+				CurrentExperiencePoints + LocalIncomingExperiencePoints);
+			const int32 NumLevelsUp = NewLevel - CurrentLevel;
+
+			if (NumLevelsUp > 0)
+			{
+				int32 AttributesPointRewards = IPlayerInterface::Execute_GetAttributePointsReward(Props.SourceCharacter, CurrentLevel);
+				int32 SpellPointRewards = IPlayerInterface::Execute_GetSpellPointsReward(Props.SourceCharacter, CurrentLevel);
+
+				IPlayerInterface::Execute_AddPlayerLevel(Props.SourceCharacter, NumLevelsUp);
+				IPlayerInterface::Execute_AddAttributePoints(Props.SourceCharacter, AttributesPointRewards);
+				IPlayerInterface::Execute_AddSpellPoints(Props.SourceCharacter, SpellPointRewards);
+
+				SetHealth(GetMaxHealth());
+				SetMana(GetMaxMana());
+				
+				IPlayerInterface::Execute_LevelUp(Props.SourceCharacter);
+			}
+			
 			IPlayerInterface::Execute_AddToExperiencePoints(Props.SourceCharacter, LocalIncomingExperiencePoints);
 		}
 	}

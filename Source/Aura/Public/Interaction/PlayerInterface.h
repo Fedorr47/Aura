@@ -25,5 +25,26 @@ public:
 	void AddToExperiencePoints(int32 InExperiencePoints);
 
 	UFUNCTION(BlueprintNativeEvent)
+	int32 GetExperiencePoints() const;
+	
+	UFUNCTION(BlueprintNativeEvent)
+	int32 GetAttributePointsReward(int32 Level) const;
+
+	UFUNCTION(BlueprintNativeEvent)
+	int32 GetSpellPointsReward(int32 Level) const;
+
+	UFUNCTION(BlueprintNativeEvent)
+	void AddPlayerLevel(int32 InPlayerLevels);
+
+	UFUNCTION(BlueprintNativeEvent)
+	void AddAttributePoints(int32 InAttributePoints);
+
+	UFUNCTION(BlueprintNativeEvent)
+	void AddSpellPoints(int32 InSpellPoints);
+	
+	UFUNCTION(BlueprintNativeEvent)
+	int32 FindLevelForExperiencePoints(int32 InExperiencePoints) const;
+
+	UFUNCTION(BlueprintNativeEvent)
 	void LevelUp();
 };

@@ -9,6 +9,7 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "AbilitySystem/Data/LevelUpInfo.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -110,7 +111,55 @@ void AAuraCharacter::AddToExperiencePoints_Implementation(int32 InExperiencePoin
 	AuraPlayerState->AddExperiencePoints(InExperiencePoints);
 }
 
+int32 AAuraCharacter::GetExperiencePoints_Implementation() const
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	
+	return AuraPlayerState->GetExperiencePoints();
+}
+
 void AAuraCharacter::LevelUp_Implementation()
 {
 	
+}
+
+int32 AAuraCharacter::FindLevelForExperiencePoints_Implementation(int32 InExperiencePoints) const
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	
+	return AuraPlayerState->LevelUpInfo->FindLevelUpInfoByXP(InExperiencePoints);
+}
+
+int32 AAuraCharacter::GetAttributePointsReward_Implementation(int32 Level) const
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+
+	return AuraPlayerState->LevelUpInfo->LevelUpInformation[Level].AttributePointsReward;
+}
+
+int32 AAuraCharacter::GetSpellPointsReward_Implementation(int32 Level) const
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+
+	return AuraPlayerState->LevelUpInfo->LevelUpInformation[Level].SpellPointReward;
+}
+
+void AAuraCharacter::AddPlayerLevel_Implementation(int32 InPlayerLevels)
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+
+	AuraPlayerState->AddToLevel(InPlayerLevels);
+}
+
+void AAuraCharacter::AddAttributePoints_Implementation(int32 InAttributePoints)
+{
+}
+
+void AAuraCharacter::AddSpellPoints_Implementation(int32 SpellPoints)
+{
 }

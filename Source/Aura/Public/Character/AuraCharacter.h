@@ -34,7 +34,14 @@ public:
 
 	/* Player Interface */
 	virtual void AddToExperiencePoints_Implementation(int32 InExperiencePoints) override;
+	virtual int32 GetExperiencePoints_Implementation() const override;
 	virtual void LevelUp_Implementation() override;
+	virtual int32 FindLevelForExperiencePoints_Implementation(int32 InExperiencePoints) const override;
+	virtual int32 GetAttributePointsReward_Implementation(int32 Level) const override;
+	virtual int32 GetSpellPointsReward_Implementation(int32 Level) const override;
+	virtual void AddPlayerLevel_Implementation(int32 InPlayerLevels) override;
+	virtual void AddAttributePoints_Implementation(int32 InAttributePoints) override;
+	virtual void AddSpellPoints_Implementation(int32 SpellPoints) override;
 	/* End Player Interface */
 	
 private:
