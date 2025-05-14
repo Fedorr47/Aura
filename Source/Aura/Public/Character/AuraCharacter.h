@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "InputActionValue.h"
 #include "Character/AuraCharacterBase.h"
+#include "Interaction/PlayerInterface.h"
 #include "AuraCharacter.generated.h"
 
 class USpringArmComponent;
@@ -14,7 +14,7 @@ class UCameraComponent;
  * 
  */
 UCLASS()
-class AURA_API AAuraCharacter : public AAuraCharacterBase
+class AURA_API AAuraCharacter : public AAuraCharacterBase, public IPlayerInterface
 {
 	GENERATED_BODY()
 public:
@@ -31,6 +31,10 @@ public:
 	/* Combat Interface */
 	virtual int32 GetPlayerLevel() override;
 	/* End Combat Interface */
+
+	/* Player Interface */
+	virtual void AddToExperiencePoints_Implementation(int32 InExperiencePoints) override; 
+	/* End Player Interface */
 	
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))

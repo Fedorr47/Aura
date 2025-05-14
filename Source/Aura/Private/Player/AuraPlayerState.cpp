@@ -57,10 +57,10 @@ void AAuraPlayerState::AddExperiencePoints(const int32 NewAmount)
 
 void AAuraPlayerState::OnRep_Level(int32 OldLevel)
 {
-	OnLevelChangedDelegate.Broadcast(OldLevel);
+	OnLevelChangedDelegate.Broadcast(Level);
 }
 
 void AAuraPlayerState::OnRep_ExperiencePoints(int32 OldExperiencePoints)
 {
-	OnExperiencePointsChangedDelegate.Broadcast(OldExperiencePoints);
+	OnExperiencePointsChangedDelegate.Broadcast(ExperiencePoints);
 }

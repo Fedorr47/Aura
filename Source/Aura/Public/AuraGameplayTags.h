@@ -17,6 +17,10 @@ FName("Attributes.Primary."#AttributeName), FString(TagComment))
 Instance.Attribute_Vital_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
 FName("Attributes.Vital."#AttributeName), FString(TagComment))
 
+#define ADD_META_TAG(Instance, AttributeName, TagComment) \
+Instance.Attribute_Meta_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
+FName("Attributes.Meta."#AttributeName), FString(TagComment))
+
 #define ADD_INPUT_TAG(Instance, InputName, TagComment) \
 Instance.InputTag_##InputName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
 FName("InputTag."#InputName), FString(TagComment))
@@ -89,6 +93,8 @@ public:
 	FGameplayTag Attribute_Resistance_Lightning;
 	FGameplayTag Attribute_Resistance_Arcane;
 	FGameplayTag Attribute_Resistance_Physical;
+	
+	FGameplayTag Attribute_Meta_XP;
 
 	FGameplayTag InputTag_LMB;
 	FGameplayTag InputTag_RMB;
@@ -123,7 +129,7 @@ public:
 	FGameplayTag CombatSocket_Weapon;
 
 	FGameplayTag Abilities_Fire_FireBolt;
-
+	// Cooldown
 	FGameplayTag Cooldown_Fire_FireBolt;
 
 protected:

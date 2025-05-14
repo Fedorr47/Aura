@@ -9,7 +9,9 @@
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/Abilities/AuraDamageGameplayAbility.h"
+#include "Aura/AuraLogChannels.h"
 #include "Interaction/CombatInterface.h"
+#include "Interaction/PlayerInterface.h"
 #include "Net/UnrealNetwork.h"
 #include "Player/AuraPlayerController.h"
 
@@ -111,6 +113,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 				{
 					CombatInterface->Die();
 				}
+				SendExperiencePoints(Props);
 			}
 			else
 			{
@@ -133,10 +136,14 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			const bool bCriticalHit = UAuraAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandle);
 			ShowFloatingText(Props, LocalIncomingDamage, bBlockHit, bCriticalHit);
 		}
-		if (Data.EvaluatedData.Attribute == GetIncomingExperiencePointsAttribute())
+	}
+	if (Data.EvaluatedData.Attribute == GetIncomingExperiencePointsAttribute())
+	{
+		const float LocalIncomingExperiencePoints = GetIncomingExperiencePoints();
+		SetIncomingExperiencePoints(0.0f);
+		if (Props.SourceCharacter->Implements<UPlayerInterface>())
 		{
-			const float LocalIncomingExperiencePoints= GetIncomingExperiencePoints();
-			SetIncomingExperiencePoints(0.0f);
+			IPlayerInterface::Execute_AddToExperiencePoints(Props.SourceCharacter, LocalIncomingExperiencePoints);
 		}
 	}
 }
@@ -155,6 +162,25 @@ void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float D
 			PC->ShowDamageNumbers(Damage, Props.TargetCharacter, bBlockedHit, bCriticalHit);
 		}
 	}
+}
+
+void UAuraAttributeSet::SendExperiencePoints(const FEffectProperties& Props)
+{
+	ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetCharacter);
+	
+	int32 RewardAmount = UAuraAbilitySystemLibrary::GetReward(
+		Props.TargetCharacter,
+		CombatInterface->Execute_GetCharacterClass(Props.TargetCharacter),
+		CombatInterface->GetPlayerLevel());
+
+	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+	FGameplayEventData Payload;
+	Payload.EventTag = GameplayTags.Attribute_Meta_XP;
+	Payload.EventMagnitude = RewardAmount;
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		Props.SourceCharacter,
+		GameplayTags.Attribute_Meta_XP,
+		Payload);
 }
 
 void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const

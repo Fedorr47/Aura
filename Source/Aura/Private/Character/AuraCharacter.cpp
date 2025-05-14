@@ -101,3 +101,11 @@ int32 AAuraCharacter::GetPlayerLevel()
 
 	return AuraPlayerState->GetPlayerLevel();
 }
+
+void AAuraCharacter::AddToExperiencePoints_Implementation(int32 InExperiencePoints)
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+
+	AuraPlayerState->AddExperiencePoints(InExperiencePoints);
+}

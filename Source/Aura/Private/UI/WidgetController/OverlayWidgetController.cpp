@@ -23,10 +23,8 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 {
 	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
 	AuraPlayerState->OnExperiencePointsChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnExperiencePointsChanged);
-
 	
 	const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
-	
 
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
 		AuraAttributeSet->GetHealthAttribute()).AddLambda([this](const FOnAttributeChangeData& Data){
@@ -85,8 +83,8 @@ void UOverlayWidgetController::OnExperiencePointsChanged(int32 ExperiencePoints)
 
 	if (const int32 MaxLevel = LevelUpInfo->LevelUpInformation.Num(); Level > 0 && Level <= MaxLevel)
 	{
-		const int32 LevelUpRequirement = LevelUpInfo->LevelUpInformation[Level].LevelUpRequirement;
-		const int32 PrevLevelUpRequirement = LevelUpInfo->LevelUpInformation[Level-1].LevelUpRequirement;
+		const int32 LevelUpRequirement = LevelUpInfo->LevelUpInformation[Level-1].LevelUpRequirement;
+		const int32 PrevLevelUpRequirement = Level == 1 ? 0 : LevelUpInfo->LevelUpInformation[Level-2].LevelUpRequirement;
 
 		const int32 DeltaLevelRequirement = LevelUpRequirement - PrevLevelUpRequirement;
 		const int32 ExperiencePointsForLevel = ExperiencePoints - PrevLevelUpRequirement;
