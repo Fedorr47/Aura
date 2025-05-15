@@ -20,6 +20,11 @@ UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeWidgetCon
 	return GetWidgetController<UAttributeMenuWidgetController>(WorldContextObject, &AAuraHUD::GetAttributeWidgetController);
 }
 
+USpellMenuWidgetController* UAuraAbilitySystemLibrary::GetSpellMenuWidgetController(const UObject* WorldContextObject)
+{
+	return GetWidgetController<USpellMenuWidgetController>(WorldContextObject, &AAuraHUD::GetSpellMenuWidgetController);
+}
+
 void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(
 	const UObject* WorldContextObject,
 	ECharacterClass CharacterClass,
