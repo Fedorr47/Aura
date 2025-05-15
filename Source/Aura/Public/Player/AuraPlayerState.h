@@ -26,19 +26,26 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const {return AttributeSet;}
-
-	// Level
+	
 	FORCEINLINE int32 GetPlayerLevel() const {return Level;}
 	void SetLevel(const int32 NewAmount);
 	void AddToLevel(const int32 NewAmount);
-
-	// ExperiencePoints
+	
 	FORCEINLINE int32 GetExperiencePoints() const {return ExperiencePoints;}
+	FORCEINLINE int32 GetAttributePoints() const {return AttributePoints;}
+	FORCEINLINE int32 GetSpellPoints() const {return SpellPoints;}
+	
 	void SetExperiencePoints(const int32 NewAmount);
 	void AddExperiencePoints(const int32 NewAmount);
+	void AddAttributePoints(const int32 NewAmount);
+	void AddSpellPoints(const int32 NewAmount);
+	void SetAttributePoints(const int32 NewAmount);
+	void SetSpellPoints(const int32 NewAmount);
 	
 	FStatChangedSignature OnExperiencePointsChangedDelegate;
 	FStatChangedSignature OnLevelChangedDelegate;
+	FStatChangedSignature OnAttributesPointsChangedDelegate;
+	FStatChangedSignature OnSpellPointsChangedDelegate;
 
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<ULevelUpInfo> LevelUpInfo;
@@ -57,9 +64,22 @@ private:
 	UPROPERTY(VisibleAnywhere, ReplicatedUsing = OnRep_ExperiencePoints)
 	int32 ExperiencePoints{1};
 
+	UPROPERTY(VisibleAnywhere, ReplicatedUsing = OnRep_AttributePoints)
+	int32 AttributePoints{0};
+
+	UPROPERTY(VisibleAnywhere, ReplicatedUsing = OnRep_SpellPoints)
+	int32 SpellPoints{0};
+
 	UFUNCTION()
 	void OnRep_Level(int32 OldLevel);
 	
 	UFUNCTION()
 	void OnRep_ExperiencePoints(int32 OldExperiencePoints);
+
+	UFUNCTION()
+	void OnRep_AttributePoints(int32 OldAttributePoints);
+
+	UFUNCTION()
+	void OnRep_SpellPoints(int32 OldSpellPoints);
+	
 };

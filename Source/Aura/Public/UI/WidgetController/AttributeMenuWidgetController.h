@@ -23,8 +23,17 @@ public:
 	virtual void BroadcastInitialValues() override;
 	virtual void BindCallbacksToDependencies() override;
 
+	UFUNCTION(BlueprintCallable)
+	void UpgradeAttribute(const FGameplayTag& AttributeTag);
+
 	UPROPERTY(BlueprintAssignable, Category="GAS|Attribute")
 	FAttributeInfoSignature AttributeInfoDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|XP")
+	FOnStatChangedSignature OnAttributePointsChangedDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|XP")
+	FOnStatChangedSignature OnSpellPointsChangedDelegate;
 	
 protected:
 
@@ -35,4 +44,6 @@ private:
 	void BroadcastAttributeInfo(
 		const FGameplayTag& AttributeTag,
 		const FGameplayAttribute& Attribute) const;
+	void OnAttributePointsChanged(int32 NewAmount);
+	void OnSpellPointsChanged(int32 NewAmount);
 };
