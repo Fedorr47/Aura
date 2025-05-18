@@ -3,12 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
+#include <initializer_list>
+
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/AuraPlayerState.h"
 #include "UI/HUD/AuraHUD.h"
 #include "Data/CharacterClassInfo.h"
 #include "UI/WidgetController/AuraWidgetController.h"
+#include "GameplayTagsManager.h"
 #include "AuraAbilitySystemLibrary.generated.h"
 
 /**
@@ -83,5 +87,23 @@ public:
 			}
 		}
 		return nullptr;
+	}
+	
+	template<typename... Parts>
+	static FName MakeTagName(Parts&&... parts)
+	{
+		FString TagString;
+		((TagString += FString(parts) + TEXT(".")), ...);
+		TagString.RemoveFromEnd(TEXT("."));
+		return FName(TagString);
+	}
+	
+	template<typename... Parts>
+	static FGameplayTag AddInputTag(const FString& TagComment, Parts&&... parts)
+	{
+		return UGameplayTagsManager::Get().AddNativeGameplayTag(
+			MakeTagName(Forward<Parts>(parts)...),
+			TagComment
+		);
 	}
 };

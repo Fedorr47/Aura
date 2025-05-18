@@ -5,54 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 
-#define ADD_SECONDARY_TAG(Instance, AttributeName, TagComment) \
-Instance.Attribute_Secondary_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
-FName("Attributes.Secondary."#AttributeName), FString(TagComment))
-
-#define ADD_PRIMARY_TAG(Instance, AttributeName, TagComment) \
-Instance.Attribute_Primary_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
-FName("Attributes.Primary."#AttributeName), FString(TagComment))
-
-#define ADD_VITAL_TAG(Instance, AttributeName, TagComment) \
-Instance.Attribute_Vital_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
-FName("Attributes.Vital."#AttributeName), FString(TagComment))
-
-#define ADD_META_TAG(Instance, AttributeName, TagComment) \
-Instance.Attribute_Meta_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
-FName("Attributes.Meta."#AttributeName), FString(TagComment))
-
-#define ADD_INPUT_TAG(Instance, InputName, TagComment) \
-Instance.InputTag_##InputName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
-FName("InputTag."#InputName), FString(TagComment))
-
-#define ADD_DAMAGE_TAG(Instance, AttributeName, TagComment) \
-Instance.Damage_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
-FName("Damage."#AttributeName), FString(TagComment))
-
-#define ADD_DAMAGE_RESISTANCE_TAG(Instance, AttributeName, TagComment) \
-Instance.Attribute_Resistance_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
-FName("Attributes.Resistance."#AttributeName), FString(TagComment))
-
-#define ADD_ABILITY_TAG(Instance, AttributeName, TagComment) \
-Instance.Abilities_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
-FName("Abilities."#AttributeName), FString(TagComment))
-
-#define ADD_MONTAGE_ATTACK_TAG(Instance, AttributeName, TagComment) \
-Instance.Montage_Attack_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
-FName("Montage.Attack"#AttributeName), FString(TagComment))
-
-#define ADD_COMBAT_SOCKET_TAG(Instance, AttributeName, TagComment) \
-Instance.CombatSocket_##AttributeName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
-FName("CombatSocket."#AttributeName), FString(TagComment))
-
-#define ADD_ABILITY_TYPE_TAG(Instance, AbilityType, AbilityName, TagComment) \
-Instance.Abilities_##AbilityType##_##AbilityName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
-FName(TEXT("Abilities." #AbilityType "." #AbilityName)), FString(TagComment))
-
-#define ADD_ABILITY_COOLDOWN_TYPE_TAG(Instance, AbilityType, AbilityName, TagComment) \
-Instance.Cooldown_##AbilityType##_##AbilityName = UGameplayTagsManager::Get().AddNativeGameplayTag( \
-FName(TEXT("Cooldown." #AbilityType "." #AbilityName)), FString(TagComment))
-
 /**
  * AuraGameplayTags
  *
@@ -103,6 +55,9 @@ public:
 	FGameplayTag InputTag_3;
 	FGameplayTag InputTag_4;
 
+	FGameplayTag InputTag_Passive_1;
+	FGameplayTag InputTag_Passive_2;
+
 	FGameplayTag Damage;
 	FGameplayTag Damage_Fire;
 	FGameplayTag Damage_Water;
@@ -131,6 +86,15 @@ public:
 	FGameplayTag Abilities_Fire_FireBolt;
 	// Cooldown
 	FGameplayTag Cooldown_Fire_FireBolt;
+	// Statutes
+	FGameplayTag Abilities_Status_Locked;
+	FGameplayTag Abilities_Status_Eligible;
+	FGameplayTag Abilities_Status_Unlocked;
+	FGameplayTag Abilities_Status_Equipped;
+
+	FGameplayTag Abilities_Type_Offensive;
+	FGameplayTag Abilities_Type_Passive;
+	FGameplayTag Abilities_Type_None;
 
 protected:
 private:
