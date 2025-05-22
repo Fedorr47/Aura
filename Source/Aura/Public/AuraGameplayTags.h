@@ -84,6 +84,7 @@ public:
 	FGameplayTag CombatSocket_Weapon;
 
 	FGameplayTag Abilities_Fire_FireBolt;
+	FGameplayTag Abilities_Lightning_Electrocute;
 	// Cooldown
 	FGameplayTag Cooldown_Fire_FireBolt;
 	// Statutes

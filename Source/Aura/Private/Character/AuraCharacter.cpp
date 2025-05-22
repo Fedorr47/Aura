@@ -173,6 +173,11 @@ void AAuraCharacter::AddPlayerLevel_Implementation(int32 InPlayerLevels)
 	check(AuraPlayerState);
 
 	AuraPlayerState->AddToLevel(InPlayerLevels);
+
+	if (UAuraAbilitySystemComponent* AuraASC = CastChecked<UAuraAbilitySystemComponent>(GetAbilitySystemComponent()))
+	{
+		AuraASC->UpdateAbilitiesStatuses(InPlayerLevels);
+	}
 }
 
 void AAuraCharacter::AddAttributePoints_Implementation(int32 InAttributePoints)

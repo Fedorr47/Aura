@@ -90,8 +90,10 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	Instance.Montage_Attack_3 = UAuraAbilitySystemLibrary::AddInputTag("Attack 3", "Montage", "Attack", "3");
 	Instance.Montage_Attack_4 = UAuraAbilitySystemLibrary::AddInputTag("Attack 4", "Montage", "Attack", "4");
 	
-	// Abilities.Fire.FireBolt
+	// Abilities.Fire.*
 	Instance.Abilities_Fire_FireBolt = UAuraAbilitySystemLibrary::AddInputTag("Fire Bolt Ability Tag", "Abilities", "Fire", "FireBolt");
+	// Abilities.Lightning.*
+	Instance.Abilities_Lightning_Electrocute = UAuraAbilitySystemLibrary::AddInputTag("Electrocute Ability Tag", "Abilities", "Lightning", "Electrocute");
 	
 	// Cooldown.Fire.FireBolt
 	Instance.Cooldown_Fire_FireBolt = UAuraAbilitySystemLibrary::AddInputTag("Fire Bolt Cooldown Tag", "Cooldown", "Fire", "FireBolt");
