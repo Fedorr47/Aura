@@ -22,7 +22,6 @@ void UAttributeMenuWidgetController::BroadcastInitialValues()
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 {
 	GetAuraPS()->OnAttributesPointsChangedDelegate.AddUObject(this, &UAttributeMenuWidgetController::OnAttributePointsChanged);
-	GetAuraPS()->OnSpellPointsChangedDelegate.AddUObject(this, &UAttributeMenuWidgetController::OnSpellPointsChanged);
 	
 	check(AttributeInformation);
 	for (auto& Pair : GetAuraAS()->TagsToAttributes)
@@ -54,9 +53,4 @@ void UAttributeMenuWidgetController::BroadcastAttributeInfo(
 void UAttributeMenuWidgetController::OnAttributePointsChanged(int32 NewAmount)
 {
 	OnAttributePointsChangedDelegate.Broadcast(NewAmount);
-}
-
-void UAttributeMenuWidgetController::OnSpellPointsChanged(int32 NewAmount)
-{
-	OnSpellPointsChangedDelegate.Broadcast(NewAmount);
 }

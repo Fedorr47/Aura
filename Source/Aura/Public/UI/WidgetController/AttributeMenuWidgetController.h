@@ -31,9 +31,6 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|XP")
 	FOnStatChangedSignature OnAttributePointsChangedDelegate;
-
-	UPROPERTY(BlueprintAssignable, Category = "GAS|XP")
-	FOnStatChangedSignature OnSpellPointsChangedDelegate;
 	
 protected:
 
@@ -45,5 +42,4 @@ private:
 		const FGameplayTag& AttributeTag,
 		const FGameplayAttribute& Attribute) const;
 	void OnAttributePointsChanged(int32 NewAmount);
-	void OnSpellPointsChanged(int32 NewAmount);
 };
