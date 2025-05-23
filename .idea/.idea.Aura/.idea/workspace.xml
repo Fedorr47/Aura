@@ -14,13 +14,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c060fa8e-891f-4a3f-8fab-416737f9b4eb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Aura/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Aura/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Game/BP_AuraGameModeBase.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Game/BP_AuraGameModeBase.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/UI/SpellGlobe/WBP_SpellGlobe_Button.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/UI/SpellGlobe/WBP_SpellGlobe_Button.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/UI/SpellMenu/WBP_OffensiveSpellTree.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/UI/SpellMenu/WBP_OffensiveSpellTree.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/UI/SpellMenu/WBP_PassiveSpellTree.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/UI/SpellMenu/WBP_PassiveSpellTree.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Blueprints/UI/SpellMenu/WBP_SpellMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/UI/SpellMenu/WBP_SpellMenu.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Aura/Private/UI/WidgetController/AttributeMenuWidgetController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Private/UI/WidgetController/AttributeMenuWidgetController.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Aura/Private/UI/WidgetController/SpellMenuWidgetController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Private/UI/WidgetController/SpellMenuWidgetController.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Aura/Public/UI/WidgetController/AttributeMenuWidgetController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Public/UI/WidgetController/AttributeMenuWidgetController.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Aura/Public/UI/WidgetController/SpellMenuWidgetController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Public/UI/WidgetController/SpellMenuWidgetController.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
