@@ -64,6 +64,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	Instance.Damage_Physical = UAuraAbilitySystemLibrary::AddInputTag("Physical Damage Type", "Damage", "Physical");
 	
 	// Ability types
+	Instance.Abilities_None = UAuraAbilitySystemLibrary::AddInputTag("Ability None", "Abilities", "None");
 	Instance.Abilities_Attack = UAuraAbilitySystemLibrary::AddInputTag("Ability Attack", "Abilities", "Attack");
 	Instance.Abilities_Summon = UAuraAbilitySystemLibrary::AddInputTag("Ability Summon", "Abilities", "Summon");
 	
