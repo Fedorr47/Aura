@@ -100,7 +100,11 @@ bool UAuraAbilitySystemComponent::GetDescriptionsByAbilityTag(const FGameplayTag
 		}
 	}
 	RequestServerForSpellAbilityInfo(AbilityTag);
-	OutDescription = UAuraGameplayAbility::GetLockeDescription(SpellInfo.LevelRequirement);
+	OutDescription = FString();
+	if (AbilityTag.IsValid() && !AbilityTag.MatchesTagExact(FAuraGameplayTags::Get().Abilities_None))
+	{
+		OutDescription = UAuraGameplayAbility::GetLockeDescription(SpellInfo.LevelRequirement);
+	}
 	OutNextLevelDescription = FString();
 	return false;
 }

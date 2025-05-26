@@ -40,6 +40,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "GAS|Spell Points")
 	void SpendPointButtonPressed();
 
+	UFUNCTION(BlueprintCallable, Category = "GAS|Spell Points")
+	void SpellGlobeDeselected();
+
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Spell Points")
 	FSpellGlobeSelectedSignature OnSpellGlobeSelectedDelegate;
 

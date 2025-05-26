@@ -157,3 +157,15 @@ void USpellMenuWidgetController::SpendPointButtonPressed()
 		GetAuraASC()->ServerSpendSpellPoints(SelectedAbility.AbilityTag);
 	}
 }
+
+void USpellMenuWidgetController::SpellGlobeDeselected()
+{
+	SelectedAbility.AbilityTag = FAuraGameplayTags::Get().Abilities_None;
+	SelectedAbility.StatusTag = FAuraGameplayTags::Get().Abilities_Status_Locked;
+
+	OnSpellGlobeSelectedDelegate.Broadcast(
+		false,
+		false,
+		FString(),
+		FString());
+}

@@ -32,5 +32,7 @@ public:
 	FGameplayTag HitReactType;
 
 	UFUNCTION(BlueprintPure)
-	FTaggedMontage GetRandomTaggedAttackMontage(const TArray<FTaggedMontage>& TaggedMontages) const;	
+	FTaggedMontage GetRandomTaggedAttackMontage(const TArray<FTaggedMontage>& TaggedMontages) const;
+
+	float GetDamageByDamageType(float InLevel, const FGameplayTag& DamageType) const;
 };
