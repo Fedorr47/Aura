@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
+#include "Data/AbilityInfo.h"
 #include "AuraAbilitySystemComponent.generated.h"
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer& /*Asset tags*/)
@@ -33,6 +34,11 @@ public:
 	void AbilityInputTagReleased(const FGameplayTag InputTag);
 	void ForEachAbility(const FForEachAbility& Delegate);
 
+	bool GetDescriptionsByAbilityTag(
+		const FGameplayTag& AbilityTag,
+		FString& OutDescription,
+		FString& OutNextLevelDescription);
+
 	static FGameplayTag GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
 	static FGameplayTag GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
 	static FGameplayTag GetStatusFromSpec(const FGameplayAbilitySpec& AbilitySpec);
@@ -40,14 +46,16 @@ public:
 	FGameplayAbilitySpec* GetSpecFromAbilityTag(const FGameplayTag& AbilityTag);
 
 	void UpgradeAttribute(const FGameplayTag& AttributeTag);
-	
 	void UpdateAbilitiesStatuses(int32 Level);
 
 	UFUNCTION(Server, Reliable)
 	void ServerUpdateAttribute(const FGameplayTag& AttributeTag);
-
 	UFUNCTION(Server, Reliable)
 	void ServerSpendSpellPoints(const FGameplayTag& AbilityTag);
+	UFUNCTION(Server, Reliable)
+	void RequestServerForSpellAbilityInfo(const FGameplayTag& AbilityTag);
+
+	FAuraAbilityInfo SpellInfo = FAuraAbilityInfo();
 	
 protected:
 
@@ -61,4 +69,7 @@ protected:
 		const FGameplayTag& AbilityTag,
 		const FGameplayTag& StatusTag,
 		int32 AbilityLevel);
+	
+	UFUNCTION(Client, Reliable)
+	void ClientUpdateSpellAbilityInfo(FAuraAbilityInfo InAbilityInfo);
 };

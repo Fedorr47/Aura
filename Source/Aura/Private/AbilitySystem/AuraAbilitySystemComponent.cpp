@@ -87,6 +87,24 @@ void UAuraAbilitySystemComponent::ForEachAbility(const FForEachAbility& Delegate
 	}
 }
 
+bool UAuraAbilitySystemComponent::GetDescriptionsByAbilityTag(const FGameplayTag& AbilityTag, FString& OutDescription,
+	FString& OutNextLevelDescription)
+{
+	if (const FGameplayAbilitySpec* AbilitySpec = GetSpecFromAbilityTag(AbilityTag))
+	{
+		if (UAuraGameplayAbility* AuraAbility = Cast<UAuraGameplayAbility>(AbilitySpec->Ability))
+		{
+			OutDescription = AuraAbility->GetDescription(AbilitySpec->Level);
+			OutNextLevelDescription = AuraAbility->GetNextLevelDescription(AbilitySpec->Level + 1);
+			return true;
+		}
+	}
+	RequestServerForSpellAbilityInfo(AbilityTag);
+	OutDescription = UAuraGameplayAbility::GetLockeDescription(SpellInfo.LevelRequirement);
+	OutNextLevelDescription = FString();
+	return false;
+}
+
 FGameplayTag UAuraAbilitySystemComponent::GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
 {
 	if (AbilitySpec.Ability)
@@ -176,6 +194,18 @@ void UAuraAbilitySystemComponent::UpdateAbilitiesStatuses(int32 Level)
 				1);
 		}
 	}
+}
+
+void UAuraAbilitySystemComponent::RequestServerForSpellAbilityInfo_Implementation(const FGameplayTag& AbilityTag)
+{
+	UAbilityInfo* AbilityInfo = UAuraAbilitySystemLibrary::GetAbilityInfo(GetAvatarActor());
+	FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoByTag(AbilityTag);
+	ClientUpdateSpellAbilityInfo(Info);
+}
+
+void UAuraAbilitySystemComponent::ClientUpdateSpellAbilityInfo_Implementation(FAuraAbilityInfo inAbilityInfo)
+{
+	SpellInfo = inAbilityInfo;
 }
 
 void UAuraAbilitySystemComponent::OnRep_ActivateAbilities()

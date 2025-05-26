@@ -93,7 +93,6 @@ void AAuraCharacter::LevelUp_Implementation()
 	MulticastLevelUpEffect();
 }
 
-
 void AAuraCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);

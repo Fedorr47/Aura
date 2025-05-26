@@ -30,9 +30,11 @@ protected:
 		const FGameplayTag& SocketType,
 		bool bOverridePitch = false,
 		float PitchOverride = 0.0f);
-	
 	//--------------------------------------------------//
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<AAuraProjectile> ProjectileClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	int32 NumOfProjectiles{5};
 };

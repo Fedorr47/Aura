@@ -184,7 +184,7 @@ void UAuraAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute,
 	}
 	if (Attribute == GetMaxManaAttribute() && bTopOffMana)
 	{
-		SetHealth(GetMaxHealth());
+		SetHealth(GetMaxMana());
 		bTopOffMana = false;
 	}
 }
