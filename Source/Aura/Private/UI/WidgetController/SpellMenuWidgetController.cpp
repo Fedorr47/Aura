@@ -16,11 +16,22 @@ void USpellMenuWidgetController::BroadcastInitialValues()
 
 void USpellMenuWidgetController::BindCallbacksToDependencies()
 {
-	GetAuraPS()->OnSpellPointsChangedDelegate.AddUObject(this, &USpellMenuWidgetController::OnSpellPointsChanged);
-	
 	GetAuraASC()->AbilityStatusChangedDelegate.AddLambda([this]
-		(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag)
+		(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, int32 InLevel)
 	{
+		if (SelectedAbility.AbilityTag.MatchesTag(AbilityTag))
+		{
+			SelectedAbility.StatusTag = StatusTag;
+			bool bEnableSpendPoints = false;
+			bool bEnableEquip = false;
+
+			OnShouldEnableButtons(
+				StatusTag,
+				CurrentSpellPoints,
+				bEnableSpendPoints,
+				bEnableEquip);
+			OnSpellGlobeSelectedDelegate.Broadcast(bEnableSpendPoints, bEnableEquip);
+		}
 		if (AbilityInformation)
 		{
 			FAuraAbilityInfo AbilityInfo = AbilityInformation->FindAbilityInfoByTag(AbilityTag);
@@ -28,6 +39,8 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
 			AbilityInfoDelegate.Broadcast(AbilityInfo);
 		}
 	});
+
+	GetAuraPS()->OnSpellPointsChangedDelegate.AddUObject(this, &USpellMenuWidgetController::OnSpellPointsChanged);
 }
 
 void USpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityTag)
@@ -48,6 +61,9 @@ void USpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityT
 		AbilityStatus = GetAuraASC()->GetStatusFromSpec(*AbilitySpec);
 	}
 
+	SelectedAbility.AbilityTag = AbilityTag;
+	SelectedAbility.StatusTag = AbilityStatus;
+
 	bool bEnableSpendPoints = false;
 	bool bEnableEquip = false;
 
@@ -62,6 +78,17 @@ void USpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityT
 void USpellMenuWidgetController::OnSpellPointsChanged(int32 NewAmount)
 {
 	OnSpellPointsChangedDelegate.Broadcast(NewAmount);
+	CurrentSpellPoints = NewAmount;
+
+	bool bEnableSpendPoints = false;
+	bool bEnableEquip = false;
+
+	OnShouldEnableButtons(
+		SelectedAbility.StatusTag,
+		CurrentSpellPoints,
+		bEnableSpendPoints,
+		bEnableEquip);
+	OnSpellGlobeSelectedDelegate.Broadcast(bEnableSpendPoints, bEnableEquip);
 }
 
 void USpellMenuWidgetController::OnShouldEnableButtons(
@@ -96,5 +123,13 @@ void USpellMenuWidgetController::OnShouldEnableButtons(
 		{
 			bShouldEnableSPButton = true;
 		}
+	}
+}
+
+void USpellMenuWidgetController::SpendPointButtonPressed()
+{
+	if (GetAuraASC())
+	{
+		GetAuraASC()->ServerSpendSpellPoints(SelectedAbility.AbilityTag);
 	}
 }
