@@ -11,6 +11,12 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContaine
 DECLARE_MULTICAST_DELEGATE(FAbilitiesGiven)
 DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&)
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FAbilityStatusChanged, const FGameplayTag& /*AbilityTag*/, const FGameplayTag& /*StatusTag*/, int32 /*AbilityLevel*/);
+DECLARE_MULTICAST_DELEGATE_FourParams(
+	FAbilityEquipped,
+	const FGameplayTag& /*AbilityTag*/,
+	const FGameplayTag& /*StatusTag*/,
+	const FGameplayTag& /*SlotTag*/,
+	const FGameplayTag& /*PreviousSlotTag*/);
 /**
  * 
  */
@@ -24,6 +30,7 @@ public:
 	FEffectAssetTags EffectAssetTags;
 	FAbilitiesGiven AbilitiesGivenDelegate;
 	FAbilityStatusChanged AbilityStatusChangedDelegate;
+	FAbilityEquipped AbilityEquippedDelegate;
 
 	bool bStartupAbilitiesGiven {false};
 
@@ -38,10 +45,11 @@ public:
 		const FGameplayTag& AbilityTag,
 		FString& OutDescription,
 		FString& OutNextLevelDescription);
-
 	static FGameplayTag GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
 	static FGameplayTag GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
 	static FGameplayTag GetStatusFromSpec(const FGameplayAbilitySpec& AbilitySpec);
+	FGameplayTag GetStatusFromAbilityTag(const FGameplayTag& AbilityTag);
+	FGameplayTag GetInputTagFromAbilityTag(const FGameplayTag& AbilityTag);
 
 	FGameplayAbilitySpec* GetSpecFromAbilityTag(const FGameplayTag& AbilityTag);
 
@@ -54,7 +62,14 @@ public:
 	void ServerSpendSpellPoints(const FGameplayTag& AbilityTag);
 	UFUNCTION(Server, Reliable)
 	void RequestServerForSpellAbilityInfo(const FGameplayTag& AbilityTag);
+	UFUNCTION(Server, Reliable)
+	void ServerEquipAbility(const FGameplayTag& AbilityTag, const FGameplayTag& SlotTag);
+	
+	void ClearSlot(FGameplayAbilitySpec* AbilitySpec);
+	void ClearAbilitiesOfSlot(const FGameplayTag& SlotTag);
+	static bool HasAbilitySlot(FGameplayAbilitySpec* AbilitySpec, const FGameplayTag& SlotTag);
 
+	//------------------------------------------------------------------------//
 	FAuraAbilityInfo SpellInfo = FAuraAbilityInfo();
 	
 protected:
@@ -72,4 +87,11 @@ protected:
 	
 	UFUNCTION(Client, Reliable)
 	void ClientUpdateSpellAbilityInfo(FAuraAbilityInfo InAbilityInfo);
+
+	UFUNCTION(Client, Reliable)
+	void ClientEquipAbility(
+		const FGameplayTag& AbilityTag,
+		const FGameplayTag& StatusTag,
+		const FGameplayTag& SlotTag,
+		const FGameplayTag& PreviousSlotTag);
 };

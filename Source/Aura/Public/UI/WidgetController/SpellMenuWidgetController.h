@@ -14,6 +14,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(
 	FString, DescriptionString,
 	FString, NextLevelDescriptionString);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWaitForEquipSelectionSignature, const FGameplayTag&, AbilityType);
+
 struct FSelectedAbility
 {
 	FGameplayTag AbilityTag{FGameplayTag()};
@@ -43,8 +45,26 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "GAS|Spell Points")
 	void SpellGlobeDeselected();
 
+	UFUNCTION(BlueprintCallable, Category = "GAS|Spell Points")
+	void EquipButtonPressed();
+
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Spell Points")
 	FSpellGlobeSelectedSignature OnSpellGlobeSelectedDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Spell Points")
+	FWaitForEquipSelectionSignature OnWaitForEquipSelectionDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Spell Points")
+	FWaitForEquipSelectionSignature OnStopWaitingForEquipDelegate;
+
+	UFUNCTION(BlueprintCallable, Category = "GAS|Spell Points")
+	void SpellRowGlobePressed(const FGameplayTag& SlotTag, const FGameplayTag& AbilityType);
+
+	void OnAbilityEquipped(
+		const FGameplayTag& AbilityTag,
+		const FGameplayTag& StatusTag,
+		const FGameplayTag& SlotTag,
+		const FGameplayTag& PreviousSlotTag);
 
 private:
 	void OnSpellPointsChanged(int32 NewAmount);
@@ -58,4 +78,7 @@ private:
 
 	FSelectedAbility SelectedAbility {FAuraGameplayTags::Get().Abilities_None, FAuraGameplayTags::Get().Abilities_Status_Locked};
 	int32 CurrentSpellPoints {0};
+	bool bWaitingForEquipSelection{false};
+
+	FGameplayTag SelectedSlot{FGameplayTag()};
 };
