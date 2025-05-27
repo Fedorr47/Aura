@@ -15,6 +15,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(
 	FString, NextLevelDescriptionString);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWaitForEquipSelectionSignature, const FGameplayTag&, AbilityType);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSpellGlobeReassignedSignature, const FGameplayTag&, AbilityType);
 
 struct FSelectedAbility
 {
@@ -56,6 +57,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Spell Points")
 	FWaitForEquipSelectionSignature OnStopWaitingForEquipDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Spell Points")
+	FSpellGlobeReassignedSignature OnSpellGlobeReassignedDelegate;
 
 	UFUNCTION(BlueprintCallable, Category = "GAS|Spell Points")
 	void SpellRowGlobePressed(const FGameplayTag& SlotTag, const FGameplayTag& AbilityType);

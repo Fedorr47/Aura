@@ -135,6 +135,8 @@ void USpellMenuWidgetController::OnAbilityEquipped(
 	AbilityInfoDelegate.Broadcast(Info);
 
 	OnStopWaitingForEquipDelegate.Broadcast(AbilityInformation->FindAbilityInfoByTag(AbilityTag).AbilityType);
+	OnSpellGlobeReassignedDelegate.Broadcast(AbilityTag);
+	SpellGlobeSelected(AbilityTag);
 }
 
 void USpellMenuWidgetController::OnSpellPointsChanged(int32 NewAmount)
