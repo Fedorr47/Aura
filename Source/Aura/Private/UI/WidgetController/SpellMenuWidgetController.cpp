@@ -124,7 +124,7 @@ void USpellMenuWidgetController::OnAbilityEquipped(
 
 	FAuraAbilityInfo LastSlotInfo;
 	LastSlotInfo.StatusTag = GameplayTags.Abilities_Status_Unlocked;
-	LastSlotInfo.StatusTag = PreviousSlotTag;
+	LastSlotInfo.InputTag = PreviousSlotTag;
 	LastSlotInfo.AbilityTag = GameplayTags.Abilities_None;
 
 	AbilityInfoDelegate.Broadcast(LastSlotInfo);
