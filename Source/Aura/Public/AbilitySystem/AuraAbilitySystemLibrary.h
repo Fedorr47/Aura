@@ -6,6 +6,7 @@
 
 #include <initializer_list>
 
+#include "AuraAbilityTypes.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/AuraPlayerState.h"
@@ -72,6 +73,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayUtils")
 	static int32 GetReward(const UObject* WorldContextObject, ECharacterClass InCharacterClass, int32 InLevel);
+
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayUtils|Damage")
+	static FGameplayEffectContextHandle DoDamage(const FDamageEffectParam& DamageEffectParam);
 
 	template <typename TController>
 	static TController* GetWidgetController(const UObject* WorldContextObject, TController* (AAuraHUD::*Getter)(const FWidgetControllerParams&))

@@ -38,6 +38,20 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	Instance.Attribute_Resistance_Lightning = UAuraAbilitySystemLibrary::AddInputTag("Resistance to lightning", "Attributes", "Resistance", "Lightning");
 	Instance.Attribute_Resistance_Arcane    = UAuraAbilitySystemLibrary::AddInputTag("Resistance to arcane",    "Attributes", "Resistance", "Arcane");
 	Instance.Attribute_Resistance_Physical  = UAuraAbilitySystemLibrary::AddInputTag("Resistance to physical",  "Attributes", "Resistance", "Physical");
+
+	// Debuffs
+	Instance.Debuff_Burn	= UAuraAbilitySystemLibrary::AddInputTag("Debuff for fire damage",      "Debuff", "Burn");
+	Instance.Debuff_Wet		= UAuraAbilitySystemLibrary::AddInputTag("Debuff for water damage",     "Debuff", "Wet");
+	Instance.Debuff_Arcane	= UAuraAbilitySystemLibrary::AddInputTag("Debuff for arcane damage",    "Debuff", "Arcane");
+	Instance.Debuff_Criple	= UAuraAbilitySystemLibrary::AddInputTag("Debuff for physical damage",	"Debuff", "Criple");
+	Instance.Debuff_Shock	= UAuraAbilitySystemLibrary::AddInputTag("Debuff for lightning damage", "Debuff", "Shock");
+	Instance.Debuff_Dry		= UAuraAbilitySystemLibrary::AddInputTag("Debuff for air damage",		"Debuff", "Dry");
+
+	// Debuff props		
+	Instance.Debuff_Chance		= UAuraAbilitySystemLibrary::AddInputTag("Debuff Chance",		"Debuff", "Chance");
+	Instance.Debuff_Damage		= UAuraAbilitySystemLibrary::AddInputTag("Debuff Damage",		"Debuff", "Damage");
+	Instance.Debuff_Duration	= UAuraAbilitySystemLibrary::AddInputTag("Debuff Duration",		"Debuff", "Duration");
+	Instance.Debuff_Frequency	= UAuraAbilitySystemLibrary::AddInputTag("Debuff Frequency",	"Debuff", "Frequency");
 	
 	// Meta Attribute
 	Instance.Attribute_Meta_XP = UAuraAbilitySystemLibrary::AddInputTag("Meta Attribute Incoming XP", "Attributes", "Meta", "XP");
@@ -75,6 +89,14 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	Instance.DamageTypesToResistance.Add(Instance.Damage_Lightning,Instance.Attribute_Resistance_Lightning);
 	Instance.DamageTypesToResistance.Add(Instance.Damage_Arcane,   Instance.Attribute_Resistance_Arcane);
 	Instance.DamageTypesToResistance.Add(Instance.Damage_Physical, Instance.Attribute_Resistance_Physical);
+
+	// Damage → Debuffs
+	Instance.DamageTypesToDebuffs.Add(Instance.Damage_Fire,		Instance.Debuff_Burn);
+	Instance.DamageTypesToDebuffs.Add(Instance.Damage_Water,		Instance.Debuff_Wet);
+	Instance.DamageTypesToDebuffs.Add(Instance.Damage_Arcane,		Instance.Debuff_Arcane);
+	Instance.DamageTypesToDebuffs.Add(Instance.Damage_Physical,	Instance.Debuff_Criple);
+	Instance.DamageTypesToDebuffs.Add(Instance.Damage_Lightning,	Instance.Debuff_Shock);
+	Instance.DamageTypesToDebuffs.Add(Instance.Damage_Air,		Instance.Debuff_Dry);
 	
 	// Effects (Hit React)
 	Instance.Effects_HitReact_Fire     = UAuraAbilitySystemLibrary::AddInputTag("A hit reaction to fire damage",     "Effects", "HitReact", "FireDamage");

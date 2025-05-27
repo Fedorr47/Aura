@@ -38,13 +38,6 @@ public:
 	
 	FGameplayTag Attribute_Vital_Health;
 	FGameplayTag Attribute_Vital_Mana;
-
-	FGameplayTag Attribute_Resistance_Fire;
-	FGameplayTag Attribute_Resistance_Water;
-	FGameplayTag Attribute_Resistance_Air;
-	FGameplayTag Attribute_Resistance_Lightning;
-	FGameplayTag Attribute_Resistance_Arcane;
-	FGameplayTag Attribute_Resistance_Physical;
 	
 	FGameplayTag Attribute_Meta_XP;
 
@@ -66,7 +59,30 @@ public:
 	FGameplayTag Damage_Arcane;
 	FGameplayTag Damage_Physical;
 
+	FGameplayTag Attribute_Resistance_Fire;
+	FGameplayTag Attribute_Resistance_Water;
+	FGameplayTag Attribute_Resistance_Air;
+	FGameplayTag Attribute_Resistance_Lightning;
+	FGameplayTag Attribute_Resistance_Arcane;
+	FGameplayTag Attribute_Resistance_Physical;
+
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistance;
+
+	// Debuffs
+	FGameplayTag Debuff_Burn;
+	FGameplayTag Debuff_Wet;
+	FGameplayTag Debuff_Arcane;
+	FGameplayTag Debuff_Criple;
+	FGameplayTag Debuff_Shock;
+	FGameplayTag Debuff_Dry;
+
+	// Dubuff props
+	FGameplayTag Debuff_Chance;
+	FGameplayTag Debuff_Damage;
+	FGameplayTag Debuff_Duration;
+	FGameplayTag Debuff_Frequency;
+
+	TMap<FGameplayTag, FGameplayTag> DamageTypesToDebuffs;
 
 	FGameplayTag Effects_HitReact_Fire;
 	FGameplayTag Effects_HitReact_Physical;

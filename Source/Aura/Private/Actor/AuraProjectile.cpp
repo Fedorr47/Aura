@@ -62,14 +62,14 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 	{
 		return;
 	}
-	
-	if (!DamageEffectSpecHandle.Data.IsValid() || DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser() == OtherActor)
+	if (!IsValid(DamageEffectParam.SourceAbilitySystemComponent))
 	{
 		return;
 	}
-	
-	
-	if (!UAuraAbilitySystemLibrary::IsNotFriend(OtherActor, DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser()))
+	AActor* SourceAvatarActor = DamageEffectParam.SourceAbilitySystemComponent->GetAvatarActor();
+	if (!IsValid(SourceAvatarActor)
+		|| SourceAvatarActor == OtherActor
+		|| !UAuraAbilitySystemLibrary::IsNotFriend(OtherActor, SourceAvatarActor))
 	{
 		return;
 	}
@@ -78,7 +78,8 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 	{
 		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
 		{
-			TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
+			DamageEffectParam.TargetAbilitySystemComponent = TargetASC;
+			UAuraAbilitySystemLibrary::DoDamage(DamageEffectParam);
 		}
 		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
