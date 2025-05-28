@@ -43,7 +43,7 @@ void UDebuffNiagaraComponent::DebuffDamageTagChanged(const FGameplayTag Callback
 	const bool bOwnerValid = IsValid(GetOwner());
 	if (NewCount > 0
 		&& bOwnerValid && GetOwner()->Implements<UCombatInterface>()
-	&& ICombatInterface::Execute_IsDead(GetOwner()))
+		&& !ICombatInterface::Execute_IsDead(GetOwner()))
 	{
 		Activate();
 	}
