@@ -12,6 +12,7 @@
 #define PlayerTag FName("Player")
 #define EnemyTag FName("Enemy")
 
+class UDebuffNiagaraComponent;
 class UNiagaraSystem;
 class UGameplayAbility;
 class UGameplayEffect;
@@ -70,7 +71,12 @@ public:
 	virtual int32 GetMinionCount_Implementation() override;
 	virtual void SetMinionCount_Implementation(int32 Amount) override;
 	virtual ECharacterClass GetCharacterClass_Implementation() override;
+	virtual FOnAbilitySystemComponentRegistrated GetOnAbilitySystemComponentRegistratedDelegate() override;
+	virtual FOnDeath GetOnDeathDelegate();
 	/* End Combat Interface */
+
+	FOnAbilitySystemComponentRegistrated OnAbilitySystemComponentRegistrated;
+	FOnDeath OnDeath;
 	
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath();
@@ -134,6 +140,9 @@ protected:
 
 	UPROPERTY()
 	int32 MinionCount {0};
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UDebuffNiagaraComponent> BurnDebuffEffect;
 	
 	//-----------------------------------------------------------------------------//
 	virtual void InitializeDefaultAttributes() const;

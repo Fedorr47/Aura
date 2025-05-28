@@ -49,6 +49,8 @@ void AAuraEnemy::BeginPlay()
 	Super::BeginPlay();
 	InitAbilityActorInfo();
 
+	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+
 	if (HasAuthority())
 	{
 		UAuraAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent, CharacterClass);
@@ -76,9 +78,9 @@ void AAuraEnemy::BeginPlay()
 		);
 
 		AbilitySystemComponent->RegisterGameplayTagEvent(
-			FAuraGameplayTags::Get().Effects_HitReact_Fire, EGameplayTagEventType::NewOrRemoved).AddUObject(
+			GameplayTags.Effects_HitReact_Fire, EGameplayTagEventType::NewOrRemoved).AddUObject(
 				this, &ThisClass::HitReactTagChanged);
-
+		
 		OnHealthChanged.Broadcast(AuraAS->GetHealth());
 		OnMaxHealthChanged.Broadcast(AuraAS->GetMaxHealth());
 	}
@@ -93,6 +95,8 @@ void AAuraEnemy::InitAbilityActorInfo()
 	{
 		InitializeDefaultAttributes();
 	}
+
+	OnAbilitySystemComponentRegistrated.Broadcast(AbilitySystemComponent);
 }
 
 void AAuraEnemy::InitializeDefaultAttributes() const

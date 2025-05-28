@@ -67,7 +67,7 @@ UExecCalc_Damage::UExecCalc_Damage()
 	RelevantAttributesToCapture.Add(DamageStatics().PhysicalResistanceDef);
 }
 
-void UExecCalc_Damage::DeternineDebuff(
+void UExecCalc_Damage::DetermineDebuff(
 	const FGameplayEffectCustomExecutionParameters& ExecutionParams,
 	const FGameplayEffectSpec Spec,
 	FAggregatorEvaluateParameters EvaluateParams,
@@ -204,7 +204,7 @@ void UExecCalc_Damage::Execute_Implementation(
 	};
 
 	// Debuff
-	DeternineDebuff(ExecutionParams, Spec, EvaluateParams, TagsToCaptureDefs);
+	DetermineDebuff(ExecutionParams, Spec, EvaluateParams, TagsToCaptureDefs);
 
 	// Get Damage Set by Caller Magnitude
 	float Damage = DetermineDamage(ExecutionParams, Spec, EvaluateParams, TagsToCaptureDefs);

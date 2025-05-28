@@ -16,7 +16,7 @@ class AURA_API UExecCalc_Damage : public UGameplayEffectExecutionCalculation
 	GENERATED_BODY()
 public:
 	UExecCalc_Damage();
-	void DeternineDebuff(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectSpec Spec,
+	void DetermineDebuff(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectSpec Spec,
 	                     FAggregatorEvaluateParameters EvaluateParams,
 	                     const TMap<FGameplayTag, FGameplayEffectAttributeCaptureDefinition>& InTagsToCaptureDefs) const;
 	float DetermineDamage(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectSpec Spec,
