@@ -92,7 +92,16 @@ void UExecCalc_Damage::DeternineDebuff(
 			const bool bIsDebuff = FMath::RandRange(1, 100) < EffectiveDebuffChance;
 			if (bIsDebuff)
 			{
-				
+				FGameplayEffectContextHandle ContextHandle = Spec.GetContext();
+				const float DebuffDamage	= Spec.GetSetByCallerMagnitude(GameplayTags.Debuff_Damage,		false, -1.0f);
+				const float DebuffDuration	= Spec.GetSetByCallerMagnitude(GameplayTags.Debuff_Duration,	false, -1.0f);
+				const float DebuffFrequency = Spec.GetSetByCallerMagnitude(GameplayTags.Debuff_Frequency,	false, -1.0f);
+
+				UAuraAbilitySystemLibrary::SetSuccessfulDebuff(ContextHandle, bIsDebuff);
+				UAuraAbilitySystemLibrary::SetDamageType(ContextHandle, DamageType);
+				UAuraAbilitySystemLibrary::SetDebuffDamage(ContextHandle, DebuffDamage);
+				UAuraAbilitySystemLibrary::SetDebuffDuration(ContextHandle, DebuffDuration);
+				UAuraAbilitySystemLibrary::SetDebuffFrequency(ContextHandle, DebuffFrequency);
 			}
 		}
 	}

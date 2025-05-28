@@ -23,6 +23,21 @@ public:
 	void SetIsBlockedHit(bool bInIsBlockedHit) { bIsBlockedHit = bInIsBlockedHit; }
 	bool IsBlockedHit() const { return bIsBlockedHit; }
 
+	void SetIsSuccessfulDebuff(bool bInIsSuccessfulDebuff) { bIsSuccessfulDebuff = bInIsSuccessfulDebuff; }
+	bool IsSuccessfulDebuff() const { return bIsSuccessfulDebuff; }
+
+	void SetDebuffDamage(float InDebuffDamage) { DebuffDamage = InDebuffDamage; }
+	float GetDebuffDamage() const { return DebuffDamage; }
+
+	void SetDebuffDuration(float InDebuffDuration) { DebuffDuration = InDebuffDuration; }
+	float GetDebuffDuration() const { return DebuffDuration; }
+	
+	void SetDebuffFrequency(float InDebuffFrequency) { DebuffFrequency = InDebuffFrequency; }
+	float GetDebuffFrequency() const { return DebuffFrequency; }
+
+	void SetDamageType(TSharedPtr<FGameplayTag> InDamageType) { DamageType = InDamageType; }
+	TSharedPtr<FGameplayTag> GetDamageType() const { return DamageType; }
+
 
 	/** Creates a copy of this context, used to duplicate for later modifications */
 	virtual FAuraGameplayEffectContext* Duplicate() const
@@ -44,6 +59,20 @@ protected:
 
 	UPROPERTY()
 	bool bIsCriticalHit{false};
+
+	UPROPERTY()
+	bool bIsSuccessfulDebuff{false};
+
+	UPROPERTY()
+	float DebuffDamage{0.0f};
+
+	UPROPERTY()
+	float DebuffDuration{0.0f};
+
+	UPROPERTY()
+	float DebuffFrequency{0.0f};
+	
+	TSharedPtr<FGameplayTag> DamageType;
 };
 
 template <>
