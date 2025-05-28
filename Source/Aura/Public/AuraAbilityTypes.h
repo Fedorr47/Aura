@@ -38,6 +38,9 @@ public:
 	void SetDamageType(TSharedPtr<FGameplayTag> InDamageType) { DamageType = InDamageType; }
 	TSharedPtr<FGameplayTag> GetDamageType() const { return DamageType; }
 
+	void SetDeathImpulse(FVector InDeathImpulse) { DeathImpulse = InDeathImpulse; }
+	FVector GetDeathImpulse() const { return DeathImpulse; }
+
 
 	/** Creates a copy of this context, used to duplicate for later modifications */
 	virtual FAuraGameplayEffectContext* Duplicate() const
@@ -71,6 +74,12 @@ protected:
 
 	UPROPERTY()
 	float DebuffFrequency{0.0f};
+
+	UPROPERTY()
+	FVector DeathImpulse{FVector::ZeroVector};
+
+	UPROPERTY()
+	float DeathImpulseMagnitude{0.0f};
 	
 	TSharedPtr<FGameplayTag> DamageType;
 };
@@ -119,4 +128,9 @@ struct FDamageEffectParam
 	float DebuffFrequency{1.0f};
 	UPROPERTY(EditDefaultsOnly)
 	float DebuffDuration{5.0f};
+
+	UPROPERTY(EditDefaultsOnly)
+	float DeathImpulseMagnitude{0.0f};
+	UPROPERTY(EditDefaultsOnly)
+	FVector DeathImpulse{FVector::ZeroVector};
 };

@@ -42,6 +42,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 	float DebuffDuration{5.0f};
 	
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	float DeathImpulseMagnitude {60.0f};
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "HitRaction")
 	FGameplayTag HitReactType;

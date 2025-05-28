@@ -60,7 +60,7 @@ public:
 	void SetAttackMontages(TArray<FTaggedMontage> InAttackMontages);
 	
 	/* Combat Interface */
-	virtual void Die() override;
+	virtual void Die(const FVector& DeathImpulse) override;
 	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag) override;
 	virtual bool IsDead_Implementation() const override;
 	virtual AActor* GetAvatar_Implementation() override;
@@ -79,7 +79,7 @@ public:
 	FOnDeath OnDeath;
 	
 	UFUNCTION(NetMulticast, Reliable)
-	virtual void MulticastHandleDeath();
+	virtual void MulticastHandleDeath(const FVector& DeathImpulse);
 
 	UFUNCTION(BlueprintCallable)
 	bool IsHitReacting();
