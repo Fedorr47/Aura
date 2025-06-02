@@ -263,6 +263,25 @@ void UAuraAbilitySystemLibrary::SetDeathImpulse(FGameplayEffectContextHandle& Co
 	}
 }
 
+FVector UAuraAbilitySystemLibrary::GetKnockbackImpulse(const FGameplayEffectContextHandle& ContextHandle)
+{
+	if (const FAuraGameplayEffectContext* AuraContext = static_cast<const FAuraGameplayEffectContext*>(ContextHandle.
+			Get()))
+	{
+		return AuraContext->GetKnockbackImpulse();
+	}
+	return FVector::ZeroVector;
+}
+
+void UAuraAbilitySystemLibrary::SetKnockbackImpulse(FGameplayEffectContextHandle& ContextHandle,
+	const FVector& InKnockbackImpulse)
+{
+	if (FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(ContextHandle.Get()))
+	{
+		AuraContext->SetKnockbackImpulse(InKnockbackImpulse);
+	}
+}
+
 void UAuraAbilitySystemLibrary::GetLivePlayersWithRadius(
 	const UObject* WorldContextObject,
 	TArray<AActor*>& OutOverlappingActors,
@@ -324,6 +343,7 @@ FGameplayEffectContextHandle UAuraAbilitySystemLibrary::DoDamage(const FDamageEf
 	FGameplayEffectContextHandle ContextHandle = DamageEffectParam.SourceAbilitySystemComponent->MakeEffectContext();
 	ContextHandle.AddSourceObject(SourceAvatarActor);
 	SetDeathImpulse(ContextHandle, DamageEffectParam.DeathImpulse);
+	SetKnockbackImpulse(ContextHandle, DamageEffectParam.KnockbackImpulse);
 	
 	FGameplayEffectSpecHandle SpecHandle = DamageEffectParam.SourceAbilitySystemComponent->MakeOutgoingSpec(
 		DamageEffectParam.DamageGameplayEffectClass,

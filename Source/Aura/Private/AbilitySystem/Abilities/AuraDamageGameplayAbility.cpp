@@ -9,7 +9,6 @@
 
 void UAuraDamageGameplayAbility::DoDamage(AActor* TargetActor)
 {
-	
 	FGameplayEffectSpecHandle DamageSpecHandle = MakeOutgoingGameplayEffectSpec(DamageEffectClass, 1.0f);
 
 	const float ScaledDamage = DamageScale.GetValueAtLevel(GetAbilityLevel());
@@ -35,6 +34,17 @@ FDamageEffectParam UAuraDamageGameplayAbility::MakeDamageEffectParamsFromDefault
 	DamageEffectParam.DebuffDuration = DebuffDuration;
 	DamageEffectParam.DebuffFrequency = DebuffFrequency;
 	DamageEffectParam.DeathImpulseMagnitude = DeathImpulseMagnitude;
+	DamageEffectParam.KnockbackImpulseMagnitude = KnockbackImpulseMagnitude;
+
+	if (IsValid(TargetActor))
+	{
+		FRotator TargetRotator = (TargetActor->GetActorLocation() - GetAvatarActorFromActorInfo()->GetActorLocation()).Rotation();
+		TargetRotator.Pitch = 45.0f;
+		const FVector TargetLocation = TargetRotator.Vector();
+		DamageEffectParam.DeathImpulse = TargetLocation * DeathImpulseMagnitude;
+		DamageEffectParam.KnockbackImpulse = TargetLocation * KnockbackImpulseMagnitude;
+	}
+	
 	return DamageEffectParam;
 }
 

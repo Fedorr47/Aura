@@ -22,6 +22,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void DoDamage(AActor* TargetActor);
 
+	UFUNCTION(BlueprintPure)
 	FDamageEffectParam MakeDamageEffectParamsFromDefaultClass(AActor* TargetActor = nullptr) const;
 	
 public:
@@ -44,6 +45,9 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 	float DeathImpulseMagnitude {60.0f};
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	float KnockbackImpulseMagnitude {60.0f};
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "HitRaction")
 	FGameplayTag HitReactType;

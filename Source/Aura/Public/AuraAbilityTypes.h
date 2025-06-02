@@ -40,6 +40,9 @@ public:
 
 	void SetDeathImpulse(FVector InDeathImpulse) { DeathImpulse = InDeathImpulse; }
 	FVector GetDeathImpulse() const { return DeathImpulse; }
+	
+	void SetKnockbackImpulse(FVector InKnockbackImpulse) { KnockbackImpulse = InKnockbackImpulse; }
+	FVector GetKnockbackImpulse() const { return KnockbackImpulse; }
 
 
 	/** Creates a copy of this context, used to duplicate for later modifications */
@@ -81,6 +84,12 @@ protected:
 	UPROPERTY()
 	float DeathImpulseMagnitude{0.0f};
 	
+	UPROPERTY()
+	FVector KnockbackImpulse{FVector::ZeroVector};
+
+	UPROPERTY()
+	float KnockbackImpulseMagnitude{0.0f};
+	
 	TSharedPtr<FGameplayTag> DamageType;
 };
 
@@ -101,36 +110,41 @@ struct FDamageEffectParam
 
 	FDamageEffectParam(){}
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<UObject> WorldContextObject{nullptr};
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	TSubclassOf<UGameplayEffect> DamageGameplayEffectClass{nullptr};
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<UAbilitySystemComponent> SourceAbilitySystemComponent{nullptr};
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<UAbilitySystemComponent> TargetAbilitySystemComponent{nullptr};
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	float BaseDamage{0.0f};
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	float AbilityLevel{1.0f};
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	FGameplayTag DamageType{FGameplayTag()};
 	
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(BlueprintReadWrite)
 	float DebufChance {0.2f};
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(BlueprintReadWrite)
 	float DebuffDamage{5.0f};
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(BlueprintReadWrite)
 	float DebuffFrequency{1.0f};
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(BlueprintReadWrite)
 	float DebuffDuration{5.0f};
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(BlueprintReadWrite)
 	float DeathImpulseMagnitude{0.0f};
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(BlueprintReadWrite)
 	FVector DeathImpulse{FVector::ZeroVector};
+
+	UPROPERTY(BlueprintReadWrite)
+	float KnockbackImpulseMagnitude{0.0f};
+	UPROPERTY(BlueprintReadWrite)
+	FVector KnockbackImpulse{FVector::ZeroVector};
 };

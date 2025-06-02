@@ -69,6 +69,8 @@ public:
 	TArray<FTaggedMontage> GetAttackMontage();
 
 	virtual void Die(const FVector& DeathImpulse) = 0;
+
+	virtual void Knockback(const FVector& KnockbackImpulse) = 0;
 	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	bool IsDead() const;

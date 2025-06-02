@@ -148,6 +148,10 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Props)
 			{
 				Props.TargetASC->TryActivateAbilitiesByTag(TagHitReactContainer);
 			}
+			if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor))
+			{
+				CombatInterface->Knockback(UAuraAbilitySystemLibrary::GetKnockbackImpulse(Props.EffectContextHandle));
+			}
 		}
 
 		const bool bBlockHit = UAuraAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);

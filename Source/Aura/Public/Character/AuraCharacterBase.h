@@ -73,6 +73,7 @@ public:
 	virtual ECharacterClass GetCharacterClass_Implementation() override;
 	virtual FOnAbilitySystemComponentRegistrated GetOnAbilitySystemComponentRegistratedDelegate() override;
 	virtual FOnDeath GetOnDeathDelegate();
+	virtual void Knockback(const FVector& KnockbackImpulse) override;
 	/* End Combat Interface */
 
 	FOnAbilitySystemComponentRegistrated OnAbilitySystemComponentRegistrated;
