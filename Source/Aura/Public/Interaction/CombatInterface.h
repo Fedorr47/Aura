@@ -90,6 +90,9 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void SetMinionCount(int32 Amount);
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void SetInAttackLoop(bool InLoop);
+
 	virtual FOnAbilitySystemComponentRegistrated GetOnAbilitySystemComponentRegistratedDelegate() = 0;
 	virtual FOnDeath GetOnDeathDelegate() = 0;
 };
