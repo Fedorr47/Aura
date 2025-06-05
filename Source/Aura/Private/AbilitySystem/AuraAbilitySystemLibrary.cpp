@@ -282,6 +282,32 @@ void UAuraAbilitySystemLibrary::SetKnockbackImpulse(FGameplayEffectContextHandle
 	}
 }
 
+void UAuraAbilitySystemLibrary::GetClosestTargets(
+	int32 MaxTargets,
+	const TArray<AActor*>& Actors,
+	TArray<AActor*>& ClosestTargets,
+	const FVector& Origin)
+{
+	ClosestTargets.Reset();
+
+	if (Actors.Num() <= MaxTargets)
+	{
+		ClosestTargets = Actors;
+		return;
+	}
+	
+	TArray<AActor*> SortedActors = Actors;
+	SortedActors.Sort([&Origin](const AActor& A, const AActor& B)
+	{
+		return FVector::DistSquared(Origin, A.GetActorLocation()) < FVector::DistSquared(Origin, B.GetActorLocation());
+	});
+
+	for (int32 i = 0; i < MaxTargets; ++i)
+	{
+		ClosestTargets.Add(SortedActors[i]);
+	}
+}
+
 void UAuraAbilitySystemLibrary::GetLivePlayersWithRadius(
 	const UObject* WorldContextObject,
 	TArray<AActor*>& OutOverlappingActors,

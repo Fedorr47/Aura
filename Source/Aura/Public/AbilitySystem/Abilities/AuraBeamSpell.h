@@ -22,6 +22,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void TraceFirstTarget(const FVector& BeamTargetLocation);
+
+	UFUNCTION(BlueprintCallable)
+	void StoreAdditionalTargets(TArray<AActor*>& OutAdditionalTargets);
 protected:
 
 	UPROPERTY(BlueprintReadWrite)
@@ -29,6 +32,12 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite)
 	float SphereTraceRadius{10.0f};
+
+	UPROPERTY(BlueprintReadWrite)
+	float SphereShockRadius{850.0f};
+
+	UPROPERTY(EditDefaultsOnly)
+	int32 MaxNumShockTargets{5};
 
 	UPROPERTY(BlueprintReadWrite, Category="Beam")
 	FVector MouseHitLocation;
