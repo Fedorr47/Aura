@@ -142,6 +142,11 @@ void AAuraCharacterBase::Knockback(const FVector& KnockbackImpulse)
 	LaunchCharacter(KnockbackImpulse, true, true);
 }
 
+USkeletalMeshComponent* AAuraCharacterBase::GetWeapon_Implementation()
+{
+	return Weapon;
+}
+
 bool AAuraCharacterBase::IsHitReacting()
 {
 	return bHitReacting;

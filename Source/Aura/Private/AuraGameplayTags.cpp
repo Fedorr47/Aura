@@ -130,4 +130,10 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	Instance.Abilities_Type_Offensive = UAuraAbilitySystemLibrary::AddInputTag("Ability Type Offensive", "Abilities", "Type", "Offensive");
 	Instance.Abilities_Type_Passive = UAuraAbilitySystemLibrary::AddInputTag("Ability Type Passive", "Abilities", "Type", "Passive");
 	Instance.Abilities_Type_None = UAuraAbilitySystemLibrary::AddInputTag("Ability Type None", "Abilities", "Type", "None");
+
+	// Player block states
+	Instance.Player_Block_InputPressed	= UAuraAbilitySystemLibrary::AddInputTag("Block input Pressed callback for input", "Player", "Block", "InputPressed");
+	Instance.Player_Block_InputHeld		= UAuraAbilitySystemLibrary::AddInputTag("Block input Held callback for input", "Player", "Block", "InputHeld");
+	Instance.Player_Block_InputReleased	= UAuraAbilitySystemLibrary::AddInputTag("Block input Released callback for input", "Player", "Block", "InputReleased");
+	Instance.Player_Block_CursorTrace	= UAuraAbilitySystemLibrary::AddInputTag("Block tracing under the cursor", "Player", "Block", "CursorTrace");
 }

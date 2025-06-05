@@ -74,6 +74,7 @@ public:
 	virtual FOnAbilitySystemComponentRegistrated GetOnAbilitySystemComponentRegistratedDelegate() override;
 	virtual FOnDeath GetOnDeathDelegate();
 	virtual void Knockback(const FVector& KnockbackImpulse) override;
+	virtual USkeletalMeshComponent* GetWeapon_Implementation() override;
 	/* End Combat Interface */
 
 	FOnAbilitySystemComponentRegistrated OnAbilitySystemComponentRegistrated;
