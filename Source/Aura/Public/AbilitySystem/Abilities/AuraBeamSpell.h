@@ -19,7 +19,16 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void StoreOwnerVariables();
+
+	UFUNCTION(BlueprintCallable)
+	void TraceFirstTarget(const FVector& BeamTargetLocation);
 protected:
+
+	UPROPERTY(BlueprintReadWrite)
+	FName SocketName{"Default"};
+
+	UPROPERTY(BlueprintReadWrite)
+	float SphereTraceRadius{10.0f};
 
 	UPROPERTY(BlueprintReadWrite, Category="Beam")
 	FVector MouseHitLocation;
