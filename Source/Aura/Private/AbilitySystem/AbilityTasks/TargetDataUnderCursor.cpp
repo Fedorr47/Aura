@@ -16,7 +16,7 @@ void UTargetDataUnderCursor::Activate()
 {
 	Super::Activate();
 
-	if (const bool bIsLocallyControlled = Ability->GetCurrentActorInfo()->IsLocallyControlled()) // Client side
+	if (Ability->GetCurrentActorInfo()->IsLocallyControlled()) // Client side
 	{
 		SendMouseCursorData();
 	}

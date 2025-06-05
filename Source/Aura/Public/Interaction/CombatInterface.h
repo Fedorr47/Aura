@@ -60,7 +60,7 @@ public:
 	FVector GetCombatSocketLocation(const FGameplayTag& SocketTag);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void SetFacingWrapping(const FVector& TargetLocation);
+	void SetFacingWarping(const FVector& TargetLocation);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	UAnimMontage* GetHitReactMontage(const FGameplayTag HitTag);
