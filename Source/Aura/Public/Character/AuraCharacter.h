@@ -47,6 +47,8 @@ public:
 	virtual int32 GetSpellPoints_Implementation() const;
 	/* End Player Interface */
 
+	virtual void OnRep_Shocked() override;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UNiagaraComponent> LevelUpEffect;
 	

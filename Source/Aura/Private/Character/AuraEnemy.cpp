@@ -90,6 +90,8 @@ void AAuraEnemy::InitAbilityActorInfo()
 {
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
+	AbilitySystemComponent->RegisterGameplayTagEvent(FAuraGameplayTags::Get().Debuff_Shock, EGameplayTagEventType::NewOrRemoved).AddUObject(
+		this, &ThisClass::ShockTagChanged);
 
 	if (HasAuthority())
 	{
@@ -159,7 +161,16 @@ void AAuraEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCou
 	Super::HitReactTagChanged(CallbackTag, NewCount);
 	if (IsValid(AuraAIController) && IsValid(AuraAIController->GetBlackboardComponent()))
 	{
-		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), true);
+		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), bHitReacting);
+	}
+}
+
+void AAuraEnemy::ShockTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	Super::ShockTagChanged(CallbackTag, NewCount);
+	if (IsValid(AuraAIController) && IsValid(AuraAIController->GetBlackboardComponent()))
+	{
+		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("Stunned"), bIsStunned);
 	}
 }
 

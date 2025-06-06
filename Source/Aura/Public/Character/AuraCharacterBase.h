@@ -47,13 +47,15 @@ class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInte
 
 public:
 	AAuraCharacterBase();
-
+	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const {return AttributeSet;}
 	virtual void InitAbilityActorInfo();
 	
 	virtual void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
+	virtual void ShockTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
+	
 	UFUNCTION(BlueprintCallable)
 	void SetHitReactMontages(TArray<FTaggedMontage> InHitMontages);
 	UFUNCTION(BlueprintCallable)
@@ -87,10 +89,16 @@ public:
 	bool IsHitReacting();
 
 	USkeletalMeshComponent* GetWeapon() { return Weapon; }
+
+	UFUNCTION()
+	virtual void OnRep_Shocked();
 	
 	//-----------------------------------------------------------------------//
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	bool bHitReacting {false};
+
+	UPROPERTY(ReplicatedUsing=OnRep_Shocked, BlueprintReadOnly, Category = "Combat")
+	bool bIsStunned{false};
 
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	float MaxWalkSpeed {0.0f};

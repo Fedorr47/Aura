@@ -62,6 +62,8 @@ void AAuraCharacter::InitAbilityActorInfo()
 	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 	AttributeSet = AuraPlayerState->GetAttributeSet();
 	OnAbilitySystemComponentRegistrated.Broadcast(AbilitySystemComponent);
+	AbilitySystemComponent->RegisterGameplayTagEvent(FAuraGameplayTags::Get().Debuff_Shock, EGameplayTagEventType::NewOrRemoved).AddUObject(
+		this, &ThisClass::ShockTagChanged);
 	
 	if (HasAuthority())
 	{
@@ -210,4 +212,25 @@ inline int32 AAuraCharacter::GetSpellPoints_Implementation() const
 	check(AuraPlayerState);
 
 	return AuraPlayerState->GetSpellPoints();
+}
+
+void AAuraCharacter::OnRep_Shocked()
+{
+	if (UAuraAbilitySystemComponent* AuraAbilitySystemComponent = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+	{
+		FGameplayTagContainer BlockedTags;
+		const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+		BlockedTags.AddTag(GameplayTags.Player_Block_InputHeld);
+		BlockedTags.AddTag(GameplayTags.Player_Block_InputReleased);
+		BlockedTags.AddTag(GameplayTags.Player_Block_InputPressed);
+		BlockedTags.AddTag(GameplayTags.Player_Block_CursorTrace);
+		if (bIsStunned)
+		{
+			AuraAbilitySystemComponent->AddLooseGameplayTags(BlockedTags);
+		}
+		else
+		{
+			AuraAbilitySystemComponent->RemoveLooseGameplayTags(BlockedTags);
+		}
+	}
 }
