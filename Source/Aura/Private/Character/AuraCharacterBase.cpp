@@ -188,7 +188,7 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation(const FVector& Deat
 	Dissolve();
 
 	bDead = true;
-
+	BurnDebuffEffect->Deactivate();
 	OnDeath.Broadcast(this);
 }
 

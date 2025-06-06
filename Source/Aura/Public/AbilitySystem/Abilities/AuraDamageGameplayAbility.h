@@ -24,8 +24,13 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	FDamageEffectParam MakeDamageEffectParamsFromDefaultClass(AActor* TargetActor = nullptr) const;
+
+	UFUNCTION(BlueprintPure)
+	FTaggedMontage GetRandomTaggedAttackMontage(const TArray<FTaggedMontage>& TaggedMontages) const;
+
+	UFUNCTION(BlueprintPure)
+	float GetDamageAtLevel() const;
 	
-public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<UGameplayEffect> DamageEffectClass;
 
@@ -51,7 +56,4 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "HitRaction")
 	FGameplayTag HitReactType;
-
-	UFUNCTION(BlueprintPure)
-	FTaggedMontage GetRandomTaggedAttackMontage(const TArray<FTaggedMontage>& TaggedMontages) const;
 };

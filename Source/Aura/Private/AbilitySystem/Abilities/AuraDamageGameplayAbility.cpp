@@ -57,3 +57,8 @@ FTaggedMontage UAuraDamageGameplayAbility::GetRandomTaggedAttackMontage(const TA
 	}
 	return FTaggedMontage();
 }
+
+float UAuraDamageGameplayAbility::GetDamageAtLevel() const
+{
+	return DamageScale.GetValueAtLevel(GetAbilityLevel());
+}
