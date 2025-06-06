@@ -16,6 +16,7 @@
 #include "Player/AuraPlayerController.h"
 #include "Player/AuraPlayerState.h"
 #include "NiagaraComponent.h"
+#include "AbilitySystem/Debuff/DebuffNiagaraComponent.h"
 #include "UI/HUD/AuraHUD.h"
 
 AAuraCharacter::AAuraCharacter()
@@ -227,10 +228,24 @@ void AAuraCharacter::OnRep_Shocked()
 		if (bIsStunned)
 		{
 			AuraAbilitySystemComponent->AddLooseGameplayTags(BlockedTags);
+			StunDebuffEffect->Activate();
 		}
 		else
 		{
 			AuraAbilitySystemComponent->RemoveLooseGameplayTags(BlockedTags);
+			StunDebuffEffect->Deactivate();
 		}
+	}
+}
+
+void AAuraCharacter::OnRep_Burned()
+{
+	if (bIsBurned)
+	{
+		BurnDebuffEffect->Activate();
+	}
+	else
+	{
+		BurnDebuffEffect->Deactivate();
 	}
 }

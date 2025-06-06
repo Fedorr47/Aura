@@ -135,18 +135,21 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Props)
 		}
 		else
 		{
-			const FGameplayEffectContextHandle& EffectContextHandle = Props.EffectContextHandle;
-			FGameplayTagContainer TagHitReactContainer;
-			if (const FGameplayEffectContext* Context = EffectContextHandle.Get())
+			if (Props.TargetCharacter->Implements<UCombatInterface>() && !ICombatInterface::Execute_IsBeingInShock(Props.TargetCharacter))
 			{
-				if (const UAuraDamageGameplayAbility* AuraDamageGameplayAbility = Cast<UAuraDamageGameplayAbility>(Context->GetAbility()))
+				const FGameplayEffectContextHandle& EffectContextHandle = Props.EffectContextHandle;
+				FGameplayTagContainer TagHitReactContainer;
+				if (const FGameplayEffectContext* Context = EffectContextHandle.Get())
 				{
-					TagHitReactContainer.AddTag(AuraDamageGameplayAbility->HitReactType);
+					if (const UAuraDamageGameplayAbility* AuraDamageGameplayAbility = Cast<UAuraDamageGameplayAbility>(Context->GetAbility()))
+					{
+						TagHitReactContainer.AddTag(AuraDamageGameplayAbility->HitReactType);
+					}
 				}
-			}
-			if (TagHitReactContainer.Num() > 0)
-			{
-				Props.TargetASC->TryActivateAbilitiesByTag(TagHitReactContainer);
+				if (TagHitReactContainer.Num() > 0)
+				{
+					Props.TargetASC->TryActivateAbilitiesByTag(TagHitReactContainer);
+				}
 			}
 			if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor))
 			{
@@ -200,7 +203,6 @@ void UAuraAttributeSet::HandleDebuff(const FEffectProperties& Props)
 		TagContainer.CombinedTags.AddTag(GameplayTags.Player_Block_CursorTrace);
 	}*/
 	Component.SetAndApplyTargetTagChanges(TagContainer);
-	//Effect->InheritableOwnedTagsContainer.AddTag(GameplayTags.DamageTypesToDebuffs[DamageType]);
 
 	Effect->StackingType = EGameplayEffectStackingType::AggregateBySource;
 	Effect->StackLimitCount = 1;

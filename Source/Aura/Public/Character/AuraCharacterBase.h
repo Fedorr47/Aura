@@ -55,6 +55,7 @@ public:
 	
 	virtual void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 	virtual void ShockTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
+	virtual void BurnTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 	
 	UFUNCTION(BlueprintCallable)
 	void SetHitReactMontages(TArray<FTaggedMontage> InHitMontages);
@@ -73,10 +74,12 @@ public:
 	virtual int32 GetMinionCount_Implementation() override;
 	virtual void SetMinionCount_Implementation(int32 Amount) override;
 	virtual ECharacterClass GetCharacterClass_Implementation() override;
-	virtual FOnAbilitySystemComponentRegistrated GetOnAbilitySystemComponentRegistratedDelegate() override;
+	virtual FOnAbilitySystemComponentRegistrated& GetOnAbilitySystemComponentRegistratedDelegate() override;
 	virtual FOnDeath GetOnDeathDelegate();
 	virtual void Knockback(const FVector& KnockbackImpulse) override;
 	virtual USkeletalMeshComponent* GetWeapon_Implementation() override;
+	virtual bool IsBeingInShock_Implementation() override;
+	virtual void SetBeingInShock_Implementation(bool InShock) override;
 	/* End Combat Interface */
 
 	FOnAbilitySystemComponentRegistrated OnAbilitySystemComponentRegistrated;
@@ -92,6 +95,9 @@ public:
 
 	UFUNCTION()
 	virtual void OnRep_Shocked();
+
+	UFUNCTION()
+	virtual void OnRep_Burned();
 	
 	//-----------------------------------------------------------------------//
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
@@ -99,6 +105,12 @@ public:
 
 	UPROPERTY(ReplicatedUsing=OnRep_Shocked, BlueprintReadOnly, Category = "Combat")
 	bool bIsStunned{false};
+
+	UPROPERTY(ReplicatedUsing=OnRep_Burned, BlueprintReadOnly, Category = "Combat")
+	bool bIsBurned{false};
+
+	UPROPERTY(Replicated, BlueprintReadOnly, Category = "Combat")
+	bool bBeingInShock{false};
 
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	float MaxWalkSpeed {0.0f};
@@ -153,6 +165,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UDebuffNiagaraComponent> BurnDebuffEffect;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UDebuffNiagaraComponent> StunDebuffEffect;
 	
 	//-----------------------------------------------------------------------------//
 	virtual void InitializeDefaultAttributes() const;

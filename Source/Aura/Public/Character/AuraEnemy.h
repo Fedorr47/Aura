@@ -39,6 +39,7 @@ public:
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount) override;
 	virtual void ShockTagChanged(const FGameplayTag CallbackTag, int32 NewCount) override;
+	virtual void BurnTagChanged(const FGameplayTag CallbackTag, int32 NewCount) override;
 
 	//-----------------------------------------------------///
 

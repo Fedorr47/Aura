@@ -48,6 +48,7 @@ public:
 	/* End Player Interface */
 
 	virtual void OnRep_Shocked() override;
+	virtual void OnRep_Burned() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UNiagaraComponent> LevelUpEffect;

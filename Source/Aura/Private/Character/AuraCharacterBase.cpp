@@ -21,6 +21,10 @@ AAuraCharacterBase::AAuraCharacterBase()
 	BurnDebuffEffect->SetupAttachment(GetRootComponent());
 	BurnDebuffEffect->DebuffTag = FAuraGameplayTags::Get().Debuff_Burn;
 
+	StunDebuffEffect = CreateDefaultSubobject<UDebuffNiagaraComponent>("StunDebuffEffect");
+	StunDebuffEffect->SetupAttachment(GetRootComponent());
+	StunDebuffEffect->DebuffTag = FAuraGameplayTags::Get().Debuff_Shock;
+
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 	GetCapsuleComponent()->SetGenerateOverlapEvents(false);
 	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
@@ -37,6 +41,8 @@ void AAuraCharacterBase::GetLifetimeReplicatedProps(TArray<class FLifetimeProper
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AAuraCharacterBase, bIsStunned);
+	DOREPLIFETIME(AAuraCharacterBase, bIsBurned);
+	DOREPLIFETIME(AAuraCharacterBase, bBeingInShock);
 }
 
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
@@ -135,7 +141,7 @@ ECharacterClass AAuraCharacterBase::GetCharacterClass_Implementation()
 	return CharacterClass;
 }
 
-FOnAbilitySystemComponentRegistrated AAuraCharacterBase::GetOnAbilitySystemComponentRegistratedDelegate()
+FOnAbilitySystemComponentRegistrated& AAuraCharacterBase::GetOnAbilitySystemComponentRegistratedDelegate()
 {
 	return OnAbilitySystemComponentRegistrated;
 }
@@ -155,12 +161,26 @@ USkeletalMeshComponent* AAuraCharacterBase::GetWeapon_Implementation()
 	return Weapon;
 }
 
+bool AAuraCharacterBase::IsBeingInShock_Implementation()
+{
+	return bBeingInShock;
+}
+
+void AAuraCharacterBase::SetBeingInShock_Implementation(bool InShock)
+{
+	bBeingInShock = InShock;
+}
+
 bool AAuraCharacterBase::IsHitReacting()
 {
 	return bHitReacting;
 }
 
 void AAuraCharacterBase::OnRep_Shocked()
+{
+}
+
+void AAuraCharacterBase::OnRep_Burned()
 {
 }
 
@@ -201,6 +221,7 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation(const FVector& Deat
 
 	bDead = true;
 	BurnDebuffEffect->Deactivate();
+	StunDebuffEffect->Deactivate();
 	OnDeath.Broadcast(this);
 }
 
@@ -220,6 +241,11 @@ void AAuraCharacterBase::ShockTagChanged(const FGameplayTag CallbackTag, int32 N
 {
 	bIsStunned = NewCount > 0;
 	GetCharacterMovement()->MaxWalkSpeed = bIsStunned ? 0.0f : MaxWalkSpeed;
+}
+
+void AAuraCharacterBase::BurnTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	bIsBurned = NewCount > 0;
 }
 
 void AAuraCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const

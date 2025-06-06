@@ -92,6 +92,8 @@ void AAuraEnemy::InitAbilityActorInfo()
 	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 	AbilitySystemComponent->RegisterGameplayTagEvent(FAuraGameplayTags::Get().Debuff_Shock, EGameplayTagEventType::NewOrRemoved).AddUObject(
 		this, &ThisClass::ShockTagChanged);
+	AbilitySystemComponent->RegisterGameplayTagEvent(FAuraGameplayTags::Get().Debuff_Burn, EGameplayTagEventType::NewOrRemoved).AddUObject(
+		this, &ThisClass::BurnTagChanged);
 
 	if (HasAuthority())
 	{
@@ -172,6 +174,11 @@ void AAuraEnemy::ShockTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 	{
 		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("Stunned"), bIsStunned);
 	}
+}
+
+void AAuraEnemy::BurnTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	Super::BurnTagChanged(CallbackTag, NewCount);
 }
 
 void AAuraEnemy::SetCombatTarget_Implementation(AActor* InCombatTarget)
