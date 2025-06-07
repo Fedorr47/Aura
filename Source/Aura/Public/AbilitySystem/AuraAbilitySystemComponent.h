@@ -17,6 +17,7 @@ DECLARE_MULTICAST_DELEGATE_FourParams(
 	const FGameplayTag& /*StatusTag*/,
 	const FGameplayTag& /*SlotTag*/,
 	const FGameplayTag& /*PreviousSlotTag*/);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnDeactivatePassiveAbility, const FGameplayTag& /*PassiveAbilityTag*/)
 /**
  * 
  */
@@ -31,6 +32,7 @@ public:
 	FAbilitiesGiven AbilitiesGivenDelegate;
 	FAbilityStatusChanged AbilityStatusChangedDelegate;
 	FAbilityEquipped AbilityEquippedDelegate;
+	FOnDeactivatePassiveAbility OnDeactivatePassiveAbilityDelegate;
 
 	bool bStartupAbilitiesGiven {false};
 

@@ -117,6 +117,10 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	Instance.Abilities_Fire_FireBolt = UAuraAbilitySystemLibrary::AddInputTag("Fire Bolt Ability Tag", "Abilities", "Fire", "FireBolt");
 	// Abilities.Lightning.*
 	Instance.Abilities_Lightning_Electrocute = UAuraAbilitySystemLibrary::AddInputTag("Electrocute Ability Tag", "Abilities", "Lightning", "Electrocute");
+
+	Instance.Abilities_Passive_Protection = UAuraAbilitySystemLibrary::AddInputTag("Protection", "Abilities", "Passive", "Protection");
+	Instance.Abilities_Passive_LifeSiphon = UAuraAbilitySystemLibrary::AddInputTag("Life Siphon", "Abilities", "Passive", "LifeSiphon");
+	Instance.Abilities_Passive_ManaSiphon = UAuraAbilitySystemLibrary::AddInputTag("Mana Siphon", "Abilities", "Passive", "ManaSiphon");
 	
 	// Cooldown.Fire.FireBolt
 	Instance.Cooldown_Fire_FireBolt = UAuraAbilitySystemLibrary::AddInputTag("Fire Bolt Cooldown Tag", "Cooldown", "Fire", "FireBolt");
