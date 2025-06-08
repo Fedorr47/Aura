@@ -6,6 +6,7 @@
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/Debuff/DebuffNiagaraComponent.h"
+#include "AbilitySystem/Passivies/PassiveNiagaraComponent.h"
 #include "AI/AuraAIController.h"
 #include "Aura/Aura.h"
 #include "Components/CapsuleComponent.h"
@@ -34,6 +35,21 @@ AAuraCharacterBase::AAuraCharacterBase()
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
 	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandleSocket"));
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	EffectAttachComponent = CreateDefaultSubobject<USceneComponent>("EffectAttachComponent");
+	EffectAttachComponent->SetupAttachment(GetRootComponent());
+	PassiveProtectionEffect = CreateDefaultSubobject<UPassiveNiagaraComponent>("PassiveProtectionEffect");
+	PassiveProtectionEffect->SetupAttachment(EffectAttachComponent);
+	PassiveLifeSiphonEffect = CreateDefaultSubobject<UPassiveNiagaraComponent>("PassiveLifeSiphonEffect");
+	PassiveLifeSiphonEffect->SetupAttachment(EffectAttachComponent);
+	PassiveManaSiphonEffect = CreateDefaultSubobject<UPassiveNiagaraComponent>("PassiveManaSiphonEffect");
+	PassiveManaSiphonEffect->SetupAttachment(EffectAttachComponent);
+}
+
+void AAuraCharacterBase::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	EffectAttachComponent->SetWorldRotation(FRotator::ZeroRotator);
 }
 
 void AAuraCharacterBase::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const

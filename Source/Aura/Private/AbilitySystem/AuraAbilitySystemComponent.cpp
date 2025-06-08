@@ -306,6 +306,12 @@ void UAuraAbilitySystemComponent::UpdateAbilitiesStatuses(int32 Level)
 	}
 }
 
+void UAuraAbilitySystemComponent::MulticastActivePassiveEffect_Implementation(const FGameplayTag& AbilityTag,
+	bool bIsAlreadyActive)
+{
+	OnActivatePassiveEffectDelegate.Broadcast(AbilityTag, bIsAlreadyActive);
+}
+
 void UAuraAbilitySystemComponent::ClearSlot(FGameplayAbilitySpec* AbilitySpec)
 {
 	const FGameplayTag SlotTag = GetInputTagFromSpec(*AbilitySpec);
@@ -416,17 +422,20 @@ void UAuraAbilitySystemComponent::ServerEquipAbility_Implementation(const FGamep
 					}
 					if (IsPassiveAbility(*PrevAbility))
 					{
+						MulticastActivePassiveEffect(GetAbilityTagFromSpec(*PrevAbility), false);
 						OnDeactivatePassiveAbilityDelegate.Broadcast(GetAbilityTagFromSpec(*PrevAbility));
 					}
 
 					ClearSlot(PrevAbility);
 				}
 			}
+			
 			if (!AbilityHasAnySlot(*AbilitySpec))
 			{
 				if (IsPassiveAbility(*AbilitySpec))
 				{
 					TryActivateAbility(AbilitySpec->Handle);
+					MulticastActivePassiveEffect(AbilityTag, true);
 				}
 			}
 			AssignSlotToAbility(*AbilitySpec, SlotTag);

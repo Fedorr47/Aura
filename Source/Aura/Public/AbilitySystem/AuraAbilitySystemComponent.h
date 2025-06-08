@@ -18,6 +18,7 @@ DECLARE_MULTICAST_DELEGATE_FourParams(
 	const FGameplayTag& /*SlotTag*/,
 	const FGameplayTag& /*PreviousSlotTag*/);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnDeactivatePassiveAbility, const FGameplayTag& /*PassiveAbilityTag*/)
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnActivatePassiveEffect, const FGameplayTag& /*PassiveAbilityTag*/, bool bActivate)
 /**
  * 
  */
@@ -33,6 +34,7 @@ public:
 	FAbilityStatusChanged AbilityStatusChangedDelegate;
 	FAbilityEquipped AbilityEquippedDelegate;
 	FOnDeactivatePassiveAbility OnDeactivatePassiveAbilityDelegate;
+	FOnActivatePassiveEffect OnActivatePassiveEffectDelegate;
 
 	bool bStartupAbilitiesGiven {false};
 
@@ -73,6 +75,9 @@ public:
 	void RequestServerForSpellAbilityInfo(const FGameplayTag& AbilityTag);
 	UFUNCTION(Server, Reliable)
 	void ServerEquipAbility(const FGameplayTag& AbilityTag, const FGameplayTag& SlotTag);
+
+	UFUNCTION(NetMulticast, Unreliable)
+	void MulticastActivePassiveEffect(const FGameplayTag& AbilityTag, bool bIsAlreadyActive);
 	
 	static void ClearSlot(FGameplayAbilitySpec* AbilitySpec);
 	void ClearAbilitiesOfSlot(const FGameplayTag& SlotTag);
