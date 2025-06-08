@@ -57,6 +57,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	Instance.Attribute_Meta_XP = UAuraAbilitySystemLibrary::AddInputTag("Meta Attribute Incoming XP", "Attributes", "Meta", "XP");
 
 	// Input Tags
+	Instance.InputTag	  = UAuraAbilitySystemLibrary::AddInputTag("Default Input Tag", "InputTag");
 	Instance.InputTag_LMB = UAuraAbilitySystemLibrary::AddInputTag("Input Tag for Left Mouse Button", "InputTag", "LMB");
 	Instance.InputTag_RMB = UAuraAbilitySystemLibrary::AddInputTag("Input Tag for Right Mouse Button", "InputTag", "RMB");
 	Instance.InputTag_1   = UAuraAbilitySystemLibrary::AddInputTag("Input Tag for 1 Key", "InputTag", "1");
