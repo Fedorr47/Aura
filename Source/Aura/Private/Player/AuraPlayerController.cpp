@@ -59,11 +59,36 @@ void AAuraPlayerController::SetMagicCircleMaterial(UMaterialInterface* InMateria
 
 void AAuraPlayerController::UpdateMagicCircleLocation()
 {
-	if (IsValid(MagicCircle))
+	if (!IsValid(MagicCircle)) return;
+
+	FHitResult CursorHitFirst;
+	if (GetHitResultUnderCursor(ECC_Visibility, false, CursorHitFirst))
 	{
-		MagicCircle->SetActorLocation(CursorHit.ImpactPoint);
+		if (CursorHitFirst.GetActor() && CursorHitFirst.GetActor()->IsA(APawn::StaticClass()))
+		{
+			FVector Start = CursorHitFirst.TraceStart;
+			FVector End = CursorHitFirst.TraceEnd;
+			
+			FCollisionQueryParams Params;
+			Params.AddIgnoredActor(CursorHitFirst.GetActor());
+
+			FHitResult SecondHit;
+			if (GetWorld()->LineTraceSingleByObjectType(
+				SecondHit,
+				Start,
+				End,
+				ECC_Visibility,
+				Params))
+			{
+				MagicCircle->SetActorLocation(SecondHit.ImpactPoint);
+				return;
+			}
+		}
+		
+		MagicCircle->SetActorLocation(CursorHitFirst.ImpactPoint);
 	}
 }
+
 
 void AAuraPlayerController::ShowDamageNumbers_Implementation(float DamageValue, ACharacter* TargetCharacter,  bool bBlockedHit, bool bCriticalHit)
 {

@@ -62,7 +62,7 @@ void UAuraAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag Inpu
 					FPredictionKey PredictionKey = AbilityInstance->GetCurrentActivationInfo().GetActivationPredictionKey();
 
 					InvokeReplicatedEvent(
-						EAbilityGenericReplicatedEvent::InputReleased,
+						EAbilityGenericReplicatedEvent::InputPressed,
 						AbilitySpec.Handle,
 						PredictionKey);
 				}

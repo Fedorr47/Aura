@@ -17,6 +17,7 @@
 #include "Player/AuraPlayerState.h"
 #include "NiagaraComponent.h"
 #include "AbilitySystem/Debuff/DebuffNiagaraComponent.h"
+#include "Aura/Aura.h"
 #include "UI/HUD/AuraHUD.h"
 
 AAuraCharacter::AAuraCharacter()
@@ -43,6 +44,9 @@ AAuraCharacter::AAuraCharacter()
 
 	GetMesh()->SetUpdateAnimationInEditor(true);
 	GetMesh()->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::AlwaysTickPoseAndRefreshBones;
+	
+	GetMesh()->SetCustomDepthStencilValue(PlayerStencilChannel);
+	GetMesh()->SetRenderCustomDepth(true);
 
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationRoll= false;
@@ -221,6 +225,7 @@ void AAuraCharacter::ShowMagicCircle_Implementation()
 	check(AuraPlayerController);
 
 	AuraPlayerController->ShowMagicCircle();
+	AuraPlayerController->bShowMouseCursor = false;
 }
 
 void AAuraCharacter::HideMagicCircle_Implementation()
@@ -229,6 +234,7 @@ void AAuraCharacter::HideMagicCircle_Implementation()
 	check(AuraPlayerController);
 
 	AuraPlayerController->HideMagicCircle();
+	AuraPlayerController->bShowMouseCursor = true;
 }
 
 void AAuraCharacter::SetMagicCircleMaterial_Implementation(UMaterialInterface* InMaterial)
