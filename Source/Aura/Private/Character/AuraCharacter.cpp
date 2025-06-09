@@ -215,6 +215,30 @@ inline int32 AAuraCharacter::GetSpellPoints_Implementation() const
 	return AuraPlayerState->GetSpellPoints();
 }
 
+void AAuraCharacter::ShowMagicCircle_Implementation()
+{
+	AAuraPlayerController* AuraPlayerController = GetController<AAuraPlayerController>();
+	check(AuraPlayerController);
+
+	AuraPlayerController->ShowMagicCircle();
+}
+
+void AAuraCharacter::HideMagicCircle_Implementation()
+{
+	AAuraPlayerController* AuraPlayerController = GetController<AAuraPlayerController>();
+	check(AuraPlayerController);
+
+	AuraPlayerController->HideMagicCircle();
+}
+
+void AAuraCharacter::SetMagicCircleMaterial_Implementation(UMaterialInterface* InMaterial)
+{
+	AAuraPlayerController* AuraPlayerController = GetController<AAuraPlayerController>();
+	check(AuraPlayerController);
+
+	AuraPlayerController->SetMagicCircleMaterial(InMaterial);
+}
+
 void AAuraCharacter::OnRep_Shocked()
 {
 	if (UAuraAbilitySystemComponent* AuraAbilitySystemComponent = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
