@@ -21,6 +21,8 @@ public:
 	                     const TMap<FGameplayTag, FGameplayEffectAttributeCaptureDefinition>& InTagsToCaptureDefs) const;
 	float DetermineDamage(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectSpec Spec,
 	                     FAggregatorEvaluateParameters EvaluateParams,
+	                     AActor* SourceAvatar,
+	                     AActor* TargetAvatar,
 	                     const TMap<FGameplayTag, FGameplayEffectAttributeCaptureDefinition>& InTagsToCaptureDefs) const;
 
 	virtual void Execute_Implementation(

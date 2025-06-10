@@ -21,6 +21,8 @@ class UAbilitySystemComponent;
 class UAttributeSet;
 class UAnimMontage;
 struct FGameplayTag;
+struct FDamageEvent;
+class AController;
 
 UENUM(Blueprintable, BlueprintType)
 enum class ESkeletalSocketType : uint8
@@ -76,16 +78,14 @@ public:
 	virtual int32 GetMinionCount_Implementation() override;
 	virtual void SetMinionCount_Implementation(int32 Amount) override;
 	virtual ECharacterClass GetCharacterClass_Implementation() override;
-	virtual FOnAbilitySystemComponentRegistrated& GetOnAbilitySystemComponentRegistratedDelegate() override;
-	virtual FOnDeath GetOnDeathDelegate();
 	virtual void Knockback(const FVector& KnockbackImpulse) override;
 	virtual USkeletalMeshComponent* GetWeapon_Implementation() override;
 	virtual bool IsBeingInShock_Implementation() override;
 	virtual void SetBeingInShock_Implementation(bool InShock) override;
+	virtual FOnDamageSignature& GetOnDamageSignature() override;
+	virtual FOnAbilitySystemComponentRegistrated& GetOnAbilitySystemComponentRegistratedDelegate() override;
+	virtual FOnDeath GetOnDeathDelegate();
 	/* End Combat Interface */
-
-	FOnAbilitySystemComponentRegistrated OnAbilitySystemComponentRegistrated;
-	FOnDeath OnDeath;
 	
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath(const FVector& DeathImpulse);
@@ -100,6 +100,17 @@ public:
 
 	UFUNCTION()
 	virtual void OnRep_Burned();
+
+	virtual float TakeDamage(
+		float DamageAmount,
+		FDamageEvent const& DamageEvent,
+		AController* EventInstigator,
+		AActor* DamageCauser) override;
+	
+	//-----------------------------------------------------------------------//
+	FOnAbilitySystemComponentRegistrated OnAbilitySystemComponentRegistrated;
+	FOnDeath OnDeath;
+	FOnDamageSignature OnDamageDelegate;
 	
 	//-----------------------------------------------------------------------//
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
@@ -116,7 +127,7 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	float MaxWalkSpeed {0.0f};
-	
+
 protected:
 	virtual void BeginPlay() override;
 

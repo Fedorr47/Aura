@@ -111,9 +111,12 @@ float UExecCalc_Damage::DetermineDamage(
 	const FGameplayEffectCustomExecutionParameters& ExecutionParams,
 	const FGameplayEffectSpec Spec,
 	FAggregatorEvaluateParameters EvaluateParams,
+	AActor* SourceAvatar,
+	AActor* TargetAvatar,
 	const TMap<FGameplayTag, FGameplayEffectAttributeCaptureDefinition>& InTagsToCaptureDefs) const
 {
 	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+	FGameplayEffectContextHandle Context = Spec.GetContext();
 	float Damage = 0.0f;
 	for (auto& PairDamage : GameplayTags.DamageTypesToResistance)
 	{
@@ -130,7 +133,34 @@ float UExecCalc_Damage::DetermineDamage(
 			ResistanceVal = FMath::Clamp(ResistanceVal, 0.0f, 100.0f);
 			DamageTypeValue *= (100.0f - ResistanceVal) / 100.0f;
 		}
-		
+		if (DamageTypeValue <= 0.0f)
+		{
+			continue;
+		}
+		if (UAuraAbilitySystemLibrary::IsRadialDamage(Context))
+		{
+			if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(TargetAvatar))
+			{
+				CombatInterface->GetOnDamageSignature().AddLambda([&](float DamageAmount)
+				{
+					DamageTypeValue = DamageAmount;
+				});
+			}
+			UGameplayStatics::ApplyRadialDamageWithFalloff(
+				TargetAvatar,
+				DamageTypeValue,
+				0.0f,
+				UAuraAbilitySystemLibrary::GetRadialDamageOrigin(Context),
+				UAuraAbilitySystemLibrary::GetRadialDamageInnerRadius(Context),
+				UAuraAbilitySystemLibrary::GetRadialDamageOuterRadius(Context),
+				1.0f,
+				UDamageType::StaticClass(),
+				TArray<AActor*>(),
+				SourceAvatar,
+				nullptr
+				);
+		}
+				
 		Damage += DamageTypeValue;
 	}
 	return Damage;
@@ -207,7 +237,7 @@ void UExecCalc_Damage::Execute_Implementation(
 	DetermineDebuff(ExecutionParams, Spec, EvaluateParams, TagsToCaptureDefs);
 
 	// Get Damage Set by Caller Magnitude
-	float Damage = DetermineDamage(ExecutionParams, Spec, EvaluateParams, TagsToCaptureDefs);
+	float Damage = DetermineDamage(ExecutionParams, Spec,  EvaluateParams, SourceAvatar, TargetAvatar,TagsToCaptureDefs);
 
 	// Critical hit chance
 	float SourceCriticalHitChance = GetClampedCapturedMagnitude(DamageStatics().CriticalHitChanceDef);

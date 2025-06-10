@@ -46,6 +46,21 @@ AAuraCharacterBase::AAuraCharacterBase()
 	PassiveManaSiphonEffect->SetupAttachment(EffectAttachComponent);
 }
 
+FOnAbilitySystemComponentRegistrated& AAuraCharacterBase::GetOnAbilitySystemComponentRegistratedDelegate()
+{
+	return OnAbilitySystemComponentRegistrated;
+}
+
+FOnDeath AAuraCharacterBase::GetOnDeathDelegate()
+{
+	return OnDeath;
+}
+
+FOnDamageSignature& AAuraCharacterBase::GetOnDamageSignature()
+{
+	return OnDamageDelegate;
+}
+
 void AAuraCharacterBase::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
@@ -157,16 +172,6 @@ ECharacterClass AAuraCharacterBase::GetCharacterClass_Implementation()
 	return CharacterClass;
 }
 
-FOnAbilitySystemComponentRegistrated& AAuraCharacterBase::GetOnAbilitySystemComponentRegistratedDelegate()
-{
-	return OnAbilitySystemComponentRegistrated;
-}
-
-FOnDeath AAuraCharacterBase::GetOnDeathDelegate()
-{
-	return OnDeath;
-}
-
 void AAuraCharacterBase::Knockback(const FVector& KnockbackImpulse)
 {
 	LaunchCharacter(KnockbackImpulse, true, true);
@@ -198,6 +203,14 @@ void AAuraCharacterBase::OnRep_Shocked()
 
 void AAuraCharacterBase::OnRep_Burned()
 {
+}
+
+float AAuraCharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
+	AActor* DamageCauser)
+{
+	const float DamageTaken = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	OnDamageDelegate.Broadcast(DamageTaken);
+	return DamageTaken;
 }
 
 void AAuraCharacterBase::SetHitReactMontages(TArray<FTaggedMontage> InHitMontages)
