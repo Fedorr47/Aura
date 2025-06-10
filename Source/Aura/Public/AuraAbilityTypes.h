@@ -44,6 +44,18 @@ public:
 	void SetKnockbackImpulse(FVector InKnockbackImpulse) { KnockbackImpulse = InKnockbackImpulse; }
 	FVector GetKnockbackImpulse() const { return KnockbackImpulse; }
 
+	///
+	void SetIsRadialDamage(bool bInIsRadialDamage) { bIsRadialDamage = bInIsRadialDamage; }
+	bool IsRadialDamage() const { return bIsRadialDamage; }
+
+	void SetRadialDamageInnerRadius(float InRadialDamageInnerRadius) { RadialDamageInnerRadius = InRadialDamageInnerRadius; }
+	float GetRadialDamageInnerRadius() const { return RadialDamageInnerRadius; }
+
+	void SetRadialDamageOuterRadius(float InRadialDamageOuterRadius) { RadialDamageOuterRadius = InRadialDamageOuterRadius; }
+	float GetRadialDamageOuterRadius() const { return RadialDamageOuterRadius; }
+
+	void SetRadialDamageOrigin(FVector InRadialDamageOrigin) { RadialDamageOrigin = InRadialDamageOrigin; }
+	FVector GetRadialDamageOrigin() const { return RadialDamageOrigin; }
 
 	/** Creates a copy of this context, used to duplicate for later modifications */
 	virtual FAuraGameplayEffectContext* Duplicate() const
@@ -91,6 +103,18 @@ protected:
 	float KnockbackImpulseMagnitude{0.0f};
 	
 	TSharedPtr<FGameplayTag> DamageType;
+
+	UPROPERTY()
+	bool bIsRadialDamage{false};
+
+	UPROPERTY()
+	float RadialDamageInnerRadius{0.0f};
+
+	UPROPERTY()
+	float RadialDamageOuterRadius{0.0f};
+
+	UPROPERTY()
+	FVector RadialDamageOrigin{FVector::ZeroVector};
 };
 
 template <>
@@ -147,4 +171,16 @@ struct FDamageEffectParam
 	float KnockbackImpulseMagnitude{0.0f};
 	UPROPERTY(BlueprintReadWrite)
 	FVector KnockbackImpulse{FVector::ZeroVector};
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsRadialDamage{false};
+
+	UPROPERTY(BlueprintReadWrite)
+	float RadialDamageInnerRadius{0.0f};
+
+	UPROPERTY(BlueprintReadWrite)
+	float RadialDamageOuterRadius{0.0f};
+
+	UPROPERTY(BlueprintReadWrite)
+	FVector RadialDamageOrigin{FVector::ZeroVector};
 };

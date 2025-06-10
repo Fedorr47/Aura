@@ -56,4 +56,16 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "HitRaction")
 	FGameplayTag HitReactType;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	bool bIsRadialDamage{false};
+
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	float RadialDamageInnerRadius{0.0f};
+
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	float RadialDamageOuterRadius{0.0f};
+
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	FVector RadialDamageOrigin{FVector::ZeroVector};
 };
