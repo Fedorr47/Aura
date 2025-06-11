@@ -60,32 +60,36 @@ void AAuraPlayerController::SetMagicCircleMaterial(UMaterialInterface* InMateria
 void AAuraPlayerController::UpdateMagicCircleLocation()
 {
 	if (!IsValid(MagicCircle)) return;
+		
+	FCollisionObjectQueryParams ObjectQueryParams;
+	ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldStatic);
+	ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);
 
-	FHitResult CursorHitFirst;
-	if (GetHitResultUnderCursor(ECC_Visibility, false, CursorHitFirst))
+	FVector WorldOrigin, WorldDirection;
+	if (!DeprojectMousePositionToWorld(WorldOrigin, WorldDirection)) return;
+	
+	const FVector TraceStart = WorldOrigin;
+	const FVector TraceEnd = TraceStart + WorldDirection * 10000.0f;
+
+	FHitResult FirstHit;
+	if (GetWorld()->LineTraceSingleByObjectType(FirstHit, TraceStart, TraceEnd, ObjectQueryParams))
 	{
-		if (CursorHitFirst.GetActor() && CursorHitFirst.GetActor()->IsA(APawn::StaticClass()))
+		AActor* HitActor = FirstHit.GetActor();
+		
+		if (IsValid(HitActor) && HitActor->IsA(APawn::StaticClass()))
 		{
-			FVector Start = CursorHitFirst.TraceStart;
-			FVector End = CursorHitFirst.TraceEnd;
-			
 			FCollisionQueryParams Params;
-			Params.AddIgnoredActor(CursorHitFirst.GetActor());
+			Params.AddIgnoredActor(HitActor);
 
 			FHitResult SecondHit;
-			if (GetWorld()->LineTraceSingleByObjectType(
-				SecondHit,
-				Start,
-				End,
-				ECC_Visibility,
-				Params))
+			if (GetWorld()->LineTraceSingleByObjectType(SecondHit, TraceStart, TraceEnd, ObjectQueryParams, Params))
 			{
 				MagicCircle->SetActorLocation(SecondHit.ImpactPoint);
 				return;
 			}
 		}
 		
-		MagicCircle->SetActorLocation(CursorHitFirst.ImpactPoint);
+		MagicCircle->SetActorLocation(FirstHit.ImpactPoint);
 	}
 }
 
