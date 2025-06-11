@@ -25,7 +25,13 @@ public:
 	UFUNCTION(BlueprintPure)
 	FDamageEffectParam MakeDamageEffectParamsFromDefaultClass(
 		AActor* TargetActor = nullptr,
-		FVector InRadialDamageOrigin =  FVector::ZeroVector) const;
+		FVector InRadialDamageOrigin = FVector::ZeroVector,
+		bool bOverrideKnockbackDirection = false,
+		FVector KnockbackDirectionOverride = FVector::ZeroVector,
+		bool bOverrideDeathImpulse = false,
+		FVector DeathImpulseDirectionOverride = FVector::ZeroVector,
+		bool bOverridePitch = false,
+		float PitchOverride = 0.0f) const;
 
 	UFUNCTION(BlueprintPure)
 	FTaggedMontage GetRandomTaggedAttackMontage(const TArray<FTaggedMontage>& TaggedMontages) const;
