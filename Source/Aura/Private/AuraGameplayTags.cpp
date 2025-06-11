@@ -116,6 +116,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	
 	// Abilities.Fire.*
 	Instance.Abilities_Fire_FireBolt = UAuraAbilitySystemLibrary::AddInputTag("Fire Bolt Ability Tag", "Abilities", "Fire", "FireBolt");
+	Instance.Abilities_Fire_FireBlast = UAuraAbilitySystemLibrary::AddInputTag("Fire Blast Ability Tag", "Abilities", "Fire", "FireBlast");
 	// Abilities.Lightning.*
 	Instance.Abilities_Lightning_Electrocute = UAuraAbilitySystemLibrary::AddInputTag("Electrocute Ability Tag", "Abilities", "Lightning", "Electrocute");
 	// Abilities.Arcane.*
@@ -128,6 +129,9 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	
 	// Cooldown.Fire.FireBolt
 	Instance.Cooldown_Fire_FireBolt = UAuraAbilitySystemLibrary::AddInputTag("Fire Bolt Cooldown Tag", "Cooldown", "Fire", "FireBolt");
+	Instance.Cooldown_Lightning_Electrocute = UAuraAbilitySystemLibrary::AddInputTag("Electrocute Cooldown Tag", "Cooldown", "Lightning", "Electrocute");
+	Instance.Cooldown_Arcane_ArcaneShards = UAuraAbilitySystemLibrary::AddInputTag("Arcane Shards Cooldown Tag", "Cooldown", "Arcane", "ArcaneShards");
+	Instance.Cooldown_Fire_FireBlast = UAuraAbilitySystemLibrary::AddInputTag("Fire Blast Cooldown Tag", "Cooldown", "Fire", "FireBlast");
 
 	// Abilities Statuses
 	Instance.Abilities_Status_Locked = UAuraAbilitySystemLibrary::AddInputTag("Ability status Locked", "Abilities", "Status", "Locked");

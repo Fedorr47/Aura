@@ -103,6 +103,7 @@ public:
 	FGameplayTag CombatSocket_Weapon;
 
 	FGameplayTag Abilities_Fire_FireBolt;
+	FGameplayTag Abilities_Fire_FireBlast;
 	FGameplayTag Abilities_Lightning_Electrocute;
 	FGameplayTag Abilities_Arcane_ArcaneShards;
 
@@ -112,6 +113,9 @@ public:
 	
 	// Cooldown
 	FGameplayTag Cooldown_Fire_FireBolt;
+	FGameplayTag Cooldown_Lightning_Electrocute;
+	FGameplayTag Cooldown_Arcane_ArcaneShards;
+	FGameplayTag Cooldown_Fire_FireBlast;
 	// Statutes
 	FGameplayTag Abilities_Status_Locked;
 	FGameplayTag Abilities_Status_Eligible;
