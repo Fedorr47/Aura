@@ -72,25 +72,33 @@ void AAuraProjectile::OnHit()
 	bHit = true;
 }
 
-void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-                                      UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+bool AAuraProjectile::IsValidOverlap(AActor* OtherActor) const
 {
 	if (GetInstigator() == OtherActor)
 	{
-		return;
+		return false;
 	}
 	if (!IsValid(DamageEffectParam.SourceAbilitySystemComponent))
 	{
-		return;
+		return false;
 	}
 	AActor* SourceAvatarActor = DamageEffectParam.SourceAbilitySystemComponent->GetAvatarActor();
 	if (!IsValid(SourceAvatarActor)
 		|| SourceAvatarActor == OtherActor
 		|| !UAuraAbilitySystemLibrary::IsNotFriend(OtherActor, SourceAvatarActor))
 	{
+		return false;
+	}
+	return true;
+}
+
+void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+                                      UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (!IsValidOverlap(OtherActor))
+	{
 		return;
 	}
-	
 	if (HasAuthority())
 	{
 		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))

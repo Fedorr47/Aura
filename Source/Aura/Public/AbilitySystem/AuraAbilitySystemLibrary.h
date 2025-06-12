@@ -147,6 +147,32 @@ public:
 	static TArray<FRotator> EvenlySpaceRotators(const FVector& Forward, const FVector& Axis, float SpreadAngle, int32 NumRotators);
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayEffects")
 	static TArray<FVector> EvenlyRotatedVectors(const FVector& Forward, const FVector& Axis, float SpreadAngle, int32 NumVectors);
+
+	// Damage Effect Params
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayUtils")
+	static void SetIsRadialDamageEffectParam(
+		UPARAM(ref) FDamageEffectParam& DamageEffectParam,
+		bool bIsRadialDamage,
+		float InInnerRadius,
+		float InOuterRadius,
+		FVector InOrigin);
+	
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayUtils")
+	static void SetKnockBackImpulseDamageEffectParam(
+		UPARAM(ref) FDamageEffectParam& DamageEffectParam,
+		FVector InKnockBackImpulse,
+		float Magnitude = 0.0f);
+
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayUtils")
+	static void SetDeathImpulseDamageEffectParam(
+		UPARAM(ref) FDamageEffectParam& DamageEffectParam,
+		FVector InDeathImpulse,
+		float Magnitude = 0.0f);
+	
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayUtils")
+	static void SetTargetASCDamageEffectParam(
+		UPARAM(ref) FDamageEffectParam& DamageEffectParam,
+		UAbilitySystemComponent* InAbilitySystemComponent);
 	
 	template <typename TController>
 	static TController* GetWidgetController(const UObject* WorldContextObject, TController* (AAuraHUD::*Getter)(const FWidgetControllerParams&))

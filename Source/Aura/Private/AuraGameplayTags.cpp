@@ -148,4 +148,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	Instance.Player_Block_InputHeld		= UAuraAbilitySystemLibrary::AddInputTag("Block input Held callback for input", "Player", "Block", "InputHeld");
 	Instance.Player_Block_InputReleased	= UAuraAbilitySystemLibrary::AddInputTag("Block input Released callback for input", "Player", "Block", "InputReleased");
 	Instance.Player_Block_CursorTrace	= UAuraAbilitySystemLibrary::AddInputTag("Block tracing under the cursor", "Player", "Block", "CursorTrace");
+
+	// GameplayCues
+	Instance.GameplayCue_FireBlast = UAuraAbilitySystemLibrary::AddInputTag("FireBlast GameplayCue Tag", "GameplayCue", "FireBlast");
 }

@@ -9,6 +9,7 @@
 #include "AbilitySystem/Passivies/PassiveNiagaraComponent.h"
 #include "AI/AuraAIController.h"
 #include "Aura/Aura.h"
+#include "Character/AuraCharacter.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"

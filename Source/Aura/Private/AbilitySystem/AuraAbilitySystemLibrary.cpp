@@ -429,6 +429,8 @@ int32 UAuraAbilitySystemLibrary::GetReward(const UObject* WorldContextObject, EC
 	{
 		FString EnumValueAsString = StaticEnum<ECharacterClass>()->GetNameStringByValue(
 			static_cast<uint8>(InCharacterClass));
+		if (InCharacterClass == ECharacterClass::Player)
+			return 0;
 		const FCharacterClassDefaultInfo ClassDefaultInfo = CharacterClassInfo->GetClassDefaultInfo(InCharacterClass);
 
 		return static_cast<int32>(ClassDefaultInfo.ExperienceReward.GetValueAtLevel(InLevel));
@@ -519,4 +521,39 @@ TArray<FVector> UAuraAbilitySystemLibrary::EvenlyRotatedVectors(
 		Vectors.Add(Forward);
 	}
 	return Vectors;
+}
+
+void UAuraAbilitySystemLibrary::SetIsRadialDamageEffectParam(
+	FDamageEffectParam& DamageEffectParam,
+	bool bIsRadialDamage,
+	float InInnerRadius,
+	float InOuterRadius,
+	FVector InOrigin)
+{
+	DamageEffectParam.bIsRadialDamage = bIsRadialDamage;
+	DamageEffectParam.RadialDamageInnerRadius = InInnerRadius;
+	DamageEffectParam.RadialDamageOuterRadius = InOuterRadius;
+	DamageEffectParam.RadialDamageOrigin = InOrigin;
+}
+
+void UAuraAbilitySystemLibrary::SetKnockBackImpulseDamageEffectParam(FDamageEffectParam& DamageEffectParam,
+	FVector InKnockBackImpulse, float Magnitude /*= 0.0f*/)
+{
+	InKnockBackImpulse.Normalize();
+	DamageEffectParam.KnockbackImpulse = InKnockBackImpulse *
+		((Magnitude == 0.0f) ? DamageEffectParam.KnockbackImpulseMagnitude : Magnitude);
+}
+
+void UAuraAbilitySystemLibrary::SetDeathImpulseDamageEffectParam(FDamageEffectParam& DamageEffectParam,
+	FVector InDeathImpulse, float Magnitude /*= 0.0f*/)
+{
+	InDeathImpulse.Normalize();
+	DamageEffectParam.DeathImpulse = InDeathImpulse *
+		((Magnitude == 0.0f) ? DamageEffectParam.DeathImpulseMagnitude : Magnitude);
+}
+
+void UAuraAbilitySystemLibrary::SetTargetASCDamageEffectParam(FDamageEffectParam& DamageEffectParam,
+	UAbilitySystemComponent* InAbilitySystemComponent)
+{
+	DamageEffectParam.TargetAbilitySystemComponent = InAbilitySystemComponent;
 }
