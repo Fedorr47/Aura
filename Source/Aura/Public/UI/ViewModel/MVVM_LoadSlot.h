@@ -6,12 +6,26 @@
 #include "MVVMViewModelBase.h"
 #include "MVVM_LoadSlot.generated.h"
 
-/**
- * 
- */
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSetWidgetSwitcherIndexSignature, int32, WidgetSwitcherIndex);
+
 UCLASS()
 class AURA_API UMVVM_LoadSlot : public UMVVMViewModelBase
 {
 	GENERATED_BODY()
-	
+public:
+	UPROPERTY(BlueprintAssignable)
+	FSetWidgetSwitcherIndexSignature OnSetWidgetSwitcherIndexDelegate;
+
+	UPROPERTY()
+	FString PlayerName{FString()};
+
+	UPROPERTY()
+	FString LoadSlotName{FString()};
+
+	UPROPERTY()
+	int32 LoadSlotIndex{0};
+
+	//----------------------------------------------------------------------------------------------------------------//
+	void InitializeSlot();
 };
