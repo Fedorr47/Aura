@@ -33,6 +33,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SelectSlotButtonPressed(int32 SlotIndex);
+
+	void LoadData();
 	
 	// Setters
 	void SetNumLoadSlots(int32 InNumLoadSlots);

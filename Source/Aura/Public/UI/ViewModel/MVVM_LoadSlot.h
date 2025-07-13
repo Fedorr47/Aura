@@ -4,10 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "MVVMViewModelBase.h"
+#include "Game/LoadScreenSaveGame.h"
 #include "MVVM_LoadSlot.generated.h"
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSetWidgetSwitcherIndexSignature, int32, WidgetSwitcherIndex);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEnableSelectSlotButtonSignature, bool, bEanble);
 
 UCLASS()
 class AURA_API UMVVM_LoadSlot : public UMVVMViewModelBase
@@ -17,15 +19,31 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FSetWidgetSwitcherIndexSignature OnSetWidgetSwitcherIndexDelegate;
 
-	UPROPERTY()
-	FString PlayerName{FString()};
-
-	UPROPERTY()
-	FString LoadSlotName{FString()};
+	UPROPERTY(BlueprintAssignable)
+	FEnableSelectSlotButtonSignature OnEnableSelectSlotButtonDelegate;
 
 	UPROPERTY()
 	int32 LoadSlotIndex{0};
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Setter, Getter)
+	FString PlayerName{FString()};
+
+	UPROPERTY()
+	TEnumAsByte<ESaveSlotStatus> SlotStatus{ESaveSlotStatus::Vacant};
+
 	//----------------------------------------------------------------------------------------------------------------//
 	void InitializeSlot();
+
+	// Setters
+	void SetPlayerName(FString InPlayerName);
+	void SetLoadSlotName(FString InLoadSlotName);	
+
+	// Getters
+	FString GetPlayerName() const { return PlayerName; };
+	FString GetLoadSlotName() const { return LoadSlotName; };
+
+private:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Setter, Getter, meta=(AllowPrivateAccess=true))
+	FString LoadSlotName{FString()};
 };
