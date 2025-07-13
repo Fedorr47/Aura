@@ -27,7 +27,10 @@ public:
 	int32 SlotIndex{0};
 
 	UPROPERTY(BlueprintReadWrite, SaveGame)
-	FString PlayerName{FString("Default Name")};
+	FString PlayerName{FString()};
+
+	UPROPERTY(BlueprintReadWrite, SaveGame)
+	FString MapName{FString()};
 
 	UPROPERTY(BlueprintReadWrite, SaveGame)
 	TEnumAsByte<ESaveSlotStatus> SaveSlotStatus{Vacant};
