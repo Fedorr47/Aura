@@ -7,14 +7,17 @@
 #include "UI/ViewModel/MVVM_LoadSlot.h"
 #include "MVVM_LoadScreen.generated.h"
 
-/**
- * 
- */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FSlotSelectedSignature);
+
 UCLASS()
 class AURA_API UMVVM_LoadScreen : public UMVVMViewModelBase
 {
 	GENERATED_BODY()
 public:
+
+	// Delegates
+	UPROPERTY(BlueprintAssignable)
+	FSlotSelectedSignature OnSlotSelectedDelegate;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UMVVM_LoadSlot> LoadSlotViewModelClass;
