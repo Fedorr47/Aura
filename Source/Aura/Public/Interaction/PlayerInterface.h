@@ -60,4 +60,7 @@ public:
 	void HideMagicCircle();
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void SetMagicCircleMaterial(UMaterialInterface* InMaterial);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void SaveProgress(const FName& CheckpointTag);
 };

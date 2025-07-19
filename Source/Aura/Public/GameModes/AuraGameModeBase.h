@@ -50,6 +50,9 @@ public:
 
 	void LoadLevelBySlot(UMVVM_LoadSlot* LoadSlot);
 
+	ULoadScreenSaveGame* RetrieveInGameSaveDatta();
+	void SaveInGameProgressData(ULoadScreenSaveGame* SaveObject);
+
 	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 
 protected:

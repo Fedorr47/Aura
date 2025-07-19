@@ -20,6 +20,7 @@ void AAuraGameModeBase::SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex)
 		LoadScreenSaveGame->PlayerName = LoadSlot->GetPlayerName();
 		LoadScreenSaveGame->SaveSlotStatus = ESaveSlotStatus::Taken;
 		LoadScreenSaveGame->MapName = LoadSlot->GetMapName();
+		LoadScreenSaveGame->PlayerStartTag = LoadSlot->PlayerStartTag;
 
 		const bool res = UGameplayStatics::SaveGameToSlot(LoadScreenSaveGame, LoadSlot->GetLoadSlotName(), SlotIndex);
 		if (!res)
@@ -81,6 +82,31 @@ AActor* AAuraGameModeBase::ChoosePlayerStart_Implementation(AController* Player)
 		}
 	}
 	return FoundPlayers.Num() > 0 ? FoundPlayers[0] : nullptr;
+}
+
+ULoadScreenSaveGame* AAuraGameModeBase::RetrieveInGameSaveDatta()
+{
+	if (UAuraGameInstance* AuraGameInstance = Cast<UAuraGameInstance>(GetGameInstance()))
+	{
+		const FString InGameSlotName = AuraGameInstance->LoadSlotName;
+		const int32 SlotIndex = AuraGameInstance->LoadSlotIndex;
+
+		return GetSaveSlotData(InGameSlotName, SlotIndex);
+	}
+
+	return nullptr;
+}
+
+void AAuraGameModeBase::SaveInGameProgressData(ULoadScreenSaveGame* SaveObject)
+{
+	if (UAuraGameInstance* AuraGameInstance = Cast<UAuraGameInstance>(GetGameInstance()))
+	{
+		const FString InGameSlotName = AuraGameInstance->LoadSlotName;
+		const int32 SlotIndex = AuraGameInstance->LoadSlotIndex;
+		AuraGameInstance->PlayerStartTag = SaveObject->PlayerStartTag;
+
+		UGameplayStatics::SaveGameToSlot(SaveObject, InGameSlotName, SlotIndex);
+	}
 }
 
 void AAuraGameModeBase::BeginPlay()

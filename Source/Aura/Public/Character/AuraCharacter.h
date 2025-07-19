@@ -48,10 +48,13 @@ public:
 	virtual void ShowMagicCircle_Implementation() override;
 	virtual void HideMagicCircle_Implementation() override;
 	virtual void SetMagicCircleMaterial_Implementation(UMaterialInterface* InMaterial);
+	virtual void SaveProgress_Implementation(const FName& CheckpointTag) override;
 	/* End Player Interface */
 
 	virtual void OnRep_Shocked() override;
 	virtual void OnRep_Burned() override;
+
+	void LoadProgress();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UNiagaraComponent> LevelUpEffect;
