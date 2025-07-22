@@ -91,9 +91,9 @@ void UOverlayWidgetController::OnExperiencePointsChanged(int32 ExperiencePoints)
 }
 
 
-void UOverlayWidgetController::OnLevelChanged(int32 LevelCount) const
+void UOverlayWidgetController::OnLevelChanged(int32 LevelCount, bool bLevelUp) const
 {
-	OnLevelPointsChangedDelegate.Broadcast(LevelCount);
+	OnLevelPointsChangedDelegate.Broadcast(LevelCount, bLevelUp);
 }
 
 void UOverlayWidgetController::OnAbilityEquipped(

@@ -12,6 +12,7 @@ class UAbilitySystemComponent;
 class UAttributeSet;
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FStatChangedSignature, int32 /*StatValue*/);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnLevelPlayerChangedSignature, int32 /*StatValue*/, bool /*bLevelUp*/);
 /**
  * 
  */
@@ -43,7 +44,7 @@ public:
 	void SetSpellPoints(const int32 NewAmount);
 	
 	FStatChangedSignature OnExperiencePointsChangedDelegate;
-	FStatChangedSignature OnLevelChangedDelegate;
+	FOnLevelPlayerChangedSignature OnLevelChangedDelegate;
 	FStatChangedSignature OnAttributesPointsChangedDelegate;
 	FStatChangedSignature OnSpellPointsChangedDelegate;
 

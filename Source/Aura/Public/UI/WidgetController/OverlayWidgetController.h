@@ -32,6 +32,7 @@ struct FUIWidgetRow : public FTableRowBase
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnLevelChangedSignature, int32, NewLevel, bool, bLevelUp);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
 
 /**
@@ -45,7 +46,7 @@ public:
 	virtual void BroadcastInitialValues() override;
 	virtual void BindCallbacksToDependencies() override;
 	void OnExperiencePointsChanged(int32 ExperiencePoints);
-	void OnLevelChanged(int32 LevelCount) const;
+	void OnLevelChanged(int32 LevelCount, bool bLevelUp) const;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributies")
 	FOnAttributeChangedSignature OnHeathChanged;
@@ -66,7 +67,7 @@ public:
 	FOnAttributeChangedSignature OnExperiencePointsChangedDelegate;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|XP")
-	FOnStatChangedSignature OnLevelPointsChangedDelegate;
+	FOnLevelChangedSignature OnLevelPointsChangedDelegate;
 
 protected:
 
