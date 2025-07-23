@@ -4,7 +4,9 @@
 #include "Checkpoint/Checkpoint.h"
 
 #include "Components/SphereComponent.h"
+#include "GameModes/AuraGameModeBase.h"
 #include "Interaction/PlayerInterface.h"
+#include "Kismet/GameplayStatics.h"
 
 ACheckpoint::ACheckpoint(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -26,6 +28,14 @@ ACheckpoint::ACheckpoint(const FObjectInitializer& ObjectInitializer)
 	PlayerStartTag = FName("CheckpointPlayerStart");
 }
 
+void ACheckpoint::LoadActor_Implementation()
+{
+	if (bReached)
+	{
+		HandleGlowEffects();
+	}
+}
+
 void ACheckpoint::OnSphereOverlap(
 	UPrimitiveComponent* OverlappedComponent,
 	AActor* OtherActor,
@@ -36,10 +46,17 @@ void ACheckpoint::OnSphereOverlap(
 {
 	if (IsValid(OtherActor) && OtherActor->ActorHasTag(FName("Player")))
 	{
-		HandleGlowEffects();
 		if (OtherActor->Implements<UPlayerInterface>())
 		{
+			bReached = true;
+
+			if (AAuraGameModeBase* AuraGameModeBase = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this)))
+			{
+				AuraGameModeBase->SaveWorldState(GetWorld());
+			}
+			
 			IPlayerInterface::Execute_SaveProgress(OtherActor, PlayerStartTag);
+			HandleGlowEffects();
 		}
 	}
 }

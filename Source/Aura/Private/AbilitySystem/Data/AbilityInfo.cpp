@@ -7,7 +7,7 @@
 
 FAuraAbilityInfo UAbilityInfo::FindAbilityInfoByTag(const FGameplayTag& AbilityTag, bool bLogNotFound /*= false*/)
 {
-	for (const FAuraAbilityInfo& AbilityInfo : AbilitiyInformation)
+	for (const FAuraAbilityInfo& AbilityInfo : AbilityInformation)
 	{
 		if (AbilityInfo.AbilityTag.MatchesTagExact(AbilityTag))
 		{
