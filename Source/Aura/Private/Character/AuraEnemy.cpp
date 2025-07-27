@@ -23,11 +23,13 @@ AAuraEnemy::AAuraEnemy()
 	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
 	GetMesh()->SetGenerateOverlapEvents(true);
 	GetMesh()->SetCustomDepthStencilValue(Highlight_RED_Channel);
+	GetMesh()->MarkRenderStateDirty();
 	GetMesh()->SetComponentTickEnabled(true);
 	GetMesh()->SetUpdateAnimationInEditor(true);
 	GetMesh()->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::AlwaysTickPoseAndRefreshBones;
 	
 	Weapon->SetCustomDepthStencilValue(Highlight_RED_Channel);
+	Weapon->MarkRenderStateDirty();
 	
 	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
@@ -122,6 +124,10 @@ void AAuraEnemy::UnHighlightActor_Implementation()
 {
 	GetMesh()->SetRenderCustomDepth(false);
 	Weapon->SetRenderCustomDepth(false);
+}
+
+void AAuraEnemy::SetMoveToLocation_Implementation(FVector& OutDestination)
+{
 }
 
 UAnimInstance* AAuraEnemy::GetWeaponAnimInstance_Implementation()

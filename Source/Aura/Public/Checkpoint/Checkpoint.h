@@ -3,7 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Aura/Aura.h"
 #include "GameFramework/PlayerStart.h"
+#include "Interaction/HighlightInterface.h"
 #include "Interaction/SaveInterface.h"
 #include "Checkpoint.generated.h"
 
@@ -12,11 +14,18 @@ class USphereComponent;
  * 
  */
 UCLASS()
-class AURA_API ACheckpoint : public APlayerStart, public ISaveInterface
+class AURA_API ACheckpoint : public APlayerStart, public ISaveInterface, public IHighlightInterface
 {
 	GENERATED_BODY()
 public:
 	ACheckpoint(const FObjectInitializer& ObjectInitializer);
+
+
+	/* Highlight interface*/
+	virtual void SetMoveToLocation_Implementation(FVector& OutDestination) override;
+	virtual void HighlightActor_Implementation() override;
+	virtual void UnHighlightActor_Implementation() override;
+	/*End Highlight interface*/
 
 	/* Save Interface */
 	virtual bool ShouldLoadTransform_Implementation() override {return false;}
@@ -25,8 +34,11 @@ public:
 
 	//----------------------------------------------------------------------------------------------------------------//
 
-	UPROPERTY(BlueprintReadOnly, SaveGame)
+	UPROPERTY(BlueprintReadWrite, SaveGame)
 	bool bReached{false};
+
+	UPROPERTY(EditAnywhere)
+	bool bBindOverlapCallback{true};
 
 protected:
 
@@ -42,8 +54,9 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void CheckpointtReached(UMaterialInstanceDynamic* DynamicInstance);
+	void CheckpointReached(UMaterialInstanceDynamic* DynamicInstance);
 
+	UFUNCTION(BlueprintCallable)
 	void HandleGlowEffects();
 
 	//----------------------------------------------------------------------------------------------------------------//
@@ -51,11 +64,16 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UStaticMeshComponent> CheckpointMesh;
 
+	UPROPERTY(EditDefaultsOnly)
+	int32 CustomDepthStencilOverride = Highlight_TAN_Channel;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USceneComponent> MoveToComponent;
+
 private:
 	
 
 	//----------------------------------------------------------------------------------------------------------------//
-	
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USphereComponent> Sphere;
