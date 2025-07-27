@@ -22,12 +22,12 @@ AAuraEnemy::AAuraEnemy()
 	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
 	GetMesh()->SetGenerateOverlapEvents(true);
-	GetMesh()->SetCustomDepthStencilValue(HighlightChannel);
+	GetMesh()->SetCustomDepthStencilValue(Highlight_RED_Channel);
 	GetMesh()->SetComponentTickEnabled(true);
 	GetMesh()->SetUpdateAnimationInEditor(true);
 	GetMesh()->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::AlwaysTickPoseAndRefreshBones;
 	
-	Weapon->SetCustomDepthStencilValue(HighlightChannel);
+	Weapon->SetCustomDepthStencilValue(Highlight_RED_Channel);
 	
 	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
@@ -112,13 +112,13 @@ void AAuraEnemy::InitializeDefaultAttributes() const
 		AbilitySystemComponent);
 }
 
-void AAuraEnemy::HighlightActor()
+void AAuraEnemy::HighlightActor_Implementation()
 {
 	GetMesh()->SetRenderCustomDepth(true);
 	Weapon->SetRenderCustomDepth(true);
 }
 
-void AAuraEnemy::UnHighlightActor()
+void AAuraEnemy::UnHighlightActor_Implementation()
 {
 	GetMesh()->SetRenderCustomDepth(false);
 	Weapon->SetRenderCustomDepth(false);

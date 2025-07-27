@@ -7,6 +7,7 @@
 #include "GameFramework/PlayerController.h"
 #include "AuraPlayerController.generated.h"
 
+class IHighlightInterface;
 class AMagicCircle;
 class UNiagaraSystem;
 class UDamageTextComponent;
@@ -14,10 +15,17 @@ class USplineComponent;
 class UAuraInputConfig;
 class UInputMappingContext;
 class UInputAction;
-class IEnemyInterface;
 class UAuraAbilitySystemComponent;
 
 struct FInputActionValue;
+
+UENUM(BlueprintType)
+enum class ETargetingStatus : uint8
+{
+	TargetingEnemy,
+	TargetingObject,
+	NotTargeting
+};
 
 /**
  * 
@@ -61,6 +69,9 @@ private:
 
 	void UpdateMagicCircleLocation();
 
+	static void HighlightActor(AActor* InActor);
+	static void UnHighlightActor(AActor* InActor);
+
 	// -------------------------------------//
 
 	UPROPERTY(EditAnywhere, Category="Input")
@@ -74,9 +85,11 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> LookAction;
-	
-	TScriptInterface<IEnemyInterface> LastActor;
-	TScriptInterface<IEnemyInterface> ThisActor;
+
+	UPROPERTY()
+	TObjectPtr<AActor> LastActor{nullptr};
+	UPROPERTY()
+	TObjectPtr<AActor> ThisActor{nullptr};
 	FHitResult CursorHit;
 	
 	UPROPERTY(EditDefaultsOnly, Category="Input")
@@ -91,7 +104,7 @@ private:
 	float FollowTime{0.0f};
 	float ShortPressThreshold{0.5f};
 	bool bAutoRunning{false};
-	bool bTargeting{false};
+	ETargetingStatus TargetingStatus{ETargetingStatus::NotTargeting};
 
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	float AutoRunAcceptableRadius{50.0f};

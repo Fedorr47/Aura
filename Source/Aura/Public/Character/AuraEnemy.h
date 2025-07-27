@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Character/AuraCharacterBase.h"
 #include "Interaction/EnemyInterface.h"
+#include "Interaction/HighlightInterface.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AuraEnemy.generated.h"
 
@@ -16,16 +17,19 @@ class UWidgetComponent;
  * 
  */
 UCLASS()
-class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface
+class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface, public IHighlightInterface
 {
 	GENERATED_BODY()
 	
 public:
 	AAuraEnemy();
 
+	/* Highlight Interface */
+	virtual void HighlightActor_Implementation() override;
+	virtual void UnHighlightActor_Implementation() override;
+	/* End Highlight Interface */
+	
 	/* Enemy Interface */
-	virtual void HighlightActor() override;
-	virtual void UnHighlightActor() override;
 	virtual UAnimInstance* GetWeaponAnimInstance_Implementation() override;
 	virtual void SetCombatTarget_Implementation(AActor* CombatTarget) override;
 	virtual AActor* GetCombatTarget_Implementation() override;
