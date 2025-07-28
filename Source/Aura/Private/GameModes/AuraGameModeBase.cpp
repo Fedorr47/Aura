@@ -88,7 +88,19 @@ AActor* AAuraGameModeBase::ChoosePlayerStart_Implementation(AController* Player)
 	return FoundPlayers.Num() > 0 ? FoundPlayers[0] : nullptr;
 }
 
-void AAuraGameModeBase::SaveWorldState(UWorld* InWorld)
+FString AAuraGameModeBase::GetMapNameFromMapAssetName(const FString& MapAssetName)
+{
+	for (auto& Map : ListOfMaps)
+	{
+		if (Map.Value.ToSoftObjectPath().GetAssetName() == MapAssetName)
+		{
+			return Map.Key;
+		}
+	}
+	return FString();
+}
+
+void AAuraGameModeBase::SaveWorldState(UWorld* InWorld, const FString& InDestinationMapAssetName)
 {
 	FString WorldName = InWorld->GetMapName();
 	WorldName.RemoveFromStart(InWorld->StreamingLevelsPrefix);
@@ -98,6 +110,12 @@ void AAuraGameModeBase::SaveWorldState(UWorld* InWorld)
 
 	if (ULoadScreenSaveGame* SaveGame = GetSaveSlotData(AuraGI->LoadSlotName, AuraGI->LoadSlotIndex))
 	{
+		if (!InDestinationMapAssetName.IsEmpty())
+		{
+			SaveGame->MapAssetName = InDestinationMapAssetName;
+			SaveGame->MapName = GetMapNameFromMapAssetName(InDestinationMapAssetName);
+		}
+		
 		if (!SaveGame->HasSavedMap(WorldName))
 		{
 			FSavedMap NewSavedMap;

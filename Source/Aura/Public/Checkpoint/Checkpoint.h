@@ -70,11 +70,6 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USceneComponent> MoveToComponent;
 
-private:
-	
-
-	//----------------------------------------------------------------------------------------------------------------//
-
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USphereComponent> Sphere;
 };

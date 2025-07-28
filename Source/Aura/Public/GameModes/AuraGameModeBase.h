@@ -55,7 +55,9 @@ public:
 
 	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 
-	void SaveWorldState(UWorld* InWorld);
+	FString GetMapNameFromMapAssetName(const FString& MapAssetName);
+
+	void SaveWorldState(UWorld* InWorld, const FString& InDestinationMapAssetName = FString());
 	void LoadWorldState(UWorld* InWorld) const;
 
 protected:

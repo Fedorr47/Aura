@@ -98,6 +98,9 @@ public:
 	FString MapName{FString()};
 
 	UPROPERTY(BlueprintReadWrite, SaveGame)
+	FString MapAssetName{FString()};
+
+	UPROPERTY(BlueprintReadWrite, SaveGame)
 	FName PlayerStartTag{FName()};
 
 	UPROPERTY(BlueprintReadWrite, SaveGame)
