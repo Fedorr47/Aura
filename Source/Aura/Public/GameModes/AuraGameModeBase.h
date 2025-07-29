@@ -60,6 +60,8 @@ public:
 	void SaveWorldState(UWorld* InWorld, const FString& InDestinationMapAssetName = FString());
 	void LoadWorldState(UWorld* InWorld) const;
 
+	void PlayerDied(ACharacter* DeadCharacter);
+
 protected:
 	virtual void BeginPlay() override;
 };

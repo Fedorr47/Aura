@@ -31,6 +31,9 @@ public:
 	UPROPERTY()
 	FName PlayerStartTag{FName()};
 
+	UPROPERTY()
+	FString MapAssetName{FString()};
+
 	//----------------------------------------------------------------------------------------------------------------//
 	void InitializeSlot();
 

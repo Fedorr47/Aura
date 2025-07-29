@@ -7,6 +7,7 @@
 #include "Aura/AuraLogChannels.h"
 #include "Game/AuraGameInstance.h"
 #include "Game/LoadScreenSaveGame.h"
+#include "GameFramework/Character.h"
 #include "GameFramework/PlayerStart.h"
 #include "GameFramework/SaveGame.h"
 #include "Interaction/SaveInterface.h"
@@ -24,6 +25,7 @@ void AAuraGameModeBase::SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex)
 		LoadScreenSaveGame->PlayerName = LoadSlot->GetPlayerName();
 		LoadScreenSaveGame->SaveSlotStatus = ESaveSlotStatus::Taken;
 		LoadScreenSaveGame->MapName = LoadSlot->GetMapName();
+		LoadScreenSaveGame->MapAssetName = LoadSlot->MapAssetName;
 		LoadScreenSaveGame->PlayerStartTag = LoadSlot->PlayerStartTag;
 
 		const bool res = UGameplayStatics::SaveGameToSlot(LoadScreenSaveGame, LoadSlot->GetLoadSlotName(), SlotIndex);
@@ -209,6 +211,17 @@ void AAuraGameModeBase::LoadWorldState(UWorld* InWorld) const
 			}
 		}
 	}
+}
+
+void AAuraGameModeBase::PlayerDied(ACharacter* DeadCharacter)
+{
+	ULoadScreenSaveGame* SaveGame = RetrieveInGameSaveDatta();
+	if (!IsValid(SaveGame))
+	{
+		return;
+	}
+
+	UGameplayStatics::OpenLevel(DeadCharacter, FName(SaveGame->MapAssetName));
 }
 
 ULoadScreenSaveGame* AAuraGameModeBase::RetrieveInGameSaveDatta()

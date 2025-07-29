@@ -56,8 +56,15 @@ public:
 
 	void LoadProgress();
 
+	virtual void Die(const FVector& DeathImpulse) override;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UNiagaraComponent> LevelUpEffect;
+
+	UPROPERTY(EditDefaultsOnly)
+	float DeathTime = 5.0f;
+
+	FTimerHandle DeathTimer;
 	
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))

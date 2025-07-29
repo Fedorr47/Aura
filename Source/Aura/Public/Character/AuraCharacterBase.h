@@ -107,6 +107,8 @@ public:
 		AController* EventInstigator,
 		AActor* DamageCauser) override;
 	
+	void SetCharacterClass(ECharacterClass InCharacterClass) { CharacterClass = InCharacterClass; }
+	
 	//-----------------------------------------------------------------------//
 	FOnAbilitySystemComponentRegistrated OnAbilitySystemComponentRegistrated;
 	FOnDeath OnDeath;
@@ -164,7 +166,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Character Class Defaults")
 	ECharacterClass CharacterClass{ECharacterClass::Player};
 
-	UPROPERTY(Transient)
+	UPROPERTY(BlueprintReadOnly)
 	bool bDead {false};
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character|Effects")

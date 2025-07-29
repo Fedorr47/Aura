@@ -46,6 +46,9 @@ public:
 	virtual void ShockTagChanged(const FGameplayTag CallbackTag, int32 NewCount) override;
 	virtual void BurnTagChanged(const FGameplayTag CallbackTag, int32 NewCount) override;
 
+	void SetLevel(int32 InNewLevel) { Level = InNewLevel; }
+	int32 GetCurrentLevel() const { return Level; }
+
 	//-----------------------------------------------------///
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
@@ -59,6 +62,7 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category="Combat")
 	TObjectPtr<AActor> CombatTarget;
+
 
 protected:
 	virtual void BeginPlay() override;
