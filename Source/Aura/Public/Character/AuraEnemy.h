@@ -69,6 +69,9 @@ protected:
 	virtual void InitAbilityActorInfo() override;
 	virtual void InitializeDefaultAttributes() const override;
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void SpawnLoot();
+
 	//-----------------------------------------------------------------------//
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Character Class Defaults")

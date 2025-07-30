@@ -8,7 +8,7 @@
 
 namespace MMC_MaxHealthConstants
 {
-	inline constexpr float BaseValue = 1.0f;
+	inline constexpr float BaseValue = 3.0f;
 	inline constexpr float Magnifier = 2.5f;
 	inline constexpr float AdditionalVal = 10.0f;
 }

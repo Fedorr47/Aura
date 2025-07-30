@@ -153,6 +153,16 @@ UAbilityInfo* UAuraAbilitySystemLibrary::GetAbilityInfo(const UObject* WorldCont
 	return nullptr;
 }
 
+ULootTiers* UAuraAbilitySystemLibrary::GetLootTiers(const UObject* WorldContextObject)
+{
+	if (const AAuraGameModeBase* AuraGameModeBase = Cast<AAuraGameModeBase>(
+		UGameplayStatics::GetGameMode(WorldContextObject)))
+	{
+		return AuraGameModeBase->LootTiers;
+	}
+	return nullptr;
+}
+
 bool UAuraAbilitySystemLibrary::IsBlockedHit(const FGameplayEffectContextHandle& ContextHandle)
 {
 	if (const FAuraGameplayEffectContext* AuraContext = static_cast<const FAuraGameplayEffectContext*>(ContextHandle.

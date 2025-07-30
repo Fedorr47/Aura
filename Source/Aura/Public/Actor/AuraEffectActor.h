@@ -34,7 +34,7 @@ class AURA_API AAuraEffectActor : public AActor
 	
 public:	
 	AAuraEffectActor();
-
+	virtual void Tick(float DeltaTime) override;
 protected:
 	virtual void BeginPlay() override;
 
@@ -47,6 +47,13 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void OnEndOverlap(AActor* TargetActor);
 
+	UFUNCTION(BlueprintCallable)
+	void StartSinusoidalMovement();
+
+	UFUNCTION(BlueprintCallable)
+	void StartRotation();
+	
+//--------------------------------------------------------------------------------------------------------------------//
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effect")
 	bool bDestroyOnEffectApplication = false;
 
@@ -74,12 +81,40 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effect")
 	EEffectRemovalPolicy InfiniteEffectRemovalPolicy{EEffectRemovalPolicy::DoNotRemove};
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Applied Effect")
 	float ActorLevel{1.0f};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	bool bRotates {false};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	float RotationRate {45.0f};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	bool bSinusoidalMovement{false};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	float SineAmplitude {1.0f};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	float SineConstant {1.0f};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	FVector InitialLocation {0.0f, 0.0f, 0.0f};
+
+	UPROPERTY(BlueprintReadWrite)
+	FVector CalculatedLocation {0.0f, 0.0f, 0.0f};
+
+	UPROPERTY(BlueprintReadWrite)
+	FRotator CalculatedRotation {0.0f, 0.0f, 0.0f};
 	
 private:
+	void ItemMovement(float DeltaTime);
+//--------------------------------------------------------------------------------------------------------------------//
 	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveEffectHandles;
 
 	TArray<FActiveGameplayEffectHandle> ActiveInstantEffectHandles;
 	TArray<FActiveGameplayEffectHandle> ActiveDurationEffectHandles;
+
+	float RunningTime { 0.0f };
 };
