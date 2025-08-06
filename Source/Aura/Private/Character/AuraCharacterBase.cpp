@@ -291,7 +291,8 @@ void AAuraCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> Gameplay
 void AAuraCharacterBase::AddCharacterAbilities()
 {
 	UAuraAbilitySystemComponent* AuraASC = CastChecked<UAuraAbilitySystemComponent>(GetAbilitySystemComponent());
-	if (!HasAuthority()) return;
+	auto CharacterRole = GetRemoteRole();
+	if (!HasAuthority() && !(CharacterRole == ROLE_AutonomousProxy || (CharacterRole == ROLE_SimulatedProxy))) return;
 
 	AuraASC->AddCharacterAbilities(GrantedAbilities);
 	AuraASC->AddCharacterPassiveAbilities(GrantedPassiveAbilities);

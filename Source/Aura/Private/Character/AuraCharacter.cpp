@@ -114,7 +114,9 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 	{
 		LoadProgress();
 	}
-	else
+
+	auto CharacterRole = GetRemoteRole();
+	if ((CharacterRole == ROLE_AutonomousProxy) || (CharacterRole == ROLE_SimulatedProxy))
 	{
 		AddCharacterAbilities();
 	}
