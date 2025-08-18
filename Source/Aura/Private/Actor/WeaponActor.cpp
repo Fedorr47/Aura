@@ -4,7 +4,6 @@
 #include "Actor/WeaponActor.h"
 
 #include "Character/AuraCharacterBase.h"
-#include "Combat/CombatComponent.h"
 #include "Components/SphereComponent.h"
 #include "Interaction/CombatInterface.h"
 #include "Net/UnrealNetwork.h"
@@ -69,13 +68,6 @@ void AWeaponActor::BeginPlay()
 {
 	Super::BeginPlay();
 }
-
-void AWeaponActor::OnRep_IsEquipped()
-{
-	UE_LOG(LogTemp, Warning, TEXT("Actor: %s"),
-	   *GetNameSafe(this));
-}
-
 
 void AWeaponActor::AddPickableItemToActor(AActor* Actor)
 {

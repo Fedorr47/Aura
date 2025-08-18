@@ -86,7 +86,7 @@ public:
 	virtual USkeletalMeshComponent* GetWeapon_Implementation() override;
 	virtual bool IsBeingInShock_Implementation() override;
 	virtual void SetBeingInShock_Implementation(bool InShock) override;
-	void EqupAllPickUpsInternal();
+	void EquipAllPickUpsInternal();
 	virtual void EquipAllPickUps_Implementation() override;
 
 	virtual FOnDamageSignature& GetOnDamageSignature() override;

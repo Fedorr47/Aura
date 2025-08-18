@@ -47,9 +47,6 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-	void OnRep_IsEquipped();
-
-	UFUNCTION()
 	void OnRep_WeaponMesh();
 
 //--------------------------------------------------------------------------------------------------------------------//

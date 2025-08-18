@@ -204,11 +204,11 @@ void AAuraCharacterBase::SetBeingInShock_Implementation(bool InShock)
 
 void AAuraCharacterBase::ServerEquipAllPickUps_Implementation()
 {
-	EqupAllPickUpsInternal();
+	EquipAllPickUpsInternal();
 }
 
 
-void AAuraCharacterBase::EqupAllPickUpsInternal()
+void AAuraCharacterBase::EquipAllPickUpsInternal()
 {
 	for (AAuraEffectActor* Item : PickableItems)
 	{
@@ -217,6 +217,10 @@ void AAuraCharacterBase::EqupAllPickUpsInternal()
 			USkeletalMesh* PickupMesh = IWeaponInterface::Execute_GetWeaponSkeletalMesh(Item);
 			IWeaponInterface::Execute_SwapWeapon(Item, this);
 			Weapon->SetSkeletalMesh(PickupMesh);
+			if (ReplicatedWeaponMesh == PickupMesh)
+			{
+				ReplicatedWeaponMesh = nullptr; 
+			}
 			ReplicatedWeaponMesh = PickupMesh;
 		}
 	}
@@ -224,11 +228,7 @@ void AAuraCharacterBase::EqupAllPickUpsInternal()
 
 void AAuraCharacterBase::EquipAllPickUps_Implementation()
 {
-	if (HasAuthority())
-	{
-		EqupAllPickUpsInternal();
-	}
-	else
+	if (!HasAuthority())
 	{
 		ServerEquipAllPickUps();
 	}
