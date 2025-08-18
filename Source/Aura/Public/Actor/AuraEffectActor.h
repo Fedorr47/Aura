@@ -7,6 +7,7 @@
 #include "GameplayEffectTypes.h"
 #include "AuraEffectActor.generated.h"
 
+class UWidgetComponent;
 class UAbilitySystemComponent;
 class UGameplayEffect;
 
@@ -42,16 +43,18 @@ protected:
 	void ApplyEffectToActor(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass);
 
 	UFUNCTION(BlueprintCallable)
-	void OnOverlap(AActor* TargetActor);
+	virtual void OnOverlap(AActor* TargetActor);
 
 	UFUNCTION(BlueprintCallable)
-	void OnEndOverlap(AActor* TargetActor);
+	virtual void OnEndOverlap(AActor* TargetActor);
 
 	UFUNCTION(BlueprintCallable)
 	void StartSinusoidalMovement();
 
 	UFUNCTION(BlueprintCallable)
 	void StartRotation();
+
+	virtual void ShowActorWidget(bool bVisibility, AActor* TargetActor);
 	
 //--------------------------------------------------------------------------------------------------------------------//
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effect")
@@ -107,6 +110,9 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite)
 	FRotator CalculatedRotation {0.0f, 0.0f, 0.0f};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Widget")
+	TObjectPtr<UWidgetComponent> ActorWidget;
 	
 private:
 	void ItemMovement(float DeltaTime);

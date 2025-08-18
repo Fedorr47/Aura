@@ -12,6 +12,9 @@
 #define PlayerTag FName("Player")
 #define EnemyTag FName("Enemy")
 
+class AAuraEffectActor;
+class UCombatComponent;
+class UWidgetComponent;
 class UPassiveNiagaraComponent;
 class UDebuffNiagaraComponent;
 class UNiagaraSystem;
@@ -23,6 +26,7 @@ class UAnimMontage;
 struct FGameplayTag;
 struct FDamageEvent;
 class AController;
+class AWeaponActor;
 
 UENUM(Blueprintable, BlueprintType)
 enum class ESkeletalSocketType : uint8
@@ -54,18 +58,18 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-	UAttributeSet* GetAttributeSet() const {return AttributeSet;}
+	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 	virtual void InitAbilityActorInfo();
-	
+
 	virtual void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 	virtual void ShockTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 	virtual void BurnTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
-	
+
 	UFUNCTION(BlueprintCallable)
 	void SetHitReactMontages(TArray<FTaggedMontage> InHitMontages);
 	UFUNCTION(BlueprintCallable)
 	void SetAttackMontages(TArray<FTaggedMontage> InAttackMontages);
-	
+
 	/* Combat Interface */
 	virtual void Die(const FVector& DeathImpulse) override;
 	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag) override;
@@ -82,11 +86,17 @@ public:
 	virtual USkeletalMeshComponent* GetWeapon_Implementation() override;
 	virtual bool IsBeingInShock_Implementation() override;
 	virtual void SetBeingInShock_Implementation(bool InShock) override;
+	void EqupAllPickUpsInternal();
+	virtual void EquipAllPickUps_Implementation() override;
+
 	virtual FOnDamageSignature& GetOnDamageSignature() override;
 	virtual FOnAbilitySystemComponentRegistrated& GetOnAbilitySystemComponentRegistratedDelegate() override;
 	virtual FOnDeath GetOnDeathDelegate();
 	/* End Combat Interface */
-	
+
+	UFUNCTION(Server, Reliable)
+	void ServerEquipAllPickUps();
+
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath(const FVector& DeathImpulse);
 
@@ -106,17 +116,26 @@ public:
 		FDamageEvent const& DamageEvent,
 		AController* EventInstigator,
 		AActor* DamageCauser) override;
-	
+
 	void SetCharacterClass(ECharacterClass InCharacterClass) { CharacterClass = InCharacterClass; }
-	
+
+	UFUNCTION(BlueprintCallable)
+	void AddPickableItem(AAuraEffectActor* Item);
+
+	UFUNCTION(BlueprintCallable)
+	void RemovePickableItem(AAuraEffectActor* Item);
+
+	UFUNCTION(BlueprintCallable)
+	TArray<AAuraEffectActor*> GetPickableItem();
+
 	//-----------------------------------------------------------------------//
 	FOnAbilitySystemComponentRegistrated OnAbilitySystemComponentRegistrated;
 	FOnDeath OnDeath;
 	FOnDamageSignature OnDamageDelegate;
-	
+
 	//-----------------------------------------------------------------------//
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
-	bool bHitReacting {false};
+	bool bHitReacting{false};
 
 	UPROPERTY(ReplicatedUsing=OnRep_Shocked, BlueprintReadOnly, Category = "Combat")
 	bool bIsStunned{false};
@@ -128,7 +147,7 @@ public:
 	bool bBeingInShock{false};
 
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
-	float MaxWalkSpeed {0.0f};
+	float MaxWalkSpeed{0.0f};
 
 protected:
 	virtual void BeginPlay() override;
@@ -139,7 +158,9 @@ protected:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Combat")
 	TMap<FGameplayTag, FSkeletalSocketType> TagToWeaponTipSocketInfo;
 
-	
+	UPROPERTY(ReplicatedUsing=OnRep_WeaponMesh)
+	TObjectPtr<USkeletalMesh> ReplicatedWeaponMesh;
+
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
@@ -167,16 +188,16 @@ protected:
 	ECharacterClass CharacterClass{ECharacterClass::Player};
 
 	UPROPERTY(BlueprintReadOnly)
-	bool bDead {false};
+	bool bDead{false};
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character|Effects")
 	TMap<FGameplayTag, UNiagaraSystem*> EffectsToTag;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character|Effects")
-	USoundBase* DeathSound {nullptr};
+	USoundBase* DeathSound{nullptr};
 
 	UPROPERTY()
-	int32 MinionCount {0};
+	int32 MinionCount{0};
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UDebuffNiagaraComponent> BurnDebuffEffect;
@@ -195,7 +216,16 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USceneComponent> EffectAttachComponent;
-	
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UCombatComponent> CombatComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
+	TArray<AAuraEffectActor*> PickableItems;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
+	TArray<AAuraEffectActor*> EquippedWeapons;
+
 	//-----------------------------------------------------------------------------//
 	virtual void InitializeDefaultAttributes() const;
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
@@ -208,14 +238,16 @@ protected:
 	void StartDissolveTimeLine(UMaterialInstanceDynamic* DynamicMaterialInstance);
 	UFUNCTION(BlueprintImplementableEvent)
 	void StartWeaponDissolveTimeLine(UMaterialInstanceDynamic* DynamicMaterialInstance);
-	
-private:
 
+	UFUNCTION()
+	void OnRep_WeaponMesh();
+
+private:
 	USceneComponent* GetSkeletalSocketOwner(ESkeletalSocketType InSkeletalSocketType);
 
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> GrantedAbilities;
-	
+
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> GrantedPassiveAbilities;
 
@@ -224,4 +256,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TArray<FTaggedMontage> AttackMontages;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UWidgetComponent> OverHeadWidget;
 };

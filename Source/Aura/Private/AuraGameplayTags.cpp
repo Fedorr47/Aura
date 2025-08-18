@@ -57,13 +57,14 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	Instance.Attribute_Meta_XP = UAuraAbilitySystemLibrary::AddInputTag("Meta Attribute Incoming XP", "Attributes", "Meta", "XP");
 
 	// Input Tags
-	Instance.InputTag	  = UAuraAbilitySystemLibrary::AddInputTag("Default Input Tag", "InputTag");
-	Instance.InputTag_LMB = UAuraAbilitySystemLibrary::AddInputTag("Input Tag for Left Mouse Button", "InputTag", "LMB");
-	Instance.InputTag_RMB = UAuraAbilitySystemLibrary::AddInputTag("Input Tag for Right Mouse Button", "InputTag", "RMB");
-	Instance.InputTag_1   = UAuraAbilitySystemLibrary::AddInputTag("Input Tag for 1 Key", "InputTag", "1");
-	Instance.InputTag_2   = UAuraAbilitySystemLibrary::AddInputTag("Input Tag for 2 Key", "InputTag", "2");
-	Instance.InputTag_3   = UAuraAbilitySystemLibrary::AddInputTag("Input Tag for 3 Key", "InputTag", "3");
-	Instance.InputTag_4   = UAuraAbilitySystemLibrary::AddInputTag("Input Tag for 4 Key", "InputTag", "4");
+	Instance.InputTag	  		= UAuraAbilitySystemLibrary::AddInputTag("Default Input Tag", "InputTag");
+	Instance.InputTag_LMB 		= UAuraAbilitySystemLibrary::AddInputTag("Input Tag for Left Mouse Button", "InputTag", "LMB");
+	Instance.InputTag_RMB 		= UAuraAbilitySystemLibrary::AddInputTag("Input Tag for Right Mouse Button", "InputTag", "RMB");
+	Instance.InputTag_1   		= UAuraAbilitySystemLibrary::AddInputTag("Input Tag for 1 Key", "InputTag", "1");
+	Instance.InputTag_2   		= UAuraAbilitySystemLibrary::AddInputTag("Input Tag for 2 Key", "InputTag", "2");
+	Instance.InputTag_3   		= UAuraAbilitySystemLibrary::AddInputTag("Input Tag for 3 Key", "InputTag", "3");
+	Instance.InputTag_4   		= UAuraAbilitySystemLibrary::AddInputTag("Input Tag for 4 Key", "InputTag", "4");
+	Instance.InputTag_PickUp	= UAuraAbilitySystemLibrary::AddInputTag("Input Tag for PickUp", "InputTag", "PickUp");
 	Instance.InputTag_Passive_1 = UAuraAbilitySystemLibrary::AddInputTag("Input Tag for Passive 1", "InputTag", "Passive", "1");
 	Instance.InputTag_Passive_2 = UAuraAbilitySystemLibrary::AddInputTag("Input Tag for Passive 2", "InputTag", "Passive", "2");
 
@@ -126,6 +127,8 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	Instance.Abilities_Passive_Protection = UAuraAbilitySystemLibrary::AddInputTag("Protection", "Abilities", "Passive", "Protection");
 	Instance.Abilities_Passive_LifeSiphon = UAuraAbilitySystemLibrary::AddInputTag("Life Siphon", "Abilities", "Passive", "LifeSiphon");
 	Instance.Abilities_Passive_ManaSiphon = UAuraAbilitySystemLibrary::AddInputTag("Mana Siphon", "Abilities", "Passive", "ManaSiphon");
+	// Passive tool abilities
+	Instance.Abilities_PickUp		= UAuraAbilitySystemLibrary::AddInputTag("Pickup", "Abilities", "Passive", "Pickup");
 	
 	// Cooldown.Fire.FireBolt
 	Instance.Cooldown_Fire_FireBolt = UAuraAbilitySystemLibrary::AddInputTag("Fire Bolt Cooldown Tag", "Cooldown", "Fire", "FireBolt");

@@ -12,6 +12,7 @@
 #include "NiagaraFunctionLibrary.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Actor/MagicCircle.h"
+#include "Cheats/DebugCheatManager.h"
 #include "Components/DecalComponent.h"
 #include "Components/SplineComponent.h"
 #include "GameFramework/Character.h"
@@ -24,6 +25,8 @@ AAuraPlayerController::AAuraPlayerController()
 {
 	bReplicates = true;
 	SplineComponent = CreateDefaultSubobject<USplineComponent>("Spline");
+
+	CheatClass = UDebugCheatManager::StaticClass();
 }
 
 void AAuraPlayerController::PlayerTick(float DeltaTime)

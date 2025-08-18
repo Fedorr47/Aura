@@ -49,7 +49,7 @@ AAuraCharacter::AAuraCharacter()
 	
 	GetMesh()->SetCustomDepthStencilValue(PlayerStencilChannel);
 	GetMesh()->SetRenderCustomDepth(true);
-
+	
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationRoll= false;
 	bUseControllerRotationYaw = false;

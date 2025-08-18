@@ -7,6 +7,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Character/AuraCharacterBase.h"
+#include "Components/WidgetComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
 AAuraEffectActor::AAuraEffectActor()
@@ -14,6 +15,9 @@ AAuraEffectActor::AAuraEffectActor()
 	PrimaryActorTick.bCanEverTick = false;
 
 	SetRootComponent(CreateDefaultSubobject<USceneComponent>("SceneRoot"));
+
+	ActorWidget = CreateDefaultSubobject<UWidgetComponent>("ActorWidget");
+	ActorWidget->SetupAttachment(GetRootComponent());
 }
 
 void AAuraEffectActor::Tick(float DeltaTime)
@@ -34,6 +38,8 @@ void AAuraEffectActor::BeginPlay()
 	InitialLocation = GetActorLocation();
 	CalculatedLocation = InitialLocation;
 	CalculatedRotation = GetActorRotation();
+
+	ActorWidget->SetVisibility(false);
 }
 
 void AAuraEffectActor::ApplyEffectToActor(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
@@ -140,6 +146,21 @@ void AAuraEffectActor::StartRotation()
 {
 	bRotates = true;
 	CalculatedRotation = GetActorRotation();
+}
+
+void AAuraEffectActor::ShowActorWidget(bool bVisibility, AActor* TargetActor)
+{
+	if (IsValid(ActorWidget) && TargetActor->Implements<UCombatInterface>())
+	{
+		if ((Cast<AAuraCharacterBase>(TargetActor)->HasAuthority() && Cast<AAuraCharacterBase>(TargetActor)->IsLocallyControlled())
+			||
+			(Cast<AAuraCharacterBase>(TargetActor)->GetPlayerState() &&
+				Cast<AAuraCharacterBase>(TargetActor)->GetPlayerState()->GetPawn()
+				&& Cast<AAuraCharacterBase>(TargetActor)->GetPlayerState()->GetPawn()->GetLocalRole() == ROLE_AutonomousProxy))
+		{
+			ActorWidget->SetVisibility(bVisibility);
+		}
+	}
 }
 
 void AAuraEffectActor::ItemMovement(float DeltaTime)

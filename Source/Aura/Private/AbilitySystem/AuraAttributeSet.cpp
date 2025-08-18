@@ -117,6 +117,10 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 
 void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Props)
 {
+	if (Props.TargetCharacter->Implements<UCombatInterface>() && !Props.TargetCharacter->CanBeDamaged())
+	{
+		return;
+	}
 	const float LocalIncomingDamage = GetIncomingDamage();
 	SetIncomingDamage(0.0f);
 	if (LocalIncomingDamage > 0.0f)

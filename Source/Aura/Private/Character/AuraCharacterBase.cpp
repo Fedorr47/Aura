@@ -7,11 +7,13 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/Debuff/DebuffNiagaraComponent.h"
 #include "AbilitySystem/Passivies/PassiveNiagaraComponent.h"
-#include "AI/AuraAIController.h"
+#include "Actor/AuraEffectActor.h"
 #include "Aura/Aura.h"
-#include "Character/AuraCharacter.h"
+#include "Combat/CombatComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Interaction/WeaponInterface.h"
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 
@@ -32,7 +34,7 @@ AAuraCharacterBase::AAuraCharacterBase()
 	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
 	GetMesh()->SetGenerateOverlapEvents(true);
-
+	
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
 	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandleSocket"));
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
@@ -45,6 +47,12 @@ AAuraCharacterBase::AAuraCharacterBase()
 	PassiveLifeSiphonEffect->SetupAttachment(EffectAttachComponent);
 	PassiveManaSiphonEffect = CreateDefaultSubobject<UPassiveNiagaraComponent>("PassiveManaSiphonEffect");
 	PassiveManaSiphonEffect->SetupAttachment(EffectAttachComponent);
+
+	OverHeadWidget = CreateDefaultSubobject<UWidgetComponent>("OverHeadWidget");
+	OverHeadWidget->SetupAttachment(GetRootComponent());
+	
+	CombatComponent = CreateDefaultSubobject<UCombatComponent>("CombatComponent");
+	CombatComponent->SetIsReplicated(true);
 }
 
 FOnAbilitySystemComponentRegistrated& AAuraCharacterBase::GetOnAbilitySystemComponentRegistratedDelegate()
@@ -75,6 +83,7 @@ void AAuraCharacterBase::GetLifetimeReplicatedProps(TArray<class FLifetimeProper
 	DOREPLIFETIME(AAuraCharacterBase, bIsStunned);
 	DOREPLIFETIME(AAuraCharacterBase, bIsBurned);
 	DOREPLIFETIME(AAuraCharacterBase, bBeingInShock);
+	DOREPLIFETIME(AAuraCharacterBase, ReplicatedWeaponMesh);
 }
 
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
@@ -193,6 +202,38 @@ void AAuraCharacterBase::SetBeingInShock_Implementation(bool InShock)
 	bBeingInShock = InShock;
 }
 
+void AAuraCharacterBase::ServerEquipAllPickUps_Implementation()
+{
+	EqupAllPickUpsInternal();
+}
+
+
+void AAuraCharacterBase::EqupAllPickUpsInternal()
+{
+	for (AAuraEffectActor* Item : PickableItems)
+	{
+		if (Item->Implements<UWeaponInterface>())
+		{
+			USkeletalMesh* PickupMesh = IWeaponInterface::Execute_GetWeaponSkeletalMesh(Item);
+			IWeaponInterface::Execute_SwapWeapon(Item, this);
+			Weapon->SetSkeletalMesh(PickupMesh);
+			ReplicatedWeaponMesh = PickupMesh;
+		}
+	}
+}
+
+void AAuraCharacterBase::EquipAllPickUps_Implementation()
+{
+	if (HasAuthority())
+	{
+		EqupAllPickUpsInternal();
+	}
+	else
+	{
+		ServerEquipAllPickUps();
+	}
+}
+
 bool AAuraCharacterBase::IsHitReacting()
 {
 	return bHitReacting;
@@ -212,6 +253,31 @@ float AAuraCharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& Dam
 	const float DamageTaken = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	OnDamageDelegate.Broadcast(DamageTaken);
 	return DamageTaken;
+}
+
+void AAuraCharacterBase::AddPickableItem(AAuraEffectActor* Item)
+{
+	if (HasAuthority())
+	{
+		PickableItems.Add(Item);
+	}
+}
+
+void AAuraCharacterBase::RemovePickableItem(AAuraEffectActor* Item)
+{
+	if (HasAuthority())
+	{
+		PickableItems.Remove(Item);
+	}
+}
+
+TArray<AAuraEffectActor*> AAuraCharacterBase::GetPickableItem()
+{
+	if (HasAuthority())
+	{
+		return PickableItems;
+	}
+	return TArray<AAuraEffectActor*>();
 }
 
 void AAuraCharacterBase::SetHitReactMontages(TArray<FTaggedMontage> InHitMontages)
@@ -314,6 +380,11 @@ void AAuraCharacterBase::Dissolve()
 		Weapon->SetMaterial(0, WeaponDynamicMaterialInstance);
 		StartWeaponDissolveTimeLine(WeaponDynamicMaterialInstance);
 	}
+}
+
+inline void AAuraCharacterBase::OnRep_WeaponMesh()
+{
+	Weapon->SetSkeletalMesh(ReplicatedWeaponMesh);
 }
 
 USceneComponent* AAuraCharacterBase::GetSkeletalSocketOwner(ESkeletalSocketType InSkeletalSocketType)

@@ -48,6 +48,7 @@ public:
 	FGameplayTag InputTag_2;
 	FGameplayTag InputTag_3;
 	FGameplayTag InputTag_4;
+	FGameplayTag InputTag_PickUp;
 
 	FGameplayTag InputTag_Passive_1;
 	FGameplayTag InputTag_Passive_2;
@@ -106,6 +107,7 @@ public:
 	FGameplayTag Abilities_Fire_FireBlast;
 	FGameplayTag Abilities_Lightning_Electrocute;
 	FGameplayTag Abilities_Arcane_ArcaneShards;
+	FGameplayTag Abilities_PickUp;
 
 	FGameplayTag Abilities_Passive_Protection;
 	FGameplayTag Abilities_Passive_LifeSiphon;
