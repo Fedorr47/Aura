@@ -302,14 +302,7 @@ void AAuraPlayerController::BeginPlay()
 	Super::BeginPlay();
 	
 	if (GetNetMode() == NM_Client || IsLocalController())
-	{
-		check(AuraContext);
-		UEnhancedInputLocalPlayerSubsystem* localPlayerSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-		if (IsValid(localPlayerSubsystem))
-		{
-			localPlayerSubsystem->AddMappingContext(AuraContext,0);
-		}
-		
+	{		
 		bShowMouseCursor = true;
 		DefaultMouseCursor = EMouseCursor::Default;
 
@@ -323,6 +316,14 @@ void AAuraPlayerController::BeginPlay()
 void AAuraPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
+
+	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
+	{
+		for (UInputMappingContext* CurrentContext : DefaultMappingContexts)
+		{
+			Subsystem->AddMappingContext(CurrentContext, 0);
+		}
+	}
 	
 	if (GetNetMode() == NM_Client || IsLocalController())
 	{

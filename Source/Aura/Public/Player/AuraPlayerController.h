@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "GameFramework/PlayerController.h"
+#include "Player/Inv_PlayerController.h"
 #include "AuraPlayerController.generated.h"
 
 class IHighlightInterface;
@@ -31,7 +32,7 @@ enum class ETargetingStatus : uint8
  * 
  */
 UCLASS()
-class AURA_API AAuraPlayerController : public APlayerController
+class AURA_API AAuraPlayerController : public AInv_PlayerController
 {
 	GENERATED_BODY()
 public:
@@ -74,8 +75,8 @@ private:
 
 	// -------------------------------------//
 
-	UPROPERTY(EditAnywhere, Category="Input")
-	TObjectPtr<UInputMappingContext> AuraContext;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TArray<UInputMappingContext*> DefaultMappingContexts;
 
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> MoveAction;
