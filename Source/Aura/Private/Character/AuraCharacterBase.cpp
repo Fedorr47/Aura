@@ -232,6 +232,10 @@ void AAuraCharacterBase::EquipAllPickUps_Implementation()
 	{
 		ServerEquipAllPickUps();
 	}
+	else
+	{
+		EquipAllPickUpsInternal();
+	}
 }
 
 bool AAuraCharacterBase::IsHitReacting()
