@@ -12,6 +12,7 @@
 #define PlayerTag FName("Player")
 #define EnemyTag FName("Enemy")
 
+class AItemActor;
 class AAuraEffectActor;
 class UCombatComponent;
 class UWidgetComponent;
@@ -120,13 +121,13 @@ public:
 	void SetCharacterClass(ECharacterClass InCharacterClass) { CharacterClass = InCharacterClass; }
 
 	UFUNCTION(BlueprintCallable)
-	void AddPickableItem(AAuraEffectActor* Item);
+	void AddPickableItem(AItemActor* Item);
 
 	UFUNCTION(BlueprintCallable)
-	void RemovePickableItem(AAuraEffectActor* Item);
+	void RemovePickableItem(AItemActor* Item);
 
 	UFUNCTION(BlueprintCallable)
-	TArray<AAuraEffectActor*> GetPickableItem();
+	TArray<AItemActor*> GetPickableItem();
 
 	//-----------------------------------------------------------------------//
 	FOnAbilitySystemComponentRegistrated OnAbilitySystemComponentRegistrated;
@@ -221,10 +222,10 @@ protected:
 	TObjectPtr<UCombatComponent> CombatComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
-	TArray<AAuraEffectActor*> PickableItems;
+	TArray<AItemActor*> PickableItems;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
-	TArray<AAuraEffectActor*> EquippedWeapons;
+	TArray<AItemActor*> EquippedWeapons;
 
 	//-----------------------------------------------------------------------------//
 	virtual void InitializeDefaultAttributes() const;

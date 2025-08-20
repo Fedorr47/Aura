@@ -3,7 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Actor/AuraEffectActor.h"
+#include "ItemActor.h"
+#include "Actor/ItemActor.h"
 #include "Interaction/WeaponInterface.h"
 #include "WeaponActor.generated.h"
 
@@ -19,7 +20,7 @@ enum class EWeaponStatus : uint8
 };
 
 UCLASS()
-class AURA_API AWeaponActor : public AAuraEffectActor, public IWeaponInterface
+class AURA_API AWeaponActor : public AItemActor, public IWeaponInterface
 {
 	GENERATED_BODY()
 

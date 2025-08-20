@@ -23,6 +23,9 @@ protected:
 	void SetupInputComponent() override;
 	virtual void Tick(float DeltaSeconds) override;
 
+	UFUNCTION(BlueprintCallable, Category="Inventory")
+	void SetInventoryHUDWidget(UInv_HUDWidget* InventoryHUDWidget);
+
 private:
 
 	void PrimaryInteract();

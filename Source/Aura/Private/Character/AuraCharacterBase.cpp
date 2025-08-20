@@ -15,6 +15,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Interaction/WeaponInterface.h"
 #include "Kismet/GameplayStatics.h"
+#include "Actor/ItemActor.h"
 #include "Net/UnrealNetwork.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
@@ -210,7 +211,7 @@ void AAuraCharacterBase::ServerEquipAllPickUps_Implementation()
 
 void AAuraCharacterBase::EquipAllPickUpsInternal()
 {
-	for (AAuraEffectActor* Item : PickableItems)
+	for (AItemActor* Item : PickableItems)
 	{
 		if (Item->Implements<UWeaponInterface>())
 		{
@@ -259,7 +260,7 @@ float AAuraCharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& Dam
 	return DamageTaken;
 }
 
-void AAuraCharacterBase::AddPickableItem(AAuraEffectActor* Item)
+void AAuraCharacterBase::AddPickableItem(AItemActor* Item)
 {
 	if (HasAuthority())
 	{
@@ -267,7 +268,7 @@ void AAuraCharacterBase::AddPickableItem(AAuraEffectActor* Item)
 	}
 }
 
-void AAuraCharacterBase::RemovePickableItem(AAuraEffectActor* Item)
+void AAuraCharacterBase::RemovePickableItem(AItemActor* Item)
 {
 	if (HasAuthority())
 	{
@@ -275,13 +276,13 @@ void AAuraCharacterBase::RemovePickableItem(AAuraEffectActor* Item)
 	}
 }
 
-TArray<AAuraEffectActor*> AAuraCharacterBase::GetPickableItem()
+TArray<AItemActor*> AAuraCharacterBase::GetPickableItem()
 {
 	if (HasAuthority())
 	{
 		return PickableItems;
 	}
-	return TArray<AAuraEffectActor*>();
+	return TArray<AItemActor*>();
 }
 
 void AAuraCharacterBase::SetHitReactMontages(TArray<FTaggedMontage> InHitMontages)

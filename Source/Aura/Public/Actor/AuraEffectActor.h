@@ -7,7 +7,6 @@
 #include "GameplayEffectTypes.h"
 #include "AuraEffectActor.generated.h"
 
-class UWidgetComponent;
 class UAbilitySystemComponent;
 class UGameplayEffect;
 
@@ -53,8 +52,6 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void StartRotation();
-
-	virtual void ShowActorWidget(bool bVisibility, AActor* TargetActor);
 	
 //--------------------------------------------------------------------------------------------------------------------//
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effect")
@@ -110,9 +107,6 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite)
 	FRotator CalculatedRotation {0.0f, 0.0f, 0.0f};
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Widget")
-	TObjectPtr<UWidgetComponent> ActorWidget;
 	
 private:
 	void ItemMovement(float DeltaTime);

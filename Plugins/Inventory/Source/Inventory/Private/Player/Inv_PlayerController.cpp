@@ -2,6 +2,7 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Inv_DisplayItemsComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Widgets/HUD/Inv_HUDWidget.h"
 
@@ -14,6 +15,11 @@ AInv_PlayerController::AInv_PlayerController()
 void AInv_PlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+
+	bShowMouseCursor = true;
+	bEnableClickEvents = true;
+	bEnableMouseOverEvents = true;
+	DefaultMouseCursor = EMouseCursor::Default;
 
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
 	if (IsValid(Subsystem))
@@ -40,8 +46,13 @@ void AInv_PlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	TraceForItem();
+	//TraceForItem();
 	TraceCursorForItem();
+}
+
+void AInv_PlayerController::SetInventoryHUDWidget(UInv_HUDWidget* InventoryHUDWidget)
+{
+	HUDWidget = InventoryHUDWidget;
 }
 
 void AInv_PlayerController::PrimaryInteract()
@@ -115,19 +126,44 @@ void AInv_PlayerController::TraceCursorForItem()
 	
 	FHitResult CursorHit;
 	GetHitResultUnderCursor(ItemTraceChannel, false, CursorHit);
-	if (!CursorHit.bBlockingHit) return;
+	if (!CursorHit.bBlockingHit)
+	{
+		LastActor = nullptr;
+		ThisActor = nullptr;
+		if (IsValid(HUDWidget))
+		{
+			HUDWidget->HidePickupMessage();
+		}
+		return;
+	}
 	
 	LastActor = ThisActor;
 	ThisActor = CursorHit.GetActor();
 
-	if (CursorHit.Component.IsValid() && CursorHit.Component->GetCollisionResponseToChannel(ItemTraceChannel) != ECR_Block)
+	if (!ThisActor.IsValid())
+	{
+		if (IsValid(HUDWidget))
+		{
+			HUDWidget->HidePickupMessage();
+		}
+	}
+	
+	if (ThisActor == LastActor)
 	{
 		return;
 	}
 
-	if (ThisActor == LastActor)
+	if (ThisActor.IsValid())
 	{
-		return;
+		UInv_DisplayItemsComponent* ItemComponent = ThisActor->FindComponentByClass<UInv_DisplayItemsComponent>();
+		if (!IsValid(ItemComponent))
+		{
+			return;
+		}
+		if (IsValid(HUDWidget))
+		{
+			HUDWidget->ShowPickupMessage(ItemComponent->GetPickupMessage());
+		}
 	}
 
 	if (ThisActor.IsValid())
