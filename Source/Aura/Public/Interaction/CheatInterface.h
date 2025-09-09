@@ -19,4 +19,9 @@ class AURA_API ICheatInterface
 {
 	GENERATED_BODY()
 public:
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	bool IsUnlimitedMana();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void SetUnlimitedMana(bool NewValue);
 };

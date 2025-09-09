@@ -21,7 +21,7 @@ public:
 	void KillAll(const FString& ClassName);
 
 	UFUNCTION(exec,BlueprintCallable,Category="Debug Cheat Manager")
-	void UnlimitedMana();
+	void UnlimitedMana(bool NewValue);
 	
 private:
 	APawn* GetOwnerPawn();

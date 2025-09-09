@@ -1,7 +1,7 @@
 // Copyright - none
 
 
-#include "Inv_Item.h"
+#include "Items/Inv_Item.h"
 
 
 AInv_Item::AInv_Item()

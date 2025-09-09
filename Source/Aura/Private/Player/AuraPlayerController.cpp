@@ -299,6 +299,7 @@ UAuraAbilitySystemComponent* AAuraPlayerController::GetAbilitySystemComponent()
 void AAuraPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	EnableCheats();
 	
 	if (GetNetMode() == NM_Client || IsLocalController())
 	{		

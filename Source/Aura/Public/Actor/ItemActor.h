@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Inv_Item.h"
+#include "Items/Inv_Item.h"
 #include "ItemActor.generated.h"
 
 class UWidgetComponent;

@@ -2,7 +2,8 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "Inv_DisplayItemsComponent.h"
+#include "Interaction/Inv_Highlightable.h"
+#include "Items/Inv_DisplayItemsComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Widgets/HUD/Inv_HUDWidget.h"
 
@@ -128,12 +129,20 @@ void AInv_PlayerController::TraceCursorForItem()
 	GetHitResultUnderCursor(ItemTraceChannel, false, CursorHit);
 	if (!CursorHit.bBlockingHit)
 	{
-		LastActor = nullptr;
-		ThisActor = nullptr;
 		if (IsValid(HUDWidget))
 		{
 			HUDWidget->HidePickupMessage();
 		}
+		if (LastActor.IsValid())
+		{
+			if (UActorComponent* HighlightableActorComponent = LastActor->FindComponentByInterface(UInv_Highlightable::StaticClass());
+				IsValid(HighlightableActorComponent))
+			{
+				IInv_Highlightable::Execute_UnHighlight(HighlightableActorComponent);
+			}
+		}
+		LastActor = nullptr;
+		ThisActor = nullptr;
 		return;
 	}
 	
@@ -155,6 +164,12 @@ void AInv_PlayerController::TraceCursorForItem()
 
 	if (ThisActor.IsValid())
 	{
+		if (UActorComponent* HighlightableActorComponent = ThisActor->FindComponentByInterface(UInv_Highlightable::StaticClass());
+			IsValid(HighlightableActorComponent))
+		{
+			IInv_Highlightable::Execute_Highlight(HighlightableActorComponent);
+		}
+		
 		UInv_DisplayItemsComponent* ItemComponent = ThisActor->FindComponentByClass<UInv_DisplayItemsComponent>();
 		if (!IsValid(ItemComponent))
 		{
@@ -166,13 +181,13 @@ void AInv_PlayerController::TraceCursorForItem()
 		}
 	}
 
-	if (ThisActor.IsValid())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Started tracing a new actor"));
-	}
-
+	/*
 	if (LastActor.IsValid())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Stopped tracing a new actor"));
-	}
+		if (UActorComponent* HighlightableActorComponent = LastActor->FindComponentByInterface(UInv_Highlightable::StaticClass());
+			IsValid(HighlightableActorComponent))
+		{
+			IInv_Highlightable::Execute_UnHighlight(HighlightableActorComponent);
+		}
+	}*/
 }

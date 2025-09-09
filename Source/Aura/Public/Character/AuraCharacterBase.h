@@ -92,7 +92,7 @@ public:
 
 	virtual FOnDamageSignature& GetOnDamageSignature() override;
 	virtual FOnAbilitySystemComponentRegistrated& GetOnAbilitySystemComponentRegistratedDelegate() override;
-	virtual FOnDeath GetOnDeathDelegate();
+	virtual FOnDeath GetOnDeathDelegate() override;
 	/* End Combat Interface */
 
 	UFUNCTION(Server, Reliable)

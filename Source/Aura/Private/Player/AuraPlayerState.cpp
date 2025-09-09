@@ -100,3 +100,19 @@ void AAuraPlayerState::OnRep_SpellPoints(int32 OldSpellPoints)
 {
 	OnSpellPointsChangedDelegate.Broadcast(SpellPoints);
 }
+
+//-------------------------- Cheats -----------------------------------//
+bool AAuraPlayerState::IsUnlimitedMana_Implementation()
+{
+	return IsUnlimitedMana;
+}
+
+void AAuraPlayerState::SetUnlimitedMana_Implementation(bool NewValue)
+{
+	IsUnlimitedMana = NewValue;
+}
+
+void AAuraPlayerState::Server_SetUnlimitedMana_Implementation(bool NewValue)
+{
+	IsUnlimitedMana = NewValue;
+}

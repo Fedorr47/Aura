@@ -10,6 +10,7 @@
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/Abilities/AuraDamageGameplayAbility.h"
 #include "GameplayEffectComponents/TargetTagsGameplayEffectComponent.h"
+#include "Interaction/CheatInterface.h"
 #include "Interaction/CombatInterface.h"
 #include "Interaction/PlayerInterface.h"
 #include "Net/UnrealNetwork.h"
@@ -103,6 +104,13 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	
 	const auto Attribute = Data.EvaluatedData.Attribute;
 	CLAMP_ATTRIBUTE_POST(Health, Attribute, 0.0f, GetMaxHealth());
+#if !UE_BUILD_SHIPPING
+	if (Props.TargetCharacter->GetPlayerState()->Implements<UCheatInterface>()
+		&& ICheatInterface::Execute_IsUnlimitedMana(Props.TargetCharacter->GetPlayerState()))
+	{
+		SetMana(GetMaxMana()); 
+	}
+#endif
 	CLAMP_ATTRIBUTE_POST(Mana, Attribute, 0.0f, GetMaxMana());
 
 	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
@@ -117,10 +125,13 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 
 void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Props)
 {
+#if !UE_BUILD_SHIPPING
 	if (Props.TargetCharacter->Implements<UCombatInterface>() && !Props.TargetCharacter->CanBeDamaged())
 	{
 		return;
 	}
+#endif
+	
 	const float LocalIncomingDamage = GetIncomingDamage();
 	SetIncomingDamage(0.0f);
 	if (LocalIncomingDamage > 0.0f)

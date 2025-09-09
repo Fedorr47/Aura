@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
 #include "GameFramework/PlayerState.h"
+#include "Interaction/CheatInterface.h"
 #include "AuraPlayerState.generated.h"
 
 class ULevelUpInfo;
@@ -18,6 +19,7 @@ DECLARE_MULTICAST_DELEGATE_TwoParams(FOnLevelPlayerChangedSignature, int32 /*Sta
  */
 UCLASS()
 class AURA_API AAuraPlayerState : public APlayerState, public IAbilitySystemInterface
+	,public ICheatInterface
 {
 	GENERATED_BODY()
 
@@ -82,5 +84,21 @@ private:
 
 	UFUNCTION()
 	void OnRep_SpellPoints(int32 OldSpellPoints);
+
+public:
+	UFUNCTION(Server, Reliable)
+	void Server_SetUnlimitedMana(bool NewValue);
+#if !UE_BUILD_SHIPPING
+public:
+	/* Cheat interface */
+	virtual bool IsUnlimitedMana_Implementation() override;
+	virtual void SetUnlimitedMana_Implementation(bool NewValue) override;
+	/* End Cheat interface*/
+	
+	//------------------------------------------------------------------------//
+
+private:
+	bool IsUnlimitedMana{false};
+#endif
 	
 };

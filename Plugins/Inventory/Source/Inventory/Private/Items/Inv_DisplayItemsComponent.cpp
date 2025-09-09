@@ -1,7 +1,7 @@
 // Copyright - none
 
 
-#include "Inv_DisplayItemsComponent.h"
+#include "Items/Inv_DisplayItemsComponent.h"
 
 
 UInv_DisplayItemsComponent::UInv_DisplayItemsComponent()

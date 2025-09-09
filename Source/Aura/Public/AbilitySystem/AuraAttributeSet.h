@@ -220,7 +220,7 @@ public:
 
 
 	/*
-	 * Resistance attribures 
+	 * Resistance attributes 
 	 */
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_FireResistance, Category = "Resistance Attribute")
