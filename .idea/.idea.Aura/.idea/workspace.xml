@@ -13,34 +13,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1613ee45-c9c5-42e2-9ee7-37c1977cbd6e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Interaction/HighlightableStaticMesh.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Interaction/Inv_Highlightable.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Interaction/HighlightableStaticMesh.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Interaction/Inv_Highlightable.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/InventoryManager/Components/Inv_InventoryComponent.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/Spatial/Inv_SpatialInventory.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/InventoryManager/Components/Inv_InventoryComponent.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/Spatial/Inv_SpatialInventory.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Aura/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Aura/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Aura.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Aura.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEditor.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEditor.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/AbilitySystem/Aura/Abilities/Fire/FireBolt/BP_FireBolt.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/AbilitySystem/Aura/Abilities/Fire/FireBolt/BP_FireBolt.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/AbilitySystem/Data/FireBolt/CT_Damage.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/AbilitySystem/Data/FireBolt/CT_Damage.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/Characters/Aura/SK_Aura.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Characters/Aura/SK_Aura.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/AbilitySystem/Aura/Abilities/Fire/FireBolt/GA_FireBolt.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/AbilitySystem/Aura/Abilities/Fire/FireBolt/GA_FireBolt.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Aura/AnimLogic/Aura/ABP_Aura_Layers.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Aura/AnimLogic/Aura/ABP_Aura_Layers.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Blueprints/Aura/BP_AuraCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Aura/BP_AuraCharacter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/UI/Overlay/WBP_Overlay.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/UI/Overlay/WBP_Overlay.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Maps/Dungeon1.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/Dungeon1.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Content/Items/BP_Inv_Potion_Small_Red.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Content/Items/BP_Inv_Potion_Small_Red.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Inv_DisplayItemsComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Items/Inv_DisplayItemsComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Inv_Item.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Items/Inv_Item.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Aura/Controller/BP_AuraPlayerController.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Aura/Controller/BP_AuraPlayerController.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Input/IMC_AuraContext.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Input/IMC_AuraContext.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/UI/LoadMenu/WBP_LoadMenu.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/UI/LoadMenu/WBP_LoadSlot_WidggetSelector.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Maps/Dungeon.umap" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Maps/Lobby.umap" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Content/Input/IMC_Inventory.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Content/Input/IMC_Inventory.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Content/Player/BP_Inv_PlayerController.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Content/Player/BP_Inv_PlayerController.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Player/Inv_PlayerController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Player/Inv_PlayerController.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Inv_DisplayItemsComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Items/Inv_DisplayItemsComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Inv_Item.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Items/Inv_Item.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Aura/Cheats/DebugCheatManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Cheats/DebugCheatManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Aura/Private/AbilitySystem/AuraAttributeSet.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Private/AbilitySystem/AuraAttributeSet.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Aura/Private/Player/AuraPlayerController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Private/Player/AuraPlayerController.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Aura/Private/Player/AuraPlayerState.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Private/Player/AuraPlayerState.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Aura/Public/AbilitySystem/AuraAttributeSet.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Public/AbilitySystem/AuraAttributeSet.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Aura/Public/Actor/ItemActor.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Public/Actor/ItemActor.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Aura/Public/Character/AuraCharacterBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Public/Character/AuraCharacterBase.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Aura/Public/Cheats/DebugCheatManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Public/Cheats/DebugCheatManager.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Aura/Public/Interaction/CheatInterface.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Public/Interaction/CheatInterface.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Aura/Public/Player/AuraPlayerState.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Public/Player/AuraPlayerState.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Player/Inv_PlayerController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Player/Inv_PlayerController.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,11 +105,21 @@
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="cidr-memory-view://2" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Plugins/Runtime/GameplayAbilities/Source/GameplayAbilities/Private/Abilities/Tasks/AbilityTask_PlayMontageAndWait.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Plugins/Runtime/GameplayAbilities/Source/GameplayAbilities/Private/GameplayEffect.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Plugins/Tests/EditorTests/Source/EditorTests/Private/UnrealEd/PlayMapInPIETests.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Developer/CollisionAnalyzer/Private/CollisionAnalyzer.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Developer/CollisionAnalyzer/Private/CollisionAnalyzer.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Programs/Shared/EpicGames.Core/MemoryMappedView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Programs/Shared/EpicGames.Horde/Agents/AgentMessages.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Programs/Shared/EpicGames.Horde/EpicGames.Horde.csproj" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/AnimGraphRuntime/Private/PlayMontageCallbackProxy.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Core/Private/Internationalization/TextFormatter.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Core/Public/Containers/Array.h" root0="FORCE_HIGHLIGHTING" />
@@ -129,6 +132,7 @@
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/CoreUObject/Public/UObject/ObjectMacros.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/CoreUObject/Public/UObject/ObjectPtr.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/CoreUObject/Public/UObject/WeakObjectPtr.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/D3D12RHI/Private/D3D12RayTracing.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Classes/Animation/AnimInstance.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Classes/Components/ActorComponent.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Classes/Engine/EngineTypes.h" root0="FORCE_HIGHLIGHTING" />
@@ -144,10 +148,12 @@
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Private/PlayerController.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Private/PrimitiveComponentPhysics.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Private/UnrealEngine.cpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/Aura/UHT/AuraPlayerState.gen.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/PhysicsCore/Public/PhysicsInterfaceTypesCore.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/Aura/UHT/AuraPlayerState.gen.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/Aura/UHT/CheatInterface.gen.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/Aura/UHT/DebugCheatManager.gen.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/Aura/UHT/PlayerInterface.gen.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Player/Inv_PlayerController.cpp" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
@@ -306,6 +312,15 @@
       <workItem from="1755764744929" duration="9601000" />
       <workItem from="1756981697205" duration="6033000" />
       <workItem from="1756994931809" duration="3291000" />
+      <workItem from="1757423268475" duration="4991000" />
+      <workItem from="1757495489030" duration="1817000" />
+      <workItem from="1757612493242" duration="384000" />
+      <workItem from="1757944616053" duration="3499000" />
+      <workItem from="1758028366275" duration="390000" />
+      <workItem from="1758538062904" duration="1970000" />
+      <workItem from="1758540848430" duration="310000" />
+      <workItem from="1758541923299" duration="145000" />
+      <workItem from="1758553300428" duration="1309000" />
     </task>
     <servers />
   </component>
@@ -314,6 +329,17 @@
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
@@ -321,19 +347,19 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Source/Aura/Cheats/DebugCheatManager.cpp</url>
-          <line>22</line>
-          <option name="timeStamp" value="6" />
+          <url>file://$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Player/Inv_PlayerController.cpp</url>
+          <line>18</line>
+          <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Source/Aura/Cheats/DebugCheatManager.cpp</url>
-          <line>13</line>
-          <option name="timeStamp" value="7" />
+          <url>file://$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Player/Inv_PlayerController.cpp</url>
+          <line>54</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Source/Aura/Private/Player/AuraPlayerState.cpp</url>
-          <line>116</line>
-          <option name="timeStamp" value="8" />
+          <url>file://$PROJECT_DIR$/Source/Aura/Private/Player/AuraPlayerController.cpp</url>
+          <line>321</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
