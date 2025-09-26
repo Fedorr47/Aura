@@ -37,6 +37,8 @@ private:
 	void PrimaryInteract();
 	void CreateHUDWidget();
 	void TraceForItem();
+	static bool IsWithinCursorXYRadius(APlayerController* PC, const AActor* Actor, float MaxXYRadiusUU);
+	bool ActorNotInRadius();
 	void TraceCursorForItem();
 
 	//---------------------------------------------------------------------------------------------------------------------//	
@@ -60,6 +62,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = Inventory)
 	double TraceLength{1000.0f};
+
+	UPROPERTY(EditDefaultsOnly, Category = Inventory)
+	float MaxCursorRadius{100.0f};
 
 	UPROPERTY(EditDefaultsOnly, Category = Inventory)
 	TEnumAsByte<ECollisionChannel> ItemTraceChannel;

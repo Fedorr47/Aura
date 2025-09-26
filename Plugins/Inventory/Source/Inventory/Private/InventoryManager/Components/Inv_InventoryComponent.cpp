@@ -65,9 +65,11 @@ void UInv_InventoryComponent::OpenInventoryMenu()
 		return;
 	}
 
+	/*
 	FInputModeGameAndUI InputMode;
 	OwningController->SetInputMode(InputMode);
 	OwningController->SetShowMouseCursor(true);
+	*/
 }
 
 void UInv_InventoryComponent::CloseInventoryMenu()
@@ -85,9 +87,11 @@ void UInv_InventoryComponent::CloseInventoryMenu()
 		return;
 	}
 
+	/*
 	FInputModeGameOnly InputMode;
 	OwningController->SetInputMode(InputMode);
 	OwningController->SetShowMouseCursor(false);
+	*/
 }
 
 

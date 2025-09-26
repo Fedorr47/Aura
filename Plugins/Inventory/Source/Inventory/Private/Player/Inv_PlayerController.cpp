@@ -131,6 +131,47 @@ void AInv_PlayerController::TraceForItem()
 	}
 }
 
+bool AInv_PlayerController::IsWithinCursorXYRadius(APlayerController* PC, const AActor* Actor, float MaxXYRadiusUU)
+{
+	if (!PC || !Actor) return false;
+
+	float MouseX, MouseY;
+	if (!PC->GetMousePosition(MouseX, MouseY)) return false;
+
+	FVector RayOrigin, RayDir;
+	if (!PC->DeprojectScreenPositionToWorld(MouseX, MouseY, RayOrigin, RayDir)) return false;
+	
+	const FVector ALoc = Actor->GetActorLocation();
+	const FPlane Plane(ALoc, FVector::UpVector);
+
+	const FVector LineEnd = RayOrigin + RayDir * 100000.f;
+	const FVector CursorOnPlane = FMath::RayPlaneIntersection(RayOrigin, LineEnd, Plane);
+
+	if (!CursorOnPlane.IsNearlyZero() && CursorOnPlane.ContainsNaN() == false)
+	{
+		const float d2D = FVector::Dist2D(CursorOnPlane, ALoc);
+		return d2D <= MaxXYRadiusUU;
+	}
+	return false;
+}
+
+
+bool AInv_PlayerController::ActorNotInRadius()
+{
+	if (!IsWithinCursorXYRadius(this, ThisActor.Get(), MaxCursorRadius))
+	{
+		if (IsValid(HUDWidget)) HUDWidget->HidePickupMessage();
+		
+		if (LastActor.IsValid() && LastActor != ThisActor)
+			if (auto* Cmp = LastActor->FindComponentByInterface(UInv_Highlightable::StaticClass()))
+				IInv_Highlightable::Execute_UnHighlight(Cmp);
+
+		ThisActor = nullptr;
+		return true;
+	}
+	return false;
+}
+
 void AInv_PlayerController::TraceCursorForItem()
 {
 	if (!IsValid(GEngine))
@@ -167,16 +208,22 @@ void AInv_PlayerController::TraceCursorForItem()
 		if (IsValid(HUDWidget))
 		{
 			HUDWidget->HidePickupMessage();
+			if (LastActor.IsValid())
+				if (auto* ActorComponent = LastActor->FindComponentByInterface(UInv_Highlightable::StaticClass()))
+					IInv_Highlightable::Execute_UnHighlight(ActorComponent);
 		}
 	}
 	
 	if (ThisActor == LastActor)
 	{
+		if (ActorNotInRadius()) return;
 		return;
 	}
-
+	
 	if (ThisActor.IsValid())
 	{
+		if (ActorNotInRadius()) return;
+		
 		if (UActorComponent* HighlightableActorComponent = ThisActor->FindComponentByInterface(UInv_Highlightable::StaticClass());
 			IsValid(HighlightableActorComponent))
 		{
