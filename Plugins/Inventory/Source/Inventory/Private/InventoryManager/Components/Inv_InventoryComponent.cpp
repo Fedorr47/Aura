@@ -5,13 +5,17 @@
 #include "Widgets/Inventory/InventoryBase/Inv_InventoryBase.h"
 
 #include "Blueprint/UserWidget.h"
+#include "Items/Inv_DisplayItemsComponent.h"
 
 
 UInv_InventoryComponent::UInv_InventoryComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
+}
 
-	// ...
+void UInv_InventoryComponent::TryAddItem(UInv_DisplayItemsComponent* ItemComponent)
+{
+	OnNoRoomInventoryDelegate.Broadcast();
 }
 
 void UInv_InventoryComponent::ToggleInventoryMenu()

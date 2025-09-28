@@ -1,0 +1,79 @@
+#include "InventoryManager/FastArray/Inv_FastArray.h"
+
+#include "InventoryManager/Components/Inv_InventoryComponent.h"
+#include "Items/Inv_InventoryItem.h"
+
+TArray<UInv_InventoryItem*> FInv_InventoryFastArray::GetAllItems() const
+{
+	TArray<UInv_InventoryItem*> ReturnValue;
+	ReturnValue.Reserve(Entries.Num());
+	for (const FInv_InventoryEntry& Entry : Entries)
+	{
+		if (!IsValid(Entry.Item))
+		{
+			continue;
+		}
+		ReturnValue.Add(Entry.Item);
+	}
+	return ReturnValue;
+}
+
+void FInv_InventoryFastArray::PreReplicatedRemove(const TArrayView<int32> RemoveIndices, int32 FinalSize)
+{
+	UInv_InventoryComponent* InventoryComponent = Cast<UInv_InventoryComponent>(OwnerComponent);
+	if (!IsValid(InventoryComponent))
+	{
+		return;
+	}
+
+	for (int32 Index : RemoveIndices)
+	{
+		InventoryComponent->OnItemRemovedDelegate.Broadcast(Entries[Index].Item);
+	}
+}
+
+void FInv_InventoryFastArray::PostReplicatedAdd(const TArrayView<int32> AddedIndices, int32 FinalSize)
+{
+	UInv_InventoryComponent* InventoryComponent = Cast<UInv_InventoryComponent>(OwnerComponent);
+	if (!IsValid(InventoryComponent))
+	{
+		return;
+	}
+
+	for (int32 Index : AddedIndices)
+	{
+		InventoryComponent->OnItemAddedDelegate.Broadcast(Entries[Index].Item);
+	}
+}
+
+UInv_InventoryItem* FInv_InventoryFastArray::AddEntry(UInv_InventoryComponent* InItemComponent)
+{
+	return nullptr;
+}
+
+UInv_InventoryItem* FInv_InventoryFastArray::AddEntry(UInv_InventoryItem* InItem)
+{
+	check(OwnerComponent);
+	AActor* OwningActor = OwnerComponent->GetOwner();
+	check(OwningActor->HasAuthority());
+
+	FInv_InventoryEntry& NewEntry = Entries.AddDefaulted_GetRef();
+	NewEntry.Item = InItem;
+	
+	MarkItemDirty(NewEntry);
+	
+	return InItem;
+}
+
+void FInv_InventoryFastArray::RemoveEntry(UInv_InventoryItem* InItem)
+{
+	for (auto EntryIterator = Entries.CreateIterator(); EntryIterator; ++EntryIterator)
+	{
+		FInv_InventoryEntry& Entry = *EntryIterator;
+		if (Entry.Item == InItem)
+		{
+			EntryIterator.RemoveCurrent();
+			MarkArrayDirty();
+		}
+	}
+}

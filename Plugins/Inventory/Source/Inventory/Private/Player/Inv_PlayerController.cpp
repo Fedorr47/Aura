@@ -71,6 +71,17 @@ void AInv_PlayerController::SetInventoryHUDWidget(UInv_HUDWidget* InventoryHUDWi
 
 void AInv_PlayerController::PrimaryInteract()
 {
+	if (!ThisActor.IsValid())
+	{
+		return;
+	}
+
+	UInv_DisplayItemsComponent* DisplayItemsComponent  = ThisActor->FindComponentByClass<UInv_DisplayItemsComponent>();
+	if (!IsValid(DisplayItemsComponent) || !InventoryComponent.IsValid())
+	{
+		return;
+	}
+	 InventoryComponent->TryAddItem(DisplayItemsComponent);
 }
 
 void AInv_PlayerController::CreateHUDWidget()

@@ -14,6 +14,8 @@ void UInv_SpatialInventory::NativeOnInitialized()
 	Button_Equippables->OnClicked.AddDynamic(this, &ThisClass::ShowEquippables);
 	Button_Consumables->OnClicked.AddDynamic(this, &ThisClass::ShowConsumables);
 	Button_Craftables->OnClicked.AddDynamic(this, &ThisClass::ShowCraftables);
+
+	ShowEquippables();
 }
 
 void UInv_SpatialInventory::ShowEquippables()
@@ -28,14 +30,14 @@ void UInv_SpatialInventory::ShowConsumables()
 
 void UInv_SpatialInventory::ShowCraftables()
 {
-	SetActiveGrid(Grid_Equippables, Button_Equippables);
+	SetActiveGrid(Grid_Craftables, Button_Craftables);
 }
 
 void UInv_SpatialInventory::DisableButton(UButton* Button)
 {
 	Button_Equippables->SetIsEnabled(true);
-	Button_Equippables->SetIsEnabled(true);
-	Button_Equippables->SetIsEnabled(true);
+	Button_Consumables->SetIsEnabled(true);
+	Button_Craftables->SetIsEnabled(true);
 	Button->SetIsEnabled(false);
 }
 
