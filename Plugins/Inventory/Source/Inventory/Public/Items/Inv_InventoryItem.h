@@ -17,6 +17,6 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	void SetItemManifest(const FInv_ItemManifest& Manifest); 
 private:
-	UPROPERTY(VisibleAnywhere, meta=(BaseStuct = "/Script/Inventory.Inv_ItemManifest"), Replicated)
+	UPROPERTY(VisibleAnywhere, meta=(BaseStruct = "/Script/Inventory.Inv_ItemManifest"), Replicated)
 	FInstancedStruct ItemManifest;
 };

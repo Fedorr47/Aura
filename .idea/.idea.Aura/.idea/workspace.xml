@@ -13,27 +13,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1613ee45-c9c5-42e2-9ee7-37c1977cbd6e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Items/Components/Inv_ItemComponent.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Items/Manifest/Inv_ItemManifest.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Items/Manifest/Inv_ItemManifest.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Items/Inv_ItemTags.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Items/Inv_ItemTags.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Aura/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Aura/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Config/DefaultInventory.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Config/DefaultInventory.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/UI/Overlay/SubWidgets/WBP_PictureFrame.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/UI/Overlay/SubWidgets/WBP_PictureFrame.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Content/Items/BP_Inv_Potion_Small_Red.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Content/Items/BP_Inv_Potion_Small_Red.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Inventory.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Inventory.Build.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/InventoryManager/Components/Inv_InventoryComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/InventoryManager/Components/Inv_InventoryComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/InventoryManager/FastArray/Inv_FastArray.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/InventoryManager/FastArray/Inv_FastArray.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Items/Inv_DisplayItemsComponent.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Items/Inv_InventoryItem.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Items/Inv_InventoryItem.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Items/Inv_Item.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Items/Components/Inv_Item.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Player/Inv_PlayerController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Player/Inv_PlayerController.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/Spatial/Inv_SpatialInventory.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/Spatial/Inv_SpatialInventory.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/InventoryManager/Components/Inv_InventoryComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/InventoryManager/Components/Inv_InventoryComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/InventoryManager/FastArray/Inv_FastArray.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/InventoryManager/FastArray/Inv_FastArray.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Items/Inv_DisplayItemsComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Items/Components/Inv_ItemComponent.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Items/Inv_InventoryItem.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Items/Inv_InventoryItem.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Items/Inv_Item.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Items/Components/Inv_Item.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/InventoryBase/Inv_InventoryBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/InventoryBase/Inv_InventoryBase.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/Spatial/Inv_SpatialInventory.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/Spatial/Inv_SpatialInventory.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Aura/Public/Actor/ItemActor.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Public/Actor/ItemActor.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Items/Manifest/Inv_ItemManifest.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Items/Manifest/Inv_ItemManifest.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Aura/Private/AuraAssetManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Private/AuraAssetManager.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +47,7 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="cidr-memory-view://0" root0="FORCE_HIGHLIGHTING" />
+    <setting file="cidr-memory-view://8" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Plugins/EnhancedInput/Source/EnhancedInput/Private/EnhancedPlayerInput.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Plugins/Runtime/GameplayAbilities/Source/GameplayAbilities/Private/Abilities/Tasks/AbilityTask_PlayMontageAndWait.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Plugins/Runtime/GameplayAbilities/Source/GameplayAbilities/Private/GameplayEffect.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -103,6 +91,7 @@
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Private/UnrealEngine.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Private/UserInterface/PlayerInput.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Public/SceneView.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/GameplayTags/Public/NativeGameplayTags.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/PhysicsCore/Public/PhysicsInterfaceTypesCore.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/UMG/Private/UserWidget.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/UMG/Private/WidgetLayoutLibrary.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -284,7 +273,7 @@
       <workItem from="1758895334275" duration="1484000" />
       <workItem from="1758979106125" duration="8324000" />
       <workItem from="1759045915070" duration="19370000" />
-      <workItem from="1759126230499" duration="6939000" />
+      <workItem from="1759126230499" duration="12915000" />
     </task>
     <servers />
   </component>
