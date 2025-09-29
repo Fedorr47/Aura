@@ -18,7 +18,7 @@ void UInv_SpatialInventory::NativeOnInitialized()
 	ShowEquippables();
 }
 
-FInv_SlotAvailabilityResult UInv_SpatialInventory::HasRoomForItem(UInv_DisplayItemsComponent* ItemsComponent) const
+FInv_SlotAvailabilityResult UInv_SpatialInventory::HasRoomForItem(UInv_ItemComponent* ItemsComponent) const
 {
 	return Super::HasRoomForItem(ItemsComponent);
 }

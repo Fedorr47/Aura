@@ -9,7 +9,7 @@
 #include "Inv_InventoryBase.generated.h"
 
 
-class UInv_DisplayItemsComponent;
+class UInv_ItemComponent;
 
 UCLASS()
 class INVENTORY_API UInv_InventoryBase : public UUserWidget
@@ -17,6 +17,6 @@ class INVENTORY_API UInv_InventoryBase : public UUserWidget
 	GENERATED_BODY()
 public:
 
-	virtual FInv_SlotAvailabilityResult HasRoomForItem(UInv_DisplayItemsComponent* ItemsComponent) const
+	virtual FInv_SlotAvailabilityResult HasRoomForItem(UInv_ItemComponent* ItemsComponent) const
 	{ return FInv_SlotAvailabilityResult(); }
 };

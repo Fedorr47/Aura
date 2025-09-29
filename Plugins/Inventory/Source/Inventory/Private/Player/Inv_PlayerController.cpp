@@ -3,7 +3,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Interaction/Inv_Highlightable.h"
-#include "Items/Inv_DisplayItemsComponent.h"
+#include "Items/Components/Inv_ItemComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "InventoryManager/Components/Inv_InventoryComponent.h"
 #include "Widgets/HUD/Inv_HUDWidget.h"
@@ -76,7 +76,7 @@ void AInv_PlayerController::PrimaryInteract()
 		return;
 	}
 
-	UInv_DisplayItemsComponent* DisplayItemsComponent  = ThisActor->FindComponentByClass<UInv_DisplayItemsComponent>();
+	UInv_ItemComponent* DisplayItemsComponent  = ThisActor->FindComponentByClass<UInv_ItemComponent>();
 	if (!IsValid(DisplayItemsComponent) || !InventoryComponent.IsValid())
 	{
 		return;
@@ -241,7 +241,7 @@ void AInv_PlayerController::TraceCursorForItem()
 			IInv_Highlightable::Execute_Highlight(HighlightableActorComponent);
 		}
 		
-		UInv_DisplayItemsComponent* ItemComponent = ThisActor->FindComponentByClass<UInv_DisplayItemsComponent>();
+		UInv_ItemComponent* ItemComponent = ThisActor->FindComponentByClass<UInv_ItemComponent>();
 		if (!IsValid(ItemComponent))
 		{
 			return;
