@@ -76,12 +76,12 @@ void AInv_PlayerController::PrimaryInteract()
 		return;
 	}
 
-	UInv_ItemComponent* DisplayItemsComponent  = ThisActor->FindComponentByClass<UInv_ItemComponent>();
-	if (!IsValid(DisplayItemsComponent) || !InventoryComponent.IsValid())
+	UInv_ItemComponent* ItemComponent  = ThisActor->FindComponentByClass<UInv_ItemComponent>();
+	if (!IsValid(ItemComponent) || !InventoryComponent.IsValid())
 	{
 		return;
 	}
-	 InventoryComponent->TryAddItem(DisplayItemsComponent);
+	InventoryComponent->TryAddItem(ItemComponent);
 }
 
 void AInv_PlayerController::CreateHUDWidget()

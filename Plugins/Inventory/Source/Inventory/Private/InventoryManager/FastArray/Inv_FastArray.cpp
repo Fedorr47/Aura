@@ -53,7 +53,7 @@ UInv_InventoryItem* FInv_InventoryFastArray::AddEntry(UInv_ItemComponent* InItem
 	AActor* OwningActor = OwnerComponent->GetOwner();
 	check(OwningActor->HasAuthority());
 
-	UInv_InventoryComponent* InventoryComponent = Cast<UInv_InventoryComponent>(OwningActor);
+	UInv_InventoryComponent* InventoryComponent = Cast<UInv_InventoryComponent>(OwnerComponent);
 	if (!IsValid(InventoryComponent))
 	{
 		return nullptr;

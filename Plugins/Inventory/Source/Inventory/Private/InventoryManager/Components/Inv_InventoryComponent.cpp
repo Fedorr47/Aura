@@ -7,7 +7,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Net/UnrealNetwork.h"
 
-UInv_InventoryComponent::UInv_InventoryComponent()
+UInv_InventoryComponent::UInv_InventoryComponent() : InventoryList(this)
 {
 	PrimaryComponentTick.bCanEverTick = false;
 	SetIsReplicatedByDefault(true);
@@ -52,6 +52,11 @@ void UInv_InventoryComponent::Server_AddNewItem_Implementation(
 	int32 StackCount)
 {
 	UInv_InventoryItem* NewItem =  InventoryList.AddEntry(ItemsComponent);
+
+	if (GetOwner()->GetNetMode() == NM_ListenServer || GetOwner()->GetNetMode() == NM_Standalone)
+	{
+		OnItemAddedDelegate.Broadcast(NewItem);
+	}
 	// TODO: Destroy item
 }
 
