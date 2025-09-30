@@ -14,4 +14,7 @@ void FInventoryFragmentsTags::InitializeNativeGameplayTags()
 	FragInstance.GridFragment = FGeneralStatics::AddInputTag(
 		"Grid fragment",
 		"Inventory", "FragmentTags", "GridFragment");
+	FragInstance.IconFragment = FGeneralStatics::AddInputTag(
+		"Icon fragment",
+		"Inventory", "FragmentTags", "IconFragment");
 }

@@ -10,6 +10,7 @@ public:
 	static void InitializeNativeGameplayTags();
 
 	FGameplayTag GridFragment;
+	FGameplayTag IconFragment;
 
 private:
 	static FInventoryFragmentsTags FragInstance;

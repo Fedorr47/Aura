@@ -3,19 +3,19 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 
-#include "Inv_ItemFragments.generated.h"
+#include "Inv_ItemFragment.generated.h"
 
 USTRUCT(BlueprintType)
-struct FInv_ItemFragments
+struct FInv_ItemFragment
 {
 	GENERATED_BODY()
 
-	FInv_ItemFragments(){}
-	FInv_ItemFragments(const FInv_ItemFragments& other) = default;
-	FInv_ItemFragments(FInv_ItemFragments&& other) = default;
-	FInv_ItemFragments& operator=(const FInv_ItemFragments& other) = default;
-	FInv_ItemFragments& operator=(FInv_ItemFragments&& other) = default;
-	virtual ~FInv_ItemFragments() {}
+	FInv_ItemFragment(){}
+	FInv_ItemFragment(const FInv_ItemFragment& other) = default;
+	FInv_ItemFragment(FInv_ItemFragment&& other) = default;
+	FInv_ItemFragment& operator=(const FInv_ItemFragment& other) = default;
+	FInv_ItemFragment& operator=(FInv_ItemFragment&& other) = default;
+	virtual ~FInv_ItemFragment() {}
 
 	FGameplayTag GetFragmentTag() const { return FragmentTag; }
 	void SetFragmentTag(FGameplayTag InTag) { FragmentTag = InTag; }
@@ -27,7 +27,7 @@ private:
 };
 
 USTRUCT(BlueprintType)
-struct FInv_GridFragment : public FInv_ItemFragments
+struct FInv_GridFragment : public FInv_ItemFragment
 {
 	GENERATED_BODY()
 
@@ -43,4 +43,20 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	float GridPadding{0.0f};
+};
+
+USTRUCT(BlueprintType)
+struct FInv_ImageFragment : public FInv_ItemFragment
+{
+	GENERATED_BODY()
+
+	UTexture2D* GetIcon() const { return Icon; }
+
+private:
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	TObjectPtr<UTexture2D> Icon{nullptr};
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	FVector2D IconDimension{44.0f, 44.0f};
 };

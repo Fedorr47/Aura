@@ -9,6 +9,9 @@
 #include "Inv_InventoryGrid.generated.h"
 
 
+struct FInv_GridFragment;
+struct FInv_ImageFragment;
+class UInv_SlottedItem;
 class UCanvasPanel;
 class UInv_GridSlot;
 class UInv_InventoryComponent;
@@ -23,15 +26,42 @@ public:
 	virtual void NativeOnInitialized() override;
 
 	EInv_ItemCategory GetItemCategory() const {return ItemCategory; }
+	FInv_SlotAvailabilityResult HasRoomForItem(const UInv_ItemComponent* ItemComponent);
 
 	UFUNCTION()
 	void AddItem(UInv_InventoryItem* InItem);
+	
 
 private:
 
 	void ConstructGrid();
 
 	bool MatchCategory(const UInv_InventoryItem* InItem) const;
+
+	FInv_SlotAvailabilityResult HasRoomForItem(const UInv_InventoryItem* Item);
+	FInv_SlotAvailabilityResult HasRoomForItem(const FInv_ItemManifest& Manifest);
+	void AddItemToIndecies(const FInv_SlotAvailabilityResult& AvailabilityResult, UInv_InventoryItem* InItem);
+	FVector2D GetDrawSize(const FInv_GridFragment* GridFragment) const;
+	void SetSlottedItemImage(
+		const UInv_SlottedItem* SlottedItem,
+		const FInv_GridFragment* GridFragment,
+		const FInv_ImageFragment* ImageFragment) const;
+	void AddItemAtIndex(
+		UInv_InventoryItem* InItem,
+		const int32 Index,
+		const bool bStackable,
+		const int32 StackAmount);
+	UInv_SlottedItem* CreateSlottedItem(
+		UInv_InventoryItem* InItem,
+		const bool bStackable,
+		const int32 StackAmount,
+		const FInv_GridFragment* GridFragment,
+		const FInv_ImageFragment* ImageFragment,
+		const int32 Index) const;
+	void AddSlottedItemToCanvas(
+		const int32 Index,
+		const FInv_GridFragment* GridFragment,
+		UInv_SlottedItem* SlottedItem) const;
 
 	//------------------------------------------------------------------------------------------------------//
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
@@ -46,6 +76,12 @@ private:
 	TObjectPtr<UCanvasPanel> CanvasPanel;
 
 	UPROPERTY(EditAnywhere, Category = "Inventory")
+	TSubclassOf<UInv_SlottedItem> SlottedItemClass;
+
+	UPROPERTY()
+	TMap<int32, TObjectPtr<UInv_SlottedItem>> SlottedItems;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
 	TSubclassOf<UInv_GridSlot> GridSlotClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
@@ -53,5 +89,5 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
 	int32 Columns{1};
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
-	float TileSize{5};
+	float TileSize{1};
 };
