@@ -1,4 +1,5 @@
 #include "Items/Inv_ItemTags.h"
+#include "Utils/GeneralStatics.h"
 
 /*
 namespace GameItems
@@ -12,49 +13,53 @@ namespace GameItems
 	}
 }*/
 
-FInventoryGameplayTags FInventoryGameplayTags::Instance;
+FInventoryGameplayTags FInventoryGameplayTags::ItemInstance;
+
+const FInventoryGameplayTags& FInventoryGameplayTags::Get()
+{
+	return ItemInstance;
+}
 
 void FInventoryGameplayTags::InitializeNativeGameplayTags()
 {
-	// Secondary Attributes
-	Instance.Equipment_Weapons_Axe = AddInputTag(
+	ItemInstance.Equipment_Weapons_Axe = FGeneralStatics::AddInputTag(
 		"Axe",
 		"Inventory", "GameItems", "Equipment", "Weapons", "Axe");
 
-	Instance.Equipment_Weapons_Sword = AddInputTag(
+	ItemInstance.Equipment_Weapons_Sword = FGeneralStatics::AddInputTag(
 		"Sword",
 		"Inventory", "GameItems", "Equipment", "Weapons", "Sword");
 
-	Instance.Equipment_Cloaks_RedCloak = AddInputTag(
+	ItemInstance.Equipment_Cloaks_RedCloak = FGeneralStatics::AddInputTag(
 		"Red cloak",
 		"Inventory", "GameItems", "Equipment", "Cloaks", "RedCloak");
 
-	Instance.Equipment_Masks_SteelMask = AddInputTag(
+	ItemInstance.Equipment_Masks_SteelMask = FGeneralStatics::AddInputTag(
 		"Steel mask",
 		"Inventory", "GameItems", "Equipment", "Masks", "SteelMask");
 
-	Instance.Consumables_Potions_Red_SmallPotion = AddInputTag(
+	ItemInstance.Consumables_Potions_Red_SmallPotion = FGeneralStatics::AddInputTag(
 		"Red small potion",
 		"Inventory", "GameItems", "Consumables", "Potions", "Red", "SmallPotion");
-	Instance.Consumables_Potions_Red_LargePotion = AddInputTag(
+	ItemInstance.Consumables_Potions_Red_LargePotion = FGeneralStatics::AddInputTag(
 		"Red large potion",
 		"Inventory", "GameItems", "Consumables", "Potions", "Red", "LargePotion");
 
-	Instance.Consumables_Potions_Blue_SmallPotion = AddInputTag(
+	ItemInstance.Consumables_Potions_Blue_SmallPotion = FGeneralStatics::AddInputTag(
 		"Blue small potion",
 		"Inventory", "GameItems", "Consumables", "Potions", "Blue", "SmallPotion");
-	Instance.Consumables_Potions_Blue_LargePotion = AddInputTag(
+	ItemInstance.Consumables_Potions_Blue_LargePotion = FGeneralStatics::AddInputTag(
 		"Blue large potion",
 		"Inventory", "GameItems", "Consumables", "Potions", "Blue", "LargePotion");
 
-	Instance.Craftables_FireFernFruit = AddInputTag(
+	ItemInstance.Craftables_FireFernFruit = FGeneralStatics::AddInputTag(
 		"Fire fern fruit",
 		"Inventory", "GameItems", "Craftables", "FireFernFruit");
 	
-	Instance.Craftables_LuminDaisy = AddInputTag(
+	ItemInstance.Craftables_LuminDaisy = FGeneralStatics::AddInputTag(
 		"Lumin daisy",
 		"Inventory", "GameItems", "Craftables", "LuminDaisy");
-	Instance.Craftables_ScorchPetalBlossom = AddInputTag(
+	ItemInstance.Craftables_ScorchPetalBlossom = FGeneralStatics::AddInputTag(
 		"Scorch petal blossom",
 		"Inventory", "GameItems", "Craftables", "ScorchPetalBlossom");
 }

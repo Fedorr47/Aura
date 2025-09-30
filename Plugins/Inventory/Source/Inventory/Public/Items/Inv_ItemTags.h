@@ -22,30 +22,9 @@ namespace GameItems
 struct INVENTORY_API FInventoryGameplayTags
 {
 public:
-	static const FInventoryGameplayTags& Get()
-	{
-		return Instance;
-	}
+	static const FInventoryGameplayTags& Get();
 
 	static void InitializeNativeGameplayTags();
-
-	template<typename... Parts>
-	static FName MakeTagName(Parts&&... parts)
-	{
-		FString TagString;
-		((TagString += FString(parts) + TEXT(".")), ...);
-		TagString.RemoveFromEnd(TEXT("."));
-		return FName(TagString);
-	}
-
-	template<typename... Parts>
-	static FGameplayTag AddInputTag(const FString& TagComment, Parts&&... parts)
-	{
-		return UGameplayTagsManager::Get().AddNativeGameplayTag(
-			MakeTagName(Forward<Parts>(parts)...),
-			TagComment
-		);
-	}
 
 	FGameplayTag Equipment_Weapons_Axe;
 	FGameplayTag Equipment_Weapons_Sword;
@@ -65,8 +44,5 @@ public:
 	FGameplayTag Craftables_ScorchPetalBlossom;
 
 private:
-	static FInventoryGameplayTags Instance;
-	
-	FInventoryGameplayTags() = default;
-	~FInventoryGameplayTags() = default;
+	static FInventoryGameplayTags ItemInstance;
 };

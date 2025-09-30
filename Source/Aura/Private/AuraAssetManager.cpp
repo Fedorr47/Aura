@@ -4,6 +4,7 @@
 #include "AbilitySystemGlobals.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Items/Inv_ItemTags.h"
+#include "Items/Fragments/Inv_FragmentsTags.h"
 
 const UAuraAssetManager& UAuraAssetManager::Get()
 {
@@ -18,5 +19,6 @@ void UAuraAssetManager::StartInitialLoading()
 	FAuraGameplayTags::Get().InitializeNativeGameplayTags();
 	// TODO: Added from inventory plugin
 	FInventoryGameplayTags::Get().InitializeNativeGameplayTags();
+	FInventoryFragmentsTags::Get().InitializeNativeGameplayTags();
 	//UAbilitySystemGlobals::Get().InitGlobalData();
 }

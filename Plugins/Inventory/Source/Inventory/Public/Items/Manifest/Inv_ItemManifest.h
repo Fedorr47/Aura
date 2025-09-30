@@ -13,6 +13,8 @@
  * data for creating a new Inventory data
  */
 
+struct FInv_ItemFragments;
+
 USTRUCT(BlueprintType)
 struct INVENTORY_API FInv_ItemManifest
 {
@@ -24,6 +26,10 @@ public:
 	FGameplayTag GetItemType() const { return ItemType; }
 	
 private:
+
+	UPROPERTY(EditAnywhere, Category = "Inventory", meta = (ExcludeBaseStruct))
+	TArray<TInstancedStruct<FInv_ItemFragments>> Fragments;
+	
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	EInv_ItemCategory ItemCategory{EInv_ItemCategory::MAX};
 
