@@ -5,6 +5,8 @@
 #include "Widgets/Inventory/InventoryBase/Inv_InventoryBase.h"
 
 #include "Blueprint/UserWidget.h"
+#include "Items/Components/Inv_ItemComponent.h"
+#include "Items/Inv_InventoryItem.h"
 #include "Net/UnrealNetwork.h"
 
 UInv_InventoryComponent::UInv_InventoryComponent() : InventoryList(this)
@@ -24,26 +26,29 @@ void UInv_InventoryComponent::GetLifetimeReplicatedProps(TArray<class FLifetimeP
 
 void UInv_InventoryComponent::TryAddItem(UInv_ItemComponent* ItemComponent)
 {
-	FInv_SlotAvailabilityResult Result = InventoryMenuObj->HasRoomForItem(ItemComponent);
+	FInv_SlotAvailabilityResult AvailabilityResult = InventoryMenuObj->HasRoomForItem(ItemComponent);
 
-	if (Result.TotalRoomToFill == 0)
+	UInv_InventoryItem* FoundItem = InventoryList.FindFirstItemByType(ItemComponent->GetItemManifest().GetItemType());
+	AvailabilityResult.Item = FoundItem;
+
+	if (AvailabilityResult.TotalRoomToFill == 0)
 	{
 		OnNoRoomInventoryDelegate.Broadcast();
 		return;
 	}
 
-	if (Result.Item.IsValid() && Result.bStackable)
+	if (AvailabilityResult.Item.IsValid() && AvailabilityResult.bStackable)
 	{
 		Server_AddStackToItem(
 			ItemComponent,
-			Result.TotalRoomToFill,
-			Result.Remainder);
+			AvailabilityResult.TotalRoomToFill,
+			AvailabilityResult.Remainder);
 	}
-	else if (Result.TotalRoomToFill > 0)
+	else if (AvailabilityResult.TotalRoomToFill > 0)
 	{
 		Server_AddNewItem(
 			ItemComponent,
-			Result.bStackable ? Result.TotalRoomToFill : 0);
+			AvailabilityResult.bStackable ? AvailabilityResult.TotalRoomToFill : 0);
 	}
 }
 

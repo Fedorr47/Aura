@@ -90,6 +90,13 @@ private:
 	bool DoesItemMatch(
 		const UInv_InventoryItem* SubItem,
 		const FGameplayTag& ItemType) const;
+	bool IsInGridBounds(const int32 StartIndex, const FIntPoint& ItemDimensions) const;
+	int32 DetermineFillAmountForSlot(
+		const bool bStackable,
+		const int32 MaxStackSize,
+		const int32 AmountToFill,
+		const UInv_GridSlot* GridSlot) const;
+	int32 GetStackAmount(const UInv_GridSlot* GridSlot) const;
 
 	//------------------------------------------------------------------------------------------------------//
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
