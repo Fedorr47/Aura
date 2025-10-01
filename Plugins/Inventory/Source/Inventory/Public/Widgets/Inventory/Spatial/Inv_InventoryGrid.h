@@ -62,6 +62,11 @@ private:
 		const int32 Index,
 		const FInv_GridFragment* GridFragment,
 		UInv_SlottedItem* SlottedItem) const;
+	void UpdateGridSlots(
+		UInv_InventoryItem* InItem,
+		const int32 Index,
+		bool bStackable,
+		const int32 StackAmount);
 
 	//------------------------------------------------------------------------------------------------------//
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))

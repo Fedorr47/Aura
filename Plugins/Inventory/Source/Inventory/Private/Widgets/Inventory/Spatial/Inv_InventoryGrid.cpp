@@ -38,12 +38,17 @@ FInv_SlotAvailabilityResult UInv_InventoryGrid::HasRoomForItem(const FInv_ItemMa
 {
 	FInv_SlotAvailabilityResult AvailabilityResult;
 	AvailabilityResult.TotalRoomToFill = 1;
+	AvailabilityResult.bStackable = true;
 
 	FInv_SlotAvailability SlotAvailability;
-	SlotAvailability.AmountToFill = 1;
+	SlotAvailability.AmountToFill = 2;
 	SlotAvailability.Index = 0;
-	
 	AvailabilityResult.SlotAvailabilities.Add(MoveTemp(SlotAvailability));
+	
+	FInv_SlotAvailability SlotAvailability2;
+	SlotAvailability2.AmountToFill = 5;
+	SlotAvailability2.Index = 1;
+	AvailabilityResult.SlotAvailabilities.Add(MoveTemp(SlotAvailability2));
 	
 	return AvailabilityResult;
 }
@@ -66,6 +71,7 @@ void UInv_InventoryGrid::AddItemToIndecies(
 	for (const auto& SlotAvailability : AvailabilityResult.SlotAvailabilities)
 	{
 		AddItemAtIndex(InItem, SlotAvailability.Index, AvailabilityResult.bStackable, SlotAvailability.AmountToFill);
+		UpdateGridSlots(InItem, SlotAvailability.Index, AvailabilityResult.bStackable, SlotAvailability.AmountToFill);
 	}
 }
 
@@ -108,6 +114,9 @@ UInv_SlottedItem* UInv_InventoryGrid::CreateSlottedItem(
 	SlottedItem->SetInventoryItem(InItem);
 	SetSlottedItemImage(SlottedItem, GridFragment, ImageFragment);
 	SlottedItem->SetGridIndex(Index);
+	SlottedItem->SetIsStackable(bStackable);
+	const int32 StackUpdateAmount = bStackable ? StackAmount : 0;
+	SlottedItem->UpdateStackCount(StackUpdateAmount);
 
 	return SlottedItem;
 }
@@ -121,6 +130,38 @@ void UInv_InventoryGrid::AddSlottedItemToCanvas(const int32 Index, const FInv_Gr
 	const FVector2D DrawPos = UInv_WidgetUtils::GetPositionFromIndex(Index, Columns) * TileSize;
 	const FVector2D DrawPosWithPadding = DrawPos + FVector2D(GridFragment->GetGridPadding());
 	CanvasSlot->SetPosition(DrawPosWithPadding);
+}
+
+void UInv_InventoryGrid::UpdateGridSlots(
+	UInv_InventoryItem* InItem,
+	const int32 Index,
+	bool bStackable,
+	const int32 StackAmount)
+{
+	check(GridSlots.IsValidIndex(Index));
+
+	if (bStackable)
+	{
+		GridSlots[Index]->SetStackCount(StackAmount);
+	}
+
+	const FInv_GridFragment* GridFragment = GetFragment<FInv_GridFragment>(
+		InItem, FInventoryFragmentsTags::Get().GridFragment);
+	if (!GridFragment)
+	{
+		return;
+	}
+
+	const FIntPoint Dimension = GridFragment ? GridFragment->GetGridSize() : FIntPoint(1,1);
+
+	UInv_InventoryStatics::ForEach2D(GridSlots, Index, Dimension, Columns,
+		[&](UInv_GridSlot* GridSlot)
+		{
+			GridSlot->SetInventoryItem(InItem);
+			GridSlot->SetUpperLeftIndex(Index);
+			GridSlot->SetOccupiedTexture();
+			GridSlot->SetAvailable(false);
+		});
 }
 
 FVector2D UInv_InventoryGrid::GetDrawSize(const FInv_GridFragment* GridFragment) const

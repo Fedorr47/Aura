@@ -10,6 +10,7 @@
 
 class UInv_InventoryItem;
 class UImage;
+class UTextBlock;
 
 UCLASS()
 class INVENTORY_API UInv_SlottedItem : public UUserWidget
@@ -28,11 +29,15 @@ public:
 	UInv_InventoryItem* GetInventoryItem() const { return InventoryItem.Get(); }
 	void SetInventoryItem(UInv_InventoryItem* Item);
 	void SetImageBrush(const FSlateBrush& Brush) const;
+	void UpdateStackCount(int32 InStackCount);
 
 private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UImage> ImageIcon;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> TextStackCount;
 
 	int32 GridIndex{0};
 	FIntPoint GridDimension;

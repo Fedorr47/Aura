@@ -37,7 +37,7 @@ USTRUCT()
 struct FInv_SlotAvailabilityResult
 {
 	GENERATED_BODY()
-
+public:
 	FInv_SlotAvailabilityResult(){}
 
 	TWeakObjectPtr<UInv_InventoryItem> Item;

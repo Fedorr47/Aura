@@ -11,6 +11,7 @@ public:
 
 	FGameplayTag GridFragment;
 	FGameplayTag IconFragment;
+	FGameplayTag StackableFragment;
 
 private:
 	static FInventoryFragmentsTags FragInstance;
