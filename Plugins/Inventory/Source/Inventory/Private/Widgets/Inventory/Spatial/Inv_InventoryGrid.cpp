@@ -37,20 +37,136 @@ inline FInv_SlotAvailabilityResult UInv_InventoryGrid::HasRoomForItem(const UInv
 FInv_SlotAvailabilityResult UInv_InventoryGrid::HasRoomForItem(const FInv_ItemManifest& Manifest)
 {
 	FInv_SlotAvailabilityResult AvailabilityResult;
-	AvailabilityResult.TotalRoomToFill = 1;
-	AvailabilityResult.bStackable = true;
 
-	FInv_SlotAvailability SlotAvailability;
-	SlotAvailability.AmountToFill = 2;
-	SlotAvailability.Index = 0;
-	AvailabilityResult.SlotAvailabilities.Add(MoveTemp(SlotAvailability));
-	
-	FInv_SlotAvailability SlotAvailability2;
-	SlotAvailability2.AmountToFill = 5;
-	SlotAvailability2.Index = 1;
-	AvailabilityResult.SlotAvailabilities.Add(MoveTemp(SlotAvailability2));
+	const FInv_StackableFragment* StackableFragment = Manifest.GetFragmentOfType<FInv_StackableFragment>();
+	AvailabilityResult.bStackable = StackableFragment != nullptr;
+
+	const int32 MaxStackCount = AvailabilityResult.bStackable ? StackableFragment->GetMaxStackSize() : 1;
+	int32 AmountToFill = AvailabilityResult.bStackable ? StackableFragment->GetStackCount() : 1;
+
+	TSet<int32> CheckedIndices;
+	for (const TObjectPtr<UInv_GridSlot>& GridSlot : GridSlots)
+	{
+		if (AmountToFill == 0)
+		{
+			break;
+		}
+		if (IsIndexClaimed(CheckedIndices, GridSlot->GetTileIndex()))
+		{
+			continue;
+		}
+
+		TSet<int32> TentativelyClaimed;
+		if (!HasRoomAtIndex(
+			GridSlot,
+			GetItemDimensions(Manifest),
+			CheckedIndices,
+			TentativelyClaimed,
+			Manifest.GetItemType(),
+			MaxStackCount))
+		{
+			continue;
+		}
+
+		CheckedIndices.Append(TentativelyClaimed);
+	}
 	
 	return AvailabilityResult;
+}
+
+FIntPoint UInv_InventoryGrid::GetItemDimensions(const FInv_ItemManifest& Manifest) const
+{
+	const FInv_GridFragment* GridFragment = Manifest.GetFragmentOfType<FInv_GridFragment>();
+	return GridFragment ? GridFragment->GetGridSize() : FIntPoint(1,1);
+}
+
+bool UInv_InventoryGrid::HasRoomAtIndex(
+	const UInv_GridSlot* GridSlot,
+	const FIntPoint& Dimensions,
+	TSet<int32>& CheckedIndecies,
+	TSet<int32>& OutTentativelyClaimed,
+	const FGameplayTag& ItemType,
+	const int32 MaxStackSize)
+{
+	bool bHasRoomAtIndex = true;
+
+	UInv_InventoryStatics::ForEach2D(GridSlots,GridSlot->GetTileIndex(),Dimensions,Columns,
+		[&](const UInv_GridSlot* SubGridSlot)
+		{
+			if (CheckSlotConstraints(
+				GridSlot,
+				SubGridSlot,
+				CheckedIndecies,
+				OutTentativelyClaimed,
+				ItemType,
+				MaxStackSize))
+			{
+				OutTentativelyClaimed.Add(SubGridSlot->GetTileIndex());
+			}
+			else
+			{
+				bHasRoomAtIndex = false;
+			}
+		});
+	
+	return bHasRoomAtIndex;
+}
+
+bool UInv_InventoryGrid::CheckSlotConstraints(
+	const UInv_GridSlot* GridSlot,
+	const UInv_GridSlot* SubGridSlot,
+	const TSet<int32>& CheckeIndecies,
+	TSet<int32>& OutTentativelyClaimed,
+	const FGameplayTag& ItemType,
+	const int32 MaxStackSize) const
+{
+	if (IsIndexClaimed(CheckeIndecies, SubGridSlot->GetTileIndex()))
+	{
+		return false;
+	}
+	if (!HasValidItem(SubGridSlot))
+	{
+		OutTentativelyClaimed.Add(SubGridSlot->GetTileIndex());
+		return true;
+	}
+	if (!IsUpperLeftSlot(GridSlot, SubGridSlot))
+	{
+		return false;
+	}
+	const UInv_InventoryItem* SubItem = SubGridSlot->GetInventoryItem().Get();
+	if (!SubItem->IsStackable())
+	{
+		return false;
+	}
+	if (!DoesItemMatch(SubItem, ItemType))
+	{
+		return false;
+	}
+	if (GridSlot->GetStackCount() >= MaxStackSize)
+	{
+		return false;
+	}
+	return true;
+}
+
+bool UInv_InventoryGrid::IsUpperLeftSlot(const UInv_GridSlot* GridSlot, const UInv_GridSlot* SubGridSlot) const
+{
+	return SubGridSlot->GetUpperLeftIndex() == GridSlot->GetTileIndex();
+}
+
+bool UInv_InventoryGrid::DoesItemMatch(const UInv_InventoryItem* SubItem, const FGameplayTag& ItemType) const
+{
+	return SubItem->GetItemManifest().GetItemType().MatchesTagExact(ItemType);
+}
+
+bool UInv_InventoryGrid::HasValidItem(const UInv_GridSlot* SubGridSlot) const
+{
+	return SubGridSlot->GetInventoryItem().IsValid();
+}
+
+bool UInv_InventoryGrid::IsIndexClaimed(const TSet<int32>& CheckedIndices, const int32 Index) const
+{
+	return CheckedIndices.Contains(Index);
 }
 
 void UInv_InventoryGrid::AddItem(UInv_InventoryItem* InItem)

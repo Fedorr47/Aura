@@ -67,6 +67,29 @@ private:
 		const int32 Index,
 		bool bStackable,
 		const int32 StackAmount);
+	bool IsIndexClaimed(const TSet<int32>& CheckeIndecies, const int32 Index) const;
+	bool HasRoomAtIndex(
+		const UInv_GridSlot* GridSlot,
+		const FIntPoint& Dimensions,
+		TSet<int32>& CheckeIndecies,
+		TSet<int32>& OutTentativelyClaimed,
+		const FGameplayTag& ItemType,
+		const int32 MaxStackSize);
+	FIntPoint GetItemDimensions(const FInv_ItemManifest& Manifest) const;
+	bool CheckSlotConstraints(
+		const UInv_GridSlot* GridSlot,
+		const UInv_GridSlot* SubGridSlot,
+		const TSet<int32>& CheckedIndecies,
+		TSet<int32>& OutTentativelyClaimed,
+		const FGameplayTag& ItemType,
+		const int32 MaxStackSize) const;
+	bool HasValidItem(const UInv_GridSlot* SubGridSlot) const;
+	bool IsUpperLeftSlot(
+		const UInv_GridSlot* GridSlot,
+		const UInv_GridSlot* SubGridSlot) const;
+	bool DoesItemMatch(
+		const UInv_InventoryItem* SubItem,
+		const FGameplayTag& ItemType) const;
 
 	//------------------------------------------------------------------------------------------------------//
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
