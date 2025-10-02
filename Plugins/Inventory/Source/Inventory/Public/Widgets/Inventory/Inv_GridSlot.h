@@ -44,8 +44,8 @@ private:
 	
 	//----------------------------------------------------------------------------------------------------------------//
 
-	int32 TileIndex{0};
-	int32 StackCount{1};
+	int32 TileIndex{INDEX_NONE};
+	int32 StackCount{0};
 	int32 UpperLeftIndex{INDEX_NONE};
 	TWeakObjectPtr<UInv_InventoryItem> InventoryItem;
 	bool bAvailable{true};

@@ -28,7 +28,7 @@ public:
 	{
 		if (!IsValid(ItemComponent))
 		{
-			return EInv_ItemCategory::MAX;
+			return EInv_ItemCategory::None;
 		}
 		return ItemComponent->GetItemManifest().GetItemCategory();
 	}

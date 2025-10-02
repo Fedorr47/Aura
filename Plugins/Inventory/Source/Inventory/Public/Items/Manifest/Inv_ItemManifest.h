@@ -43,7 +43,7 @@ private:
 	TArray<TInstancedStruct<FInv_ItemFragment>> Fragments;
 	
 	UPROPERTY(EditAnywhere, Category = "Inventory")
-	EInv_ItemCategory ItemCategory{EInv_ItemCategory::MAX};
+	EInv_ItemCategory ItemCategory{EInv_ItemCategory::None};
 
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	FGameplayTag ItemType;

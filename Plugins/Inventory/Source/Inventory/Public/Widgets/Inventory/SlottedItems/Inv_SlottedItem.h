@@ -12,12 +12,16 @@ class UInv_InventoryItem;
 class UImage;
 class UTextBlock;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FSlottedItemClickedSignature, int32, GridIndex, const FPointerEvent&, MouseEvent);
+
 UCLASS()
 class INVENTORY_API UInv_SlottedItem : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
+
+	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 
 	void SetIsStackable(bool bStackable) { bIsStackable = bStackable; }
 	UImage* GetImage() const { return ImageIcon; }
@@ -30,6 +34,8 @@ public:
 	void SetInventoryItem(UInv_InventoryItem* Item);
 	void SetImageBrush(const FSlateBrush& Brush) const;
 	void UpdateStackCount(int32 InStackCount);
+
+	FSlottedItemClickedSignature OnSlottedItemClickedDelegate;
 
 private:
 
