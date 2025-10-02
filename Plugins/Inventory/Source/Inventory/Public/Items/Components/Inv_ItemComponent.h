@@ -15,18 +15,20 @@ class INVENTORY_API UInv_ItemComponent : public UActorComponent
 
 public:
 	UInv_ItemComponent();
-	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
 
+	virtual void BeginPlay() override;
+	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 							   FActorComponentTickFunction* ThisTickFunction) override;
 
 	FString GetPickupMessage() {return PickupMessage;};
-
 	FInv_ItemManifest GetItemManifest() const { return ItemManifest; }
-
+	void PickedUp();
 	
 protected:
-	virtual void BeginPlay() override;
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "Inventory")
+	void OnPickedUp();
 
 private:
 

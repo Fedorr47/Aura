@@ -36,7 +36,7 @@ private:
 
 	void ConstructGrid();
 
-	bool MatchCategory(const UInv_InventoryItem* InItem) const;
+	bool MatchesCategory(const UInv_InventoryItem* InItem) const;
 
 	FInv_SlotAvailabilityResult HasRoomForItem(const UInv_InventoryItem* Item);
 	FInv_SlotAvailabilityResult HasRoomForItem(const FInv_ItemManifest& Manifest);
@@ -97,6 +97,10 @@ private:
 		const int32 AmountToFill,
 		const UInv_GridSlot* GridSlot) const;
 	int32 GetStackAmount(const UInv_GridSlot* GridSlot) const;
+
+
+	UFUNCTION()
+	void AddStacks(const FInv_SlotAvailabilityResult& AvailabilityResult);
 
 	//------------------------------------------------------------------------------------------------------//
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))

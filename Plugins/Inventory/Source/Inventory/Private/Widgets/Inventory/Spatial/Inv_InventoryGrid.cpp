@@ -22,6 +22,7 @@ void UInv_InventoryGrid::NativeOnInitialized()
 
 	InventoryComponent = UInv_InventoryStatics::GetInventoryComponent(GetOwningPlayer());
 	InventoryComponent->OnItemAddedDelegate.AddDynamic(this, &ThisClass::AddItem);
+	InventoryComponent->OnStackChangedDelegate.AddDynamic(this, &ThisClass::AddStacks);
 }
 
 FInv_SlotAvailabilityResult UInv_InventoryGrid::HasRoomForItem(const UInv_ItemComponent* ItemComponent)
@@ -140,6 +141,31 @@ int32 UInv_InventoryGrid::GetStackAmount(const UInv_GridSlot* GridSlot) const
 	return CurrentSlotStackAmount;
 }
 
+void UInv_InventoryGrid::AddStacks(const FInv_SlotAvailabilityResult& AvailabilityResult)
+{
+	if (!MatchesCategory(AvailabilityResult.Item.Get()))
+	{
+		return;
+	}
+	for (const auto& Availability : AvailabilityResult.SlotAvailabilities)
+	{
+		if (Availability.bItemAtIndex)
+		{
+			const auto& GridSlot = GridSlots[Availability.Index];
+			const auto& SlottedItem = SlottedItems.FindChecked(Availability.Index);
+			int32 NewStackAmount = GridSlot->GetStackCount() + Availability.AmountToFill;
+			SlottedItem->UpdateStackCount(NewStackAmount);
+			GridSlot->SetStackCount(NewStackAmount);
+		}
+		else
+		{
+			AddItemAtIndex(AvailabilityResult.Item.Get(), Availability.Index, AvailabilityResult.bStackable, Availability.AmountToFill);
+			UpdateGridSlots(AvailabilityResult.Item.Get(), Availability.Index, AvailabilityResult.bStackable, Availability.AmountToFill);
+		}
+	}
+	
+}
+
 bool UInv_InventoryGrid::HasRoomAtIndex(
 	const UInv_GridSlot* GridSlot,
 	const FIntPoint& Dimensions,
@@ -231,7 +257,7 @@ bool UInv_InventoryGrid::IsIndexClaimed(const TSet<int32>& CheckedIndices, const
 
 void UInv_InventoryGrid::AddItem(UInv_InventoryItem* InItem)
 {
-	if (!MatchCategory(InItem))
+	if (!MatchesCategory(InItem))
 	{
 		return;
 	}
@@ -369,7 +395,7 @@ void UInv_InventoryGrid::ConstructGrid()
 			UInv_GridSlot* GridSlot = CreateWidget<UInv_GridSlot>(this, GridSlotClass);
 			CanvasPanel->AddChild(GridSlot);
 
-			const FIntPoint TilePosition = FIntPoint(j, i);
+			const FIntPoint TilePosition(j, i);
 			GridSlot->SetTileIndex(UInv_WidgetUtils::GetIndexFromPosition(TilePosition, Columns));
 
 			UCanvasPanelSlot* GridCanvasPanelSlot = UWidgetLayoutLibrary::SlotAsCanvasSlot(GridSlot);
@@ -381,7 +407,7 @@ void UInv_InventoryGrid::ConstructGrid()
 	}
 }
 
-bool UInv_InventoryGrid::MatchCategory(const UInv_InventoryItem* InItem) const
+bool UInv_InventoryGrid::MatchesCategory(const UInv_InventoryItem* InItem) const
 {
 	return InItem->GetItemManifest().GetItemCategory() == ItemCategory;
 }

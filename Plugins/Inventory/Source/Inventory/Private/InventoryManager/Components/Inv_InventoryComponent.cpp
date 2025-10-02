@@ -7,6 +7,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Items/Components/Inv_ItemComponent.h"
 #include "Items/Inv_InventoryItem.h"
+#include "Items/Fragments/Inv_ItemFragment.h"
 #include "Net/UnrealNetwork.h"
 
 UInv_InventoryComponent::UInv_InventoryComponent() : InventoryList(this)
@@ -39,6 +40,7 @@ void UInv_InventoryComponent::TryAddItem(UInv_ItemComponent* ItemComponent)
 
 	if (AvailabilityResult.Item.IsValid() && AvailabilityResult.bStackable)
 	{
+		OnStackChangedDelegate.Broadcast(AvailabilityResult);
 		Server_AddStackToItem(
 			ItemComponent,
 			AvailabilityResult.TotalRoomToFill,
@@ -57,20 +59,39 @@ void UInv_InventoryComponent::Server_AddNewItem_Implementation(
 	int32 StackCount)
 {
 	UInv_InventoryItem* NewItem =  InventoryList.AddEntry(ItemsComponent);
+	NewItem->SetTotalStackCount(StackCount);
 
 	if (GetOwner()->GetNetMode() == NM_ListenServer || GetOwner()->GetNetMode() == NM_Standalone)
 	{
 		OnItemAddedDelegate.Broadcast(NewItem);
 	}
-	// TODO: Destroy item
+
+	ItemsComponent->PickedUp();
 }
 
 void UInv_InventoryComponent::Server_AddStackToItem_Implementation(
-	UInv_ItemComponent* ItemsComponent,
+	UInv_ItemComponent* ItemComponent,
 	int32 StackCount,
 	int32 Remainder)
 {
-	
+	const FGameplayTag& ItemType = IsValid(ItemComponent) ?
+		ItemComponent->GetItemManifest().GetItemType() : FGameplayTag::EmptyTag;
+	UInv_InventoryItem* Item =  InventoryList.FindFirstItemByType(ItemType);
+	if (!IsValid(Item))
+	{
+		return;
+	}
+
+	Item->SetTotalStackCount(Item->GetTotalStackCount() + StackCount);
+
+	if (Remainder == 0)
+	{
+		ItemComponent->PickedUp();
+	}
+	else if (FInv_StackableFragment* StackableFragment = Item->GItemManifestMutable().GetFragmentOfTypeMutable<FInv_StackableFragment>())
+	{
+		StackableFragment->SetStackCount(Remainder);
+	}
 }
 
 void UInv_InventoryComponent::ToggleInventoryMenu()

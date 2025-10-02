@@ -11,7 +11,7 @@ class UInv_InventoryBase;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInventoryItemChangedSignature, UInv_InventoryItem*, InventoryItem);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNoRoomInventorySignature);
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FStackChangedSignature, const FInv_SlotAvailabilityResult&, AvailabilityResult);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable)
 class INVENTORY_API UInv_InventoryComponent : public UActorComponent
@@ -31,7 +31,7 @@ public:
 
 	UFUNCTION(Server, Reliable)
 	void Server_AddStackToItem(
-		UInv_ItemComponent* ItemsComponent,
+		UInv_ItemComponent* ItemComponent,
 		int32 StackCount,
 		int32 Remainder);
 
@@ -41,6 +41,7 @@ public:
 	FInventoryItemChangedSignature OnItemAddedDelegate;
 	FInventoryItemChangedSignature OnItemRemovedDelegate;
 	FNoRoomInventorySignature OnNoRoomInventoryDelegate;
+	FStackChangedSignature OnStackChangedDelegate;
 
 protected:
 	virtual void BeginPlay() override;

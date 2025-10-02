@@ -11,6 +11,12 @@ UInv_ItemComponent::UInv_ItemComponent()
 }
 
 
+void UInv_ItemComponent::PickedUp()
+{
+	OnPickedUp();
+	GetOwner()->Destroy();
+}
+
 void UInv_ItemComponent::BeginPlay()
 {
 	Super::BeginPlay();
