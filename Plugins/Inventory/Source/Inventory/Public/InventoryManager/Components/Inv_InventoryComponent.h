@@ -50,6 +50,8 @@ private:
 	void OpenInventoryMenu();
 	void CloseInventoryMenu();
 
+	UUserWidget* GeDefaultCursorWidget();
+
 	//----------------------------------------------------------------------------------------//
 	TWeakObjectPtr<APlayerController> OwningController;
 
@@ -61,6 +63,12 @@ private:
 
 	UPROPERTY(Replicated)
 	FInv_InventoryFastArray InventoryList;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	TSubclassOf<UUserWidget> DefaultCursorWidgetClass;
+
+	UPROPERTY()
+	TObjectPtr<UUserWidget> DefaultCursorWidget;
 
 	bool bInventoryMenuOpen{ false };
 };

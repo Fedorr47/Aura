@@ -24,6 +24,20 @@ public:
 	
 private:
 	
+	UFUNCTION()
+	void ShowEquippables();
+
+	UFUNCTION()
+	void ShowConsumables();
+
+	UFUNCTION()
+	void ShowCraftables();
+	
+	void DisableButton(UButton* Button);
+
+	void SetActiveGrid(UInv_InventoryGrid* Grid, UButton* Button);
+
+//--------------------------------------------------------------------------------------------------------------------//	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UWidgetSwitcher> Switcher;
 	
@@ -45,17 +59,6 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> Button_Craftables;
 
-	UFUNCTION()
-	void ShowEquippables();
-
-	UFUNCTION()
-	void ShowConsumables();
-
-	UFUNCTION()
-	void ShowCraftables();
-	
-	void DisableButton(UButton* Button);
-
-	void SetActiveGrid(UInv_InventoryGrid* Grid, UButton* Button);
+	TWeakObjectPtr<UInv_InventoryGrid> ActiveGrid;
 };
 	

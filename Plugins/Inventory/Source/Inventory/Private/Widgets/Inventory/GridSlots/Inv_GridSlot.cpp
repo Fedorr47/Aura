@@ -1,10 +1,30 @@
 // Copyright - none
 
 
-#include "Widgets/Inventory/Inv_GridSlot.h"
+#include "Widgets/Inventory/GridSlots/Inv_GridSlot.h"
 
 #include "Items/Inv_InventoryItem.h"
 #include "Components/Image.h"
+
+void UInv_GridSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
+
+	OnGridSlotHoveredDelegate.Broadcast(TileIndex, InMouseEvent);
+}
+
+void UInv_GridSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseLeave(InMouseEvent);
+
+	OnGridSlotUnhoveredDelegate.Broadcast(TileIndex, InMouseEvent);
+}
+
+FReply UInv_GridSlot::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	OnGridSlotClickedDelegate.Broadcast(TileIndex, InMouseEvent);
+	return FReply::Handled();
+}
 
 void UInv_GridSlot::SetInventoryItem(UInv_InventoryItem* Item)
 {

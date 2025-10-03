@@ -13,23 +13,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1613ee45-c9c5-42e2-9ee7-37c1977cbd6e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/HoverItem/Inv_HoverItem.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/HoverItem/Inv_HoverItem.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Aura/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Aura/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Maps/Dungeon4.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/Dungeon4.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Config/DefaultInventory.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Config/DefaultInventory.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Content/Widgets/Inventory/WBP_Inv_InventoryGrid.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Content/Widgets/Inventory/WBP_Inv_InventoryGrid.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Inventory.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Inventory.Build.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/SlottedItems/Inv_SlottedItem.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/SlottedItems/Inv_SlottedItem.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Content/InventoryManager/InventoryComponent/BP_Inv_InventoryComponent.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Content/InventoryManager/InventoryComponent/BP_Inv_InventoryComponent.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Content/Widgets/Inventory/WBP_Inv_SpatialInventory.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Content/Widgets/Inventory/WBP_Inv_SpatialInventory.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/InventoryManager/Components/Inv_InventoryComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/InventoryManager/Components/Inv_InventoryComponent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/HoverItem/Inv_HoverItem.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/HoverItem/Inv_HoverItem.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/Inv_GridSlot.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/GridSlots/Inv_GridSlot.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/Spatial/Inv_InventoryGrid.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/Spatial/Inv_InventoryGrid.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Utils/Inv_WidgetUtils.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Utils/Inv_WidgetUtils.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/InventoryManager/Utils/Inv_InventoryStatics.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/InventoryManager/Utils/Inv_InventoryStatics.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Items/Manifest/Inv_ItemManifest.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Items/Manifest/Inv_ItemManifest.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Types/Inv_GridTypes.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Types/Inv_GridTypes.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/Inv_GridSlot.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/Inv_GridSlot.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/SlottedItems/Inv_SlottedItem.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/SlottedItems/Inv_SlottedItem.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/Spatial/Inv_SpatialInventory.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/Spatial/Inv_SpatialInventory.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/InventoryManager/Components/Inv_InventoryComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/InventoryManager/Components/Inv_InventoryComponent.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/HoverItem/Inv_HoverItem.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/HoverItem/Inv_HoverItem.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/Inv_GridSlot.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/GridSlots/Inv_GridSlot.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/Spatial/Inv_InventoryGrid.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/Spatial/Inv_InventoryGrid.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Utils/Inv_WidgetUtils.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Utils/Inv_WidgetUtils.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/Spatial/Inv_SpatialInventory.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/Spatial/Inv_SpatialInventory.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +54,6 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
@@ -104,9 +100,7 @@
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="cidr-memory-view://46" root0="FORCE_HIGHLIGHTING" />
+    <setting file="cidr-memory-view://13" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Plugins/EnhancedInput/Source/EnhancedInput/Private/EnhancedPlayerInput.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Plugins/Online/OnlineSubsystem/Source/Public/Interfaces/OnlineGameItemStatsInterface.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Plugins/Runtime/GameplayAbilities/Source/GameplayAbilities/Private/Abilities/Tasks/AbilityTask_PlayMontageAndWait.cpp" root0="SKIP_HIGHLIGHTING" />
@@ -119,6 +113,7 @@
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Programs/Shared/EpicGames.Horde/Agents/AgentMessages.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Programs/Shared/EpicGames.Horde/EpicGames.Horde.csproj" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/AnimGraphRuntime/Private/PlayMontageCallbackProxy.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/ApplicationCore/Public/GenericPlatform/ICursor.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Core/Private/Internationalization/TextFormatter.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Core/Private/Misc/CoreMisc.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Core/Public/Containers/Array.h" root0="FORCE_HIGHLIGHTING" />
@@ -144,6 +139,7 @@
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Classes/Animation/AnimInstance.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Classes/Components/ActorComponent.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Classes/Engine/EngineTypes.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Classes/Engine/GameViewportClient.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Classes/GameFramework/Actor.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Classes/GameFramework/PainCausingVolume.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Classes/GameFramework/Pawn.h" root0="FORCE_HIGHLIGHTING" />
@@ -155,6 +151,7 @@
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Private/Collision/WorldCollision.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Private/Components/ActorComponent.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Private/DataChannel.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Private/GameViewportClient.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Private/GameplayStatics.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Private/LevelTick.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Private/NetDriver.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -164,6 +161,7 @@
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Private/SceneView.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Private/UnrealEngine.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Private/UserInterface/PlayerInput.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Public/HitProxies.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Engine/Public/SceneView.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/Experimental/Chaos/Public/Chaos/Framework/HashMappedArray.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/GameplayTags/Classes/GameplayTagContainer.h" root0="FORCE_HIGHLIGHTING" />
@@ -359,7 +357,9 @@
       <workItem from="1759222262106" duration="8040000" />
       <workItem from="1759238184642" duration="12423000" />
       <workItem from="1759313647762" duration="20328000" />
-      <workItem from="1759385915700" duration="20418000" />
+      <workItem from="1759385915700" duration="21837000" />
+      <workItem from="1759430414221" duration="548000" />
+      <workItem from="1759491287712" duration="13565000" />
     </task>
     <servers />
   </component>
@@ -384,13 +384,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/InventoryManager/FastArray/Inv_FastArray.cpp</url>
-          <line>39</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">

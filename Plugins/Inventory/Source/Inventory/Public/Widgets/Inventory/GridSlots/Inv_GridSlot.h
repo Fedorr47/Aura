@@ -9,6 +9,8 @@
 class UInv_InventoryItem;
 class UImage;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FGridSlotEventSignatuure, int32, GridIndex, const FPointerEvent&, MouseEvent);
+
 UENUM(BlueprintType)
 enum class EInv_GridSlotState : uint8
 {
@@ -22,7 +24,13 @@ UCLASS()
 class INVENTORY_API UInv_GridSlot : public UUserWidget
 {
 	GENERATED_BODY()
+
 public:
+
+	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
+	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	
 	int32 GetTileIndex() const { return TileIndex; }
 	void SetTileIndex(const int32 Index) { TileIndex = Index; }
 	EInv_GridSlotState GetGridSlotState() const { return GridSlotState; }
@@ -39,6 +47,11 @@ public:
 	void SetOccupiedTexture();
 	void SetSelectedTexture();
 	void SetGrayedOutTexture();
+
+	//----------------------------------------------------------------------------------------------------------------//
+	FGridSlotEventSignatuure OnGridSlotClickedDelegate;
+	FGridSlotEventSignatuure OnGridSlotHoveredDelegate;
+	FGridSlotEventSignatuure OnGridSlotUnhoveredDelegate;
 	
 private:
 	

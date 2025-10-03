@@ -33,7 +33,8 @@ public:
 
 	UFUNCTION()
 	void AddItem(UInv_InventoryItem* InItem);
-	
+	void ShowCursor();
+	void HideCursor();
 
 private:
 
@@ -107,8 +108,6 @@ private:
 
 	UFUNCTION()
 	void AddStacks(const FInv_SlotAvailabilityResult& AvailabilityResult);
-	UFUNCTION()
-	void OnSlottedItemClicked(int32 GridIndex, const FPointerEvent& MouseEvent);
 	void PickUp(UInv_InventoryItem* ClickedInventoryItem, const int32 GridIndex);
 	void AssignHoverItem(UInv_InventoryItem* InInventoryItem);
 	void AssignHoverItem(UInv_InventoryItem* InInventoryItem, const int32 GridIndex, const int32 PreviousGridIndex);
@@ -129,6 +128,27 @@ private:
 	void HighlightSlots(const int32 Index, const FIntPoint& Dimensions);
 	void UnhighlightSlots(const int32 Index, const FIntPoint& Dimensions);
 	void ChangeHoverType(const int32 Index, const FIntPoint& Dimensions, EInv_GridSlotState GridSlotState);
+	void PutDownIndex(const int32 Index);
+	void ClearHoverItem();
+	UUserWidget* GetVisibleCursorWidget();
+	UUserWidget* GetHiddenCursorWidget();
+	bool IsSameStackable(const UInv_InventoryItem* ClickedInventoryItem) const;
+	void SwapWithHoverItem(UInv_InventoryItem* ClickedInventoryItem, const int32 GridIndex);
+	bool ShouldSwapStackCount(const int32 RoomInClickedSlot, const int32 HoveredStackCount, const int32 MaxStackSize) const;
+	void SwapStackCount(const int32 ClickedStackCount, const int32 HoveredStackCount, const int32 Index) const;
+	bool ShouldConsumeHoverItemStacks(const int32 HoveredStackCount, const int32 RoomInClickedSlot) const;
+	void ConsumeHoverItemStacks(const int32 ClickedStackCount, const int32 HoveredStackCount, const int32 Index);
+	bool ShouldFillInStack(const int32 RoomInClickedSlot, const int32 HoveredStackCount) const;
+	void FillInStack(const int32 FillAmount, const int32 Remainder, const int32 Index);
+
+	UFUNCTION()
+	void OnSlottedItemClicked(int32 GridIndex, const FPointerEvent& MouseEvent);
+	UFUNCTION()
+	void OnGridSlotClicked(int32 GridIndex, const FPointerEvent& MouseEvent);
+	UFUNCTION()
+	void OnGridSlotHovered(int32 GridIndex, const FPointerEvent& MouseEvent);
+	UFUNCTION()
+	void OnGridSlotUnhovered(int32 GridIndex, const FPointerEvent& MouseEvent);
 
 	//------------------------------------------------------------------------------------------------------//
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
@@ -175,4 +195,15 @@ private:
 	bool bLastMouseWithinCanvas;
 	int32 LastHighlightedIndex{INDEX_NONE};
 	FIntPoint LastHighlightedDimensions;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	TSubclassOf<UUserWidget> VisibleCursorWidgetClass;
+	
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	TSubclassOf<UUserWidget> HiddenCursorWidgetClass;
+
+	UPROPERTY()
+	TObjectPtr<UUserWidget> VisibleCursorWidget;
+	UPROPERTY()
+	TObjectPtr<UUserWidget> HiddenCursorWidget;
 };

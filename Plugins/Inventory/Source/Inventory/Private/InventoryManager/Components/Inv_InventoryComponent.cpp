@@ -179,6 +179,27 @@ void UInv_InventoryComponent::CloseInventoryMenu()
 	OwningController->SetInputMode(InputMode);
 	OwningController->SetShowMouseCursor(false);
 	*/
+
+	/* For top down game*/
+	if (!OwningController.IsValid())
+	{
+		return;
+	}
+	OwningController.Get()->SetMouseCursorWidget(EMouseCursor::Default, GeDefaultCursorWidget());
+}
+
+// TODO: Move it to game code itself
+UUserWidget* UInv_InventoryComponent::GeDefaultCursorWidget()
+{
+	if (!OwningController.IsValid())
+	{
+		return nullptr;
+	}
+	if (!IsValid(DefaultCursorWidget))
+	{
+		DefaultCursorWidget = CreateWidget<UUserWidget>(OwningController.Get(), DefaultCursorWidgetClass);
+	}
+	return DefaultCursorWidget;
 }
 
 
