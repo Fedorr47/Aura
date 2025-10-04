@@ -13,18 +13,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1613ee45-c9c5-42e2-9ee7-37c1977cbd6e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/ItemPopUp/Inv_ItemPopUp.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/ItemPopUp/Inv_ItemPopUp.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Aura/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Aura/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Maps/Dungeon4.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/Dungeon4.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Content/InventoryManager/InventoryComponent/BP_Inv_InventoryComponent.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Content/InventoryManager/InventoryComponent/BP_Inv_InventoryComponent.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/UI/AttributeMenu/WBP_AttributeMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/UI/AttributeMenu/WBP_AttributeMenu.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/UI/DragAndDrop/WBP_DragWidget.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/UI/DragAndDrop/WidgetDrag.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/UI/Overlay/WBP_Overlay.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/UI/Overlay/WBP_Overlay.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Config/DefaultInventory.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Config/DefaultInventory.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Content/Widgets/Inventory/WBP_Inv_InventoryGrid.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Content/Widgets/Inventory/WBP_Inv_InventoryGrid.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Content/Widgets/Inventory/WBP_Inv_SpatialInventory.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Content/Widgets/Inventory/WBP_Inv_SpatialInventory.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/InventoryManager/Components/Inv_InventoryComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/InventoryManager/Components/Inv_InventoryComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/HoverItem/Inv_HoverItem.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/HoverItem/Inv_HoverItem.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/Inv_GridSlot.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/GridSlots/Inv_GridSlot.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Items/Inv_InventoryItem.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Items/Inv_InventoryItem.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/GridSlots/Inv_GridSlot.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/GridSlots/Inv_GridSlot.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/Spatial/Inv_InventoryGrid.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/Spatial/Inv_InventoryGrid.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/Spatial/Inv_SpatialInventory.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Widgets/Inventory/Spatial/Inv_SpatialInventory.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/InventoryManager/Components/Inv_InventoryComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/InventoryManager/Components/Inv_InventoryComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/HoverItem/Inv_HoverItem.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/HoverItem/Inv_HoverItem.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/Inv_GridSlot.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/GridSlots/Inv_GridSlot.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Items/Inv_InventoryItem.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Items/Inv_InventoryItem.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/GridSlots/Inv_GridSlot.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/GridSlots/Inv_GridSlot.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/Spatial/Inv_InventoryGrid.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/Spatial/Inv_InventoryGrid.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/Spatial/Inv_SpatialInventory.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Public/Widgets/Inventory/Spatial/Inv_SpatialInventory.h" afterDir="false" />
     </list>
@@ -52,8 +56,26 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
@@ -172,11 +194,13 @@
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/UMG/Private/Slate/SObjectWidget.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/UMG/Private/UserWidget.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/UMG/Private/WidgetLayoutLibrary.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/Runtime/UMG/Public/Components/SlateWrapperTypes.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../EpicGames/SM2/UE_5.6/Engine/Source/ThirdParty/MaterialX/MaterialX.tps" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/Aura/UHT/AuraPlayerState.gen.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/Aura/UHT/CheatInterface.gen.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/Aura/UHT/DebugCheatManager.gen.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/Aura/UHT/PlayerInterface.gen.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Plugins/Inventory/Intermediate/Build/Win64/UnrealEditor/Inc/Inventory/UHT/Inv_GridSlot.gen.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Plugins/Inventory/Intermediate/Build/Win64/UnrealEditor/Inc/Inventory/UHT/Inv_InventoryComponent.gen.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Plugins/Inventory/Intermediate/Build/Win64/UnrealEditor/Inc/Inventory/UHT/Inv_InventoryGrid.gen.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Plugins/Inventory/Source/Inventory/Private/Player/Inv_PlayerController.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -359,7 +383,8 @@
       <workItem from="1759313647762" duration="20328000" />
       <workItem from="1759385915700" duration="21837000" />
       <workItem from="1759430414221" duration="548000" />
-      <workItem from="1759491287712" duration="13565000" />
+      <workItem from="1759491287712" duration="14359000" />
+      <workItem from="1759564685226" duration="10623000" />
     </task>
     <servers />
   </component>

@@ -9,6 +9,7 @@
 #include "Inv_InventoryGrid.generated.h"
 
 
+class UInv_ItemPopUp;
 enum class EInv_GridSlotState : uint8;
 class UInv_HoverItem;
 struct FInv_GridFragment;
@@ -27,6 +28,8 @@ public:
 
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 	virtual void NativeOnInitialized() override;
+
+	void SetOwningCanvasPanel(UCanvasPanel* InOwningCanvasPanel);
 
 	EInv_ItemCategory GetItemCategory() const {return ItemCategory; }
 	FInv_SlotAvailabilityResult HasRoomForItem(const UInv_ItemComponent* ItemComponent);
@@ -140,6 +143,7 @@ private:
 	void ConsumeHoverItemStacks(const int32 ClickedStackCount, const int32 HoveredStackCount, const int32 Index);
 	bool ShouldFillInStack(const int32 RoomInClickedSlot, const int32 HoveredStackCount) const;
 	void FillInStack(const int32 FillAmount, const int32 Remainder, const int32 Index);
+	void CreateItemPopUp(const int32 GridIndex);
 
 	UFUNCTION()
 	void OnSlottedItemClicked(int32 GridIndex, const FPointerEvent& MouseEvent);
@@ -149,12 +153,19 @@ private:
 	void OnGridSlotHovered(int32 GridIndex, const FPointerEvent& MouseEvent);
 	UFUNCTION()
 	void OnGridSlotUnhovered(int32 GridIndex, const FPointerEvent& MouseEvent);
+	UFUNCTION()
+	void OnPopUpMenuSplit(int32 SplitAmount, int32 Index);
+	UFUNCTION()
+	void OnPopUpMenuDrop(int32 Index);
+	UFUNCTION()
+	void OnPopUpMenuConsume(int32 Index);
 
 	//------------------------------------------------------------------------------------------------------//
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
 	EInv_ItemCategory ItemCategory;
 
 	TWeakObjectPtr<UInv_InventoryComponent> InventoryComponent;
+	TWeakObjectPtr<UCanvasPanel> OwningCanvasPanel;
 
 	UPROPERTY()
 	TArray<TObjectPtr<UInv_GridSlot>> GridSlots;
@@ -202,8 +213,16 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	TSubclassOf<UUserWidget> HiddenCursorWidgetClass;
 
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	TSubclassOf<UUserWidget> ItemPopUpClass;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	FVector2D ItemPopUpOffset;
+
 	UPROPERTY()
 	TObjectPtr<UUserWidget> VisibleCursorWidget;
 	UPROPERTY()
 	TObjectPtr<UUserWidget> HiddenCursorWidget;
+	UPROPERTY()
+	TObjectPtr<UInv_ItemPopUp> ItemPopUpWidget;
 };
