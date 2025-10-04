@@ -22,6 +22,7 @@ public:
 							   FActorComponentTickFunction* ThisTickFunction) override;
 
 	FString GetPickupMessage() {return PickupMessage;};
+	void InitItemManifest(FInv_ItemManifest CopyOfManifest);
 	FInv_ItemManifest GetItemManifest() const { return ItemManifest; }
 	void PickedUp();
 	

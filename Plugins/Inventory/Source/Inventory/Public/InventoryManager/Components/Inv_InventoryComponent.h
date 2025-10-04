@@ -12,6 +12,7 @@ class UInv_InventoryBase;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInventoryItemChangedSignature, UInv_InventoryItem*, InventoryItem);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNoRoomInventorySignature);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FStackChangedSignature, const FInv_SlotAvailabilityResult&, AvailabilityResult);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInvHealthEffectSignature, float, HealthAmount);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable)
 class INVENTORY_API UInv_InventoryComponent : public UActorComponent
@@ -28,20 +29,26 @@ public:
 
 	UFUNCTION(Server, Reliable)
 	void Server_AddNewItem(UInv_ItemComponent* ItemsComponent, int32 StackCount);
-
 	UFUNCTION(Server, Reliable)
 	void Server_AddStackToItem(
 		UInv_ItemComponent* ItemComponent,
 		int32 StackCount,
 		int32 Remainder);
+	UFUNCTION(Server, Reliable)
+	void Server_DropItem(UInv_InventoryItem* InventoryItem, int32 StackCount);
+	UFUNCTION(Server, Reliable)
+	void Server_ConsumeItem(UInv_InventoryItem* InventoryItem);
 
 	void ToggleInventoryMenu();
 	void AddRepSubObject(UObject* SubObj);
+	void SpawnDroppedItem(UInv_InventoryItem* InventoryItem, int32 StackCount);
 
 	FInventoryItemChangedSignature OnItemAddedDelegate;
 	FInventoryItemChangedSignature OnItemRemovedDelegate;
 	FNoRoomInventorySignature OnNoRoomInventoryDelegate;
 	FStackChangedSignature OnStackChangedDelegate;
+	UPROPERTY(BlueprintAssignable)
+	FOnInvHealthEffectSignature OnHealthEffectDelegate;
 
 protected:
 	virtual void BeginPlay() override;
@@ -71,4 +78,17 @@ private:
 	TObjectPtr<UUserWidget> DefaultCursorWidget;
 
 	bool bInventoryMenuOpen{ false };
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	float DropSpawnAngMin{-85.0f};
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	float DropSpawnAngMax{85.0f};
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	float DropSpawnDistanceMin{10.0f};
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	float DropSpawnDistanceMax{50.0f};
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	float RelativeSpawnElevation{70.0f};
 };

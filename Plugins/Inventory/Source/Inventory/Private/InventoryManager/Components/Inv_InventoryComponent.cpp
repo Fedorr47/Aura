@@ -9,6 +9,8 @@
 #include "Items/Inv_InventoryItem.h"
 #include "Items/Fragments/Inv_ItemFragment.h"
 #include "Net/UnrealNetwork.h"
+#include "Runtime/Engine/Internal/VT/VirtualTextureVisualizationData.h"
+#include "Widgets/Inventory/SlottedItems/Inv_SlottedItem.h"
 
 UInv_InventoryComponent::UInv_InventoryComponent() : InventoryList(this)
 {
@@ -16,6 +18,14 @@ UInv_InventoryComponent::UInv_InventoryComponent() : InventoryList(this)
 	SetIsReplicatedByDefault(true);
 	bReplicateUsingRegisteredSubObjectList = true;
 	bInventoryMenuOpen = false;
+}
+
+// Called when the game starts
+void UInv_InventoryComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	ConstructInventory();
 }
 
 void UInv_InventoryComponent::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
@@ -88,9 +98,61 @@ void UInv_InventoryComponent::Server_AddStackToItem_Implementation(
 	{
 		ItemComponent->PickedUp();
 	}
-	else if (FInv_StackableFragment* StackableFragment = Item->GItemManifestMutable().GetFragmentOfTypeMutable<FInv_StackableFragment>())
+	else if (FInv_StackableFragment* StackableFragment = Item->GetItemManifestMutable().GetFragmentOfTypeMutable<FInv_StackableFragment>())
 	{
 		StackableFragment->SetStackCount(Remainder);
+	}
+}
+
+void UInv_InventoryComponent::Server_DropItem_Implementation(UInv_InventoryItem* InventoryItem, int32 StackCount)
+{
+	const int32 NewStackCount = InventoryItem->GetTotalStackCount() - StackCount;
+	if (NewStackCount <= 0)
+	{
+		InventoryList.RemoveEntry(InventoryItem);
+	}
+	else
+	{
+		InventoryItem->SetTotalStackCount(NewStackCount);
+	}
+
+	SpawnDroppedItem(InventoryItem, StackCount);
+}
+
+void UInv_InventoryComponent::SpawnDroppedItem(UInv_InventoryItem* InventoryItem, int32 StackCount)
+{
+	const APawn* OwnningPawn = OwningController->GetPawn();
+	FVector RotatedForward = OwnningPawn->GetActorForwardVector();
+	RotatedForward =
+		RotatedForward.RotateAngleAxis(FMath::FRandRange(DropSpawnAngMin,DropSpawnAngMax), FVector::UpVector);
+	FVector SpawnLocation =
+		OwnningPawn->GetActorLocation() + RotatedForward * FMath::FRandRange(DropSpawnDistanceMin, DropSpawnDistanceMax);
+	SpawnLocation.Z -= RelativeSpawnElevation;
+	const FRotator SpawnRotation = FRotator::ZeroRotator;
+
+	FInv_ItemManifest& ItemManifest = InventoryItem->GetItemManifestMutable();
+	if (FInv_StackableFragment* StackableFragment = ItemManifest.GetFragmentOfTypeMutable<FInv_StackableFragment>())
+	{
+		StackableFragment->SetStackCount(StackCount);
+	}
+	ItemManifest.SpawnPickupActor(this, SpawnLocation, SpawnRotation);
+}
+
+void UInv_InventoryComponent::Server_ConsumeItem_Implementation(UInv_InventoryItem* InventoryItem)
+{
+	const int32 NewStackCount = InventoryItem->GetTotalStackCount() - 1;
+	if (NewStackCount == 0)
+	{
+		InventoryList.RemoveEntry(InventoryItem);
+	}
+	else
+	{
+		InventoryItem->SetTotalStackCount(NewStackCount);
+	}
+
+	if (FInv_ConsumableFragment* ConsumableFragment = InventoryItem->GetItemManifestMutable().GetFragmentOfTypeMutable<FInv_ConsumableFragment>())
+	{
+		ConsumableFragment->OnConsume(this);
 	}
 }
 
@@ -112,14 +174,6 @@ void UInv_InventoryComponent::AddRepSubObject(UObject* SubObj)
 	{
 		AddReplicatedSubObject(SubObj);
 	}
-}
-
-// Called when the game starts
-void UInv_InventoryComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	ConstructInventory();
 }
 
 void UInv_InventoryComponent::ConstructInventory()

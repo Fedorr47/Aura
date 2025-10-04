@@ -6,10 +6,9 @@
 UInv_ItemComponent::UInv_ItemComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
-
 	PickupMessage = FString("Pick Up");
+	SetIsReplicatedByDefault(true);	
 }
-
 
 void UInv_ItemComponent::PickedUp()
 {
@@ -35,5 +34,10 @@ void UInv_ItemComponent::TickComponent(float DeltaTime, ELevelTick TickType,
                                                FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+}
+
+void UInv_ItemComponent::InitItemManifest(FInv_ItemManifest CopyOfManifest)
+{
+	ItemManifest = CopyOfManifest;
 }
 

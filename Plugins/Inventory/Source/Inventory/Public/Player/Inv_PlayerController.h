@@ -31,6 +31,10 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category="Inventory")
 	void SetInventoryHUDWidget(UInv_HUDWidget* InventoryHUDWidget);
+	
+//---------------------------------------------------------------------------------------------------------------------//
+
+	TWeakObjectPtr<UInv_InventoryComponent> InventoryComponent;
 
 private:
 
@@ -41,9 +45,7 @@ private:
 	bool ActorNotInRadius();
 	void TraceCursorForItem();
 
-	//---------------------------------------------------------------------------------------------------------------------//	
-
-	TWeakObjectPtr<UInv_InventoryComponent> InventoryComponent;
+//---------------------------------------------------------------------------------------------------------------------//	
 
 	UPROPERTY(EditDefaultsOnly, Category = Inventory)
 	TArray<TObjectPtr<UInputMappingContext>> DefaultIMCs;

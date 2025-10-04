@@ -36,6 +36,7 @@ public:
 
 	UFUNCTION()
 	void AddItem(UInv_InventoryItem* InItem);
+	void DropItem();
 	void ShowCursor();
 	void HideCursor();
 

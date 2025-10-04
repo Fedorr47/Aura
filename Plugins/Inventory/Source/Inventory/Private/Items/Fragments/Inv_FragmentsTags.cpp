@@ -20,4 +20,7 @@ void FInventoryFragmentsTags::InitializeNativeGameplayTags()
 	FragInstance.StackableFragment = FGeneralStatics::AddInputTag(
 		"Stackable fragment",
 		"Inventory", "FragmentTags", "StackableFragment");
+	FragInstance.ConsumableFragment = FGeneralStatics::AddInputTag(
+		"Consumable fragment",
+		"Inventory", "FragmentTags", "ConsumableFragment");
 }

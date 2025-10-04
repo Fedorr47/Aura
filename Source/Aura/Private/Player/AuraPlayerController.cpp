@@ -19,6 +19,7 @@
 #include "Input/AuraInputComponent.h"
 #include "Interaction/EnemyInterface.h"
 #include "Interaction/HighlightInterface.h"
+#include "InventoryManager/Components/Inv_InventoryComponent.h"
 #include "UI/Widgets/DamageTextComponent.h"
 
 AAuraPlayerController::AAuraPlayerController()
@@ -378,4 +379,3 @@ void AAuraPlayerController::Look(const FInputActionValue& InputActionValue)
 	ControlledPawn->AddControllerYawInput(LookInput.X);
 	ControlledPawn->AddControllerPitchInput(LookInput.Y);
 }
-
