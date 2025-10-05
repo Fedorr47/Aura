@@ -89,7 +89,7 @@ void UInv_SpatialInventory::OnItemHovered(UInv_InventoryItem* ItemsComponent)
 
 void UInv_SpatialInventory::OnItemUnhovered()
 {
-	GetItemDescription()->SetVisibility(ESlateVisibility::HitTestInvisible);
+	GetItemDescription()->SetVisibility(ESlateVisibility::Collapsed);
 	GetOwningPlayer()->GetWorldTimerManager().ClearTimer(DescriptionTimer);
 }
 
