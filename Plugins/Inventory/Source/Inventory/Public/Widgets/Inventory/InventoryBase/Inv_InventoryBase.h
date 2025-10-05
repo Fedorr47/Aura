@@ -19,4 +19,8 @@ public:
 
 	virtual FInv_SlotAvailabilityResult HasRoomForItem(UInv_ItemComponent* ItemsComponent) const
 	{ return FInv_SlotAvailabilityResult(); }
+
+	virtual void OnItemHovered(UInv_InventoryItem* ItemComponent){}
+	virtual void OnItemUnhovered(){}
+	virtual bool HasHoverItem() const { return false; }
 };

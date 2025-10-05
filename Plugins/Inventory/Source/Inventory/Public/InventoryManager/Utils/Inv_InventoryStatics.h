@@ -22,6 +22,8 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category="Inventory")
 	static UInv_InventoryComponent* GetInventoryComponent(const APlayerController* PlayerController);
+	static bool HasValidInventoryBaseWidget(const APlayerController* PlayerController,
+	                                        UInv_InventoryBase*& InventoryBaseWidget);
 
 	UFUNCTION(BlueprintCallable, Category="Inventory")
 	static EInv_ItemCategory GetItemCategoryFromItemComponent(UInv_ItemComponent* ItemComponent)
@@ -40,6 +42,12 @@ public:
 		const FIntPoint& Range2D,
 		int32 GridColumns,
 		const Func& Function);
+
+	UFUNCTION(BlueprintCallable, Category="Inventory")
+	static void ItemHovered(APlayerController* PlayerController, UInv_InventoryItem* InventoryItem);
+
+	UFUNCTION(BlueprintCallable, Category="Inventory")
+	static void ItemUnhovered(APlayerController* PlayerController);
 };
 
 template <typename T, typename Func>

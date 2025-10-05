@@ -39,6 +39,7 @@ public:
 	void DropItem();
 	void ShowCursor();
 	void HideCursor();
+	bool HasHoverItem() const;
 
 private:
 

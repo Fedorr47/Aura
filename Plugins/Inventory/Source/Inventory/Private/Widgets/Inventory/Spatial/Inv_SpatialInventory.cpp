@@ -3,12 +3,17 @@
 
 #include "Widgets/Inventory/Spatial/Inv_SpatialInventory.h"
 
+#include "ContentBrowserDataSource.h"
 #include "Inventory.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
 #include "Components/Button.h"
+#include "Components/CanvasPanel.h"
+#include "Components/CanvasPanelSlot.h"
 #include "Widgets/Inventory/Spatial/Inv_InventoryGrid.h"
 #include "Components/WidgetSwitcher.h"
 #include "InventoryManager/Utils/Inv_InventoryStatics.h"
 #include "Items/Components/Inv_ItemComponent.h"
+#include "Widgets/Inventory/ItemDescription/Inv_ItemDescription.h"
 
 void UInv_SpatialInventory::NativeOnInitialized()
 {
@@ -25,11 +30,76 @@ void UInv_SpatialInventory::NativeOnInitialized()
 	ShowEquippables();
 }
 
+void UInv_SpatialInventory::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+{
+	Super::NativeTick(MyGeometry, InDeltaTime);
+
+	if (!ItemDescriptionWidget)
+	{
+		return;
+	}
+	SetItemDescriptionSizeAnPosition(ItemDescriptionWidget, CanvasPanel);
+}
+
+void UInv_SpatialInventory::SetItemDescriptionSizeAnPosition(
+	UInv_ItemDescription* ItemDescription,
+	UCanvasPanel* InCanvasPanel) const
+{
+	UCanvasPanelSlot* ItemDescriptionCanvasPanelSlot = UWidgetLayoutLibrary::SlotAsCanvasSlot(ItemDescriptionWidget);
+	if (!IsValid(ItemDescriptionCanvasPanelSlot))
+	{
+		return;
+	}
+
+	const FVector2D ItemsDescriptionSize = ItemDescription->GetBoxSize();
+	ItemDescriptionCanvasPanelSlot->SetSize(ItemsDescriptionSize);
+
+	FVector2D CanvasPanelSize = UInv_WidgetUtils::GetWidgetSize(InCanvasPanel);
+	FVector2D ClampedPosition = UInv_WidgetUtils::GetClampedWidgetPosition(
+		CanvasPanelSize,
+		ItemsDescriptionSize,
+		UWidgetLayoutLibrary::GetMousePositionOnViewport(GetOwningPlayer()));
+
+	ItemDescriptionCanvasPanelSlot->SetPosition(ClampedPosition);
+}
+
 FReply UInv_SpatialInventory::NativeOnMouseButtonDown(const FGeometry& InGeometry,
-	const FPointerEvent& InMouseEvent)
+                                                      const FPointerEvent& InMouseEvent)
 {
 	ActiveGrid->DropItem();
 	return FReply::Handled();
+}
+
+void UInv_SpatialInventory::OnItemHovered(UInv_InventoryItem* ItemsComponent)
+{
+	UInv_ItemDescription* DescriptionWidget = GetItemDescription();
+	DescriptionWidget->SetVisibility(ESlateVisibility::Collapsed);
+
+	GetOwningPlayer()->GetWorldTimerManager().ClearTimer(DescriptionTimer);
+
+	FTimerDelegate DescriptionTimerDelegate;
+	DescriptionTimerDelegate.BindLambda(
+		[this]()
+		{
+			GetItemDescription()->SetVisibility(ESlateVisibility::HitTestInvisible);
+		});
+	GetOwningPlayer()->GetWorldTimerManager().SetTimer(
+		DescriptionTimer, DescriptionTimerDelegate, DescriptionTimerDelay, false);
+}
+
+void UInv_SpatialInventory::OnItemUnhovered()
+{
+	GetItemDescription()->SetVisibility(ESlateVisibility::HitTestInvisible);
+	GetOwningPlayer()->GetWorldTimerManager().ClearTimer(DescriptionTimer);
+}
+
+bool UInv_SpatialInventory::HasHoverItem() const
+{
+	if (Grid_Equippables->HasHoverItem() || Grid_Consumables->HasHoverItem() || Grid_Craftables->HasHoverItem())
+	{
+		return true;
+	}
+	return false;
 }
 
 FInv_SlotAvailabilityResult UInv_SpatialInventory::HasRoomForItem(UInv_ItemComponent* ItemComponent) const
@@ -86,4 +156,14 @@ void UInv_SpatialInventory::SetActiveGrid(UInv_InventoryGrid* Grid, UButton* But
 	}
 	DisableButton(Button);
 	Switcher->SetActiveWidget(Grid);
+}
+
+UInv_ItemDescription* UInv_SpatialInventory::GetItemDescription()
+{
+	if (!IsValid(ItemDescriptionWidget))
+	{
+		ItemDescriptionWidget = CreateWidget<UInv_ItemDescription>(GetOwningPlayer(), ItemDescriptionClass);
+		CanvasPanel->AddChild(ItemDescriptionWidget);
+	}
+	return ItemDescriptionWidget;
 }

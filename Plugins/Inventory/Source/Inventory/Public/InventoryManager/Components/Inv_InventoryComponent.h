@@ -42,6 +42,7 @@ public:
 	void ToggleInventoryMenu();
 	void AddRepSubObject(UObject* SubObj);
 	void SpawnDroppedItem(UInv_InventoryItem* InventoryItem, int32 StackCount);
+	UInv_InventoryBase* GetInventoryWidget() const { return InventoryMenuWidget; }
 
 	FInventoryItemChangedSignature OnItemAddedDelegate;
 	FInventoryItemChangedSignature OnItemRemovedDelegate;
@@ -63,10 +64,10 @@ private:
 	TWeakObjectPtr<APlayerController> OwningController;
 
 	UPROPERTY()
-	TObjectPtr<UInv_InventoryBase> InventoryMenuObj;
+	TObjectPtr<UInv_InventoryBase> InventoryMenuWidget;
 
 	UPROPERTY(EditAnywhere, Category = "Inventory")
-	TSubclassOf<UInv_InventoryBase> InventoryMenuClass;
+	TSubclassOf<UInv_InventoryBase> InventoryMenuWidgetClass;
 
 	UPROPERTY(Replicated)
 	FInv_InventoryFastArray InventoryList;

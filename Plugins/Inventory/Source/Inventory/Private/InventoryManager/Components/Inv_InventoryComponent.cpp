@@ -37,7 +37,7 @@ void UInv_InventoryComponent::GetLifetimeReplicatedProps(TArray<class FLifetimeP
 
 void UInv_InventoryComponent::TryAddItem(UInv_ItemComponent* ItemComponent)
 {
-	FInv_SlotAvailabilityResult AvailabilityResult = InventoryMenuObj->HasRoomForItem(ItemComponent);
+	FInv_SlotAvailabilityResult AvailabilityResult = InventoryMenuWidget->HasRoomForItem(ItemComponent);
 
 	UInv_InventoryItem* FoundItem = InventoryList.FindFirstItemByType(ItemComponent->GetItemManifest().GetItemType());
 	AvailabilityResult.Item = FoundItem;
@@ -185,20 +185,20 @@ void UInv_InventoryComponent::ConstructInventory()
 		return;
 	}
 
-	InventoryMenuObj = CreateWidget<UInv_InventoryBase>(
-		OwningController.Get(), InventoryMenuClass);
-	InventoryMenuObj->AddToViewport();
+	InventoryMenuWidget = CreateWidget<UInv_InventoryBase>(
+		OwningController.Get(), InventoryMenuWidgetClass);
+	InventoryMenuWidget->AddToViewport();
 	CloseInventoryMenu();
 }
 
 void UInv_InventoryComponent::OpenInventoryMenu()
 {
-	if (!IsValid(InventoryMenuObj))
+	if (!IsValid(InventoryMenuWidget))
 	{
 		return;
 	}
 
-	InventoryMenuObj->SetVisibility(ESlateVisibility::Visible);
+	InventoryMenuWidget->SetVisibility(ESlateVisibility::Visible);
 	bInventoryMenuOpen = true;
 
 	if (!OwningController.IsValid())
@@ -215,12 +215,12 @@ void UInv_InventoryComponent::OpenInventoryMenu()
 
 void UInv_InventoryComponent::CloseInventoryMenu()
 {
-	if (!IsValid(InventoryMenuObj))
+	if (!IsValid(InventoryMenuWidget))
 	{
 		return;
 	}
 
-	InventoryMenuObj->SetVisibility(ESlateVisibility::Collapsed);
+	InventoryMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
 	bInventoryMenuOpen = false;
 
 	if (!OwningController.IsValid())

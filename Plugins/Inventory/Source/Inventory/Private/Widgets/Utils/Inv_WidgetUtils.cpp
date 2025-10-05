@@ -36,6 +36,31 @@ bool UInv_WidgetUtils::IsWithinBounds(const FVector2D& BoundaryPosition, const F
 		&& MousePosition.Y <= (BoundaryPosition.Y + WidgetSize.Y);
 }
 
+FVector2D UInv_WidgetUtils::GetClampedWidgetPosition(const FVector2D& BoundaryPosition, const FVector2D& WidgetSize,
+	const FVector2D& MousePosition)
+{
+	FVector2D ClampedPosition = MousePosition;
+
+	if (MousePosition.X + WidgetSize.X > BoundaryPosition.X)
+	{
+		ClampedPosition.X = BoundaryPosition.X - WidgetSize.X;
+	}
+	if (MousePosition.X < 0.0f)
+	{
+		ClampedPosition.X = 0.0f;
+	}
+	if (MousePosition.Y + WidgetSize.Y > BoundaryPosition.Y)
+	{
+		ClampedPosition.Y = BoundaryPosition.Y - WidgetSize.Y;
+	}
+	if (MousePosition.Y < 0.0f)
+	{
+		ClampedPosition.Y = 0.0f;
+	}
+	
+	return ClampedPosition;
+}
+
 int32 UInv_WidgetUtils::GetIndexFromPosition(const FIntPoint& Position, const int32 Columns)
 {
 	return Position.X + Columns * Position.Y;
