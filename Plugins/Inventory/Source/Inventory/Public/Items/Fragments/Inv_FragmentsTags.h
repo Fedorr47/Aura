@@ -14,6 +14,9 @@ public:
 	FGameplayTag StackableFragment;
 	FGameplayTag ConsumableFragment;
 
+	FGameplayTag ItemNameFragment;
+	FGameplayTag PrimaryStatFragment;
+
 private:
 	static FInventoryFragmentsTags FragInstance;
 };

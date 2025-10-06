@@ -13,6 +13,7 @@
  * data for creating a new Inventory data
  */
 
+class UInv_CompositeBase;
 struct FInv_ItemFragment;
 
 USTRUCT(BlueprintType)
@@ -24,10 +25,15 @@ public:
 	UInv_InventoryItem* Manifest(UObject* NewOuter);
 	EInv_ItemCategory GetItemCategory() const { return ItemCategory; }
 	FGameplayTag GetItemType() const { return ItemType; }
+	void AssimilateInventoryFragments(UInv_CompositeBase* CompositeBase) const;
 
 	template <typename T>
 	requires std::derived_from<T, FInv_ItemFragment>
 	const T* GetFragmentOfTypeWithTag(const FGameplayTag& FragmentTag) const;
+
+	template <typename T>
+	requires std::derived_from<T, FInv_ItemFragment>
+	TArray<const T*> GetAllFragmentsOfType() const;
 
 	template <typename T>
 	requires std::derived_from<T, FInv_ItemFragment>
@@ -41,8 +47,13 @@ public:
 		const UObject* WorldContextObject,
 		const FVector& SpawnLocation,
 		const FRotator& SpawnRotation);
+
+	TArray<TInstancedStruct<FInv_ItemFragment>>& GetFragmentsMutable() {return Fragments;}
 	
 private:
+
+	void ClearFragments();
+//--------------------------------------------------------------------------------------------------------------------//	
 
 	UPROPERTY(EditAnywhere, Category = "Inventory", meta = (ExcludeBaseStruct))
 	TArray<TInstancedStruct<FInv_ItemFragment>> Fragments;
@@ -74,6 +85,20 @@ const T* FInv_ItemManifest::GetFragmentOfTypeWithTag(const FGameplayTag& Fragmen
 	}
 	
 	return nullptr;
+}
+
+template <typename T> requires std::derived_from<T, FInv_ItemFragment>
+TArray<const T*> FInv_ItemManifest::GetAllFragmentsOfType() const
+{
+	TArray<const T*> Result;
+	for (const TInstancedStruct<FInv_ItemFragment>& Fragment : Fragments)
+	{
+		if (const T* FragmentPtr = Fragment.GetPtr<T>())
+		{
+			Result.Add(FragmentPtr);
+		}
+	}
+	return Result;
 }
 
 template <typename T> requires std::derived_from<T, FInv_ItemFragment>

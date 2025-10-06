@@ -72,6 +72,7 @@ FReply UInv_SpatialInventory::NativeOnMouseButtonDown(const FGeometry& InGeometr
 
 void UInv_SpatialInventory::OnItemHovered(UInv_InventoryItem* ItemsComponent)
 {
+	const FInv_ItemManifest& Manifest = ItemsComponent->GetItemManifest();
 	UInv_ItemDescription* DescriptionWidget = GetItemDescription();
 	DescriptionWidget->SetVisibility(ESlateVisibility::Collapsed);
 
@@ -79,10 +80,12 @@ void UInv_SpatialInventory::OnItemHovered(UInv_InventoryItem* ItemsComponent)
 
 	FTimerDelegate DescriptionTimerDelegate;
 	DescriptionTimerDelegate.BindLambda(
-		[this]()
+		[this, &Manifest, DescriptionWidget]()
 		{
+			Manifest.AssimilateInventoryFragments(DescriptionWidget);
 			GetItemDescription()->SetVisibility(ESlateVisibility::HitTestInvisible);
 		});
+	
 	GetOwningPlayer()->GetWorldTimerManager().SetTimer(
 		DescriptionTimer, DescriptionTimerDelegate, DescriptionTimerDelay, false);
 }

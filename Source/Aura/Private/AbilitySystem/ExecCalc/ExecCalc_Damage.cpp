@@ -285,6 +285,9 @@ void UExecCalc_Damage::Execute_Implementation(
 
 	UAuraAbilitySystemLibrary::SetCriticalHit(Context, IsSuccessfulCriticalHit);
 	
-	const FGameplayModifierEvaluatedData EvaluatedData(UAuraAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
+	const FGameplayModifierEvaluatedData EvaluatedData(
+		UAuraAttributeSet::GetIncomingDamageAttribute(),
+		EGameplayModOp::Additive,
+		Damage);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
 }

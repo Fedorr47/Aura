@@ -1,12 +1,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "EditorCategoryUtils.h"
 #include "GameplayTagContainer.h"
+#include "Widgets/Composite/Inv_CompositeBase.h"
 
 #include "Inv_ItemFragment.generated.h"
 
 class UInv_InventoryComponent;
 class APlayerController;
+class UInv_CompositeBase;
 
 USTRUCT(BlueprintType)
 struct FInv_ItemFragment
@@ -22,11 +25,25 @@ struct FInv_ItemFragment
 
 	FGameplayTag GetFragmentTag() const { return FragmentTag; }
 	void SetFragmentTag(FGameplayTag InTag) { FragmentTag = InTag; }
+	virtual void Manifest() {}
 
 private:
 
 	UPROPERTY(EditAnywhere, Category = "Inventory")//, meta = (Categories="FragmentsTags"))
 	FGameplayTag FragmentTag = FGameplayTag::EmptyTag;
+};
+
+USTRUCT(BlueprintType)
+struct FInv_InventoryItemFragment : public FInv_ItemFragment
+{
+	GENERATED_BODY()
+	
+	virtual bool Assimilate(UInv_CompositeBase* CompositeBase) const;
+
+	bool bRandomizeOnManifest{true};
+	
+protected:
+	bool MatchesWidgetTag(const UInv_CompositeBase* CompositeBase) const;
 };
 
 USTRUCT(BlueprintType)
@@ -49,11 +66,12 @@ private:
 };
 
 USTRUCT(BlueprintType)
-struct FInv_ImageFragment : public FInv_ItemFragment
+struct FInv_ImageFragment : public FInv_InventoryItemFragment
 {
 	GENERATED_BODY()
 
 	UTexture2D* GetIcon() const { return Icon; }
+	virtual bool Assimilate(UInv_CompositeBase* CompositeBase) const override;
 
 private:
 
@@ -62,6 +80,55 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	FVector2D IconDimension{44.0f, 44.0f};
+};
+
+USTRUCT(BlueprintType)
+struct FInv_TextFragment : public FInv_InventoryItemFragment
+{
+	GENERATED_BODY()
+	FText GetText() const { return FragmentText; }
+	void SetText(FText InText) { FragmentText = InText; }
+	virtual bool Assimilate(UInv_CompositeBase* CompositeBase) const override;
+
+private:
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	FText FragmentText;
+};
+
+USTRUCT(BlueprintType)
+struct FInv_LabeledNumberFragment : public FInv_InventoryItemFragment
+{
+	GENERATED_BODY()
+	FText GetText() const { return LabelText; }
+	void SetText(FText InText) { LabelText = InText; }
+	virtual bool Assimilate(UInv_CompositeBase* CompositeBase) const override;
+	virtual void Manifest() override;
+private:
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	FText LabelText;
+
+	UPROPERTY(VisibleAnywhere, Category = "Inventory")
+	float Value{0.0f};
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	float MinVal{0.0f};
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	float MaxVal{0.0f};
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	bool bCollapseLabel{false};
+	
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	bool bCollapseValue{false};
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	int32 MinFractionalDigits{1};
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	int32 MaxFractionalDigits{1};
 };
 
 USTRUCT(BlueprintType)
