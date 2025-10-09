@@ -26,6 +26,7 @@ public:
 
 	static void InitializeNativeGameplayTags();
 
+	FGameplayTag Equipment;
 	FGameplayTag Equipment_Weapons_Axe;
 	FGameplayTag Equipment_Weapons_Sword;
 

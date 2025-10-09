@@ -4,6 +4,7 @@
 #include "InventoryManager/Utils/Inv_InventoryStatics.h"
 
 #include "InventoryManager/Components/Inv_InventoryComponent.h"
+#include "Widgets/Inventory/HoverItem/Inv_HoverItem.h"
 #include "Widgets/Inventory/InventoryBase/Inv_InventoryBase.h"
 
 UInv_InventoryComponent* UInv_InventoryStatics::GetInventoryComponent(const APlayerController* PlayerController)
@@ -56,4 +57,14 @@ void UInv_InventoryStatics::ItemUnhovered(APlayerController* PlayerController)
 	if (!HasValidInventoryBaseWidget(PlayerController, InventoryBaseWidget)) return;
 
 	InventoryBaseWidget->OnItemUnhovered();
+}
+
+UInv_HoverItem* UInv_InventoryStatics::GetHoveredItem(APlayerController* PlayerController)
+{
+	UInv_InventoryBase* InventoryBaseWidget;
+	if (!HasValidInventoryBaseWidget(PlayerController, InventoryBaseWidget))
+	{
+		return nullptr;
+	}
+	return InventoryBaseWidget->GetHoverItem();
 }

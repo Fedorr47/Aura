@@ -3,15 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "Components/Button.h"
 #include "Widgets/Inventory/InventoryBase/Inv_InventoryBase.h"
 #include "Inv_SpatialInventory.generated.h"
 
+class UInv_EquippedGridSlot;
 class UInv_ItemDescription;
 class UCanvasPanel;
 class UButton;
 class UWidgetSwitcher;
 class UInv_InventoryGrid;
+class UInv_HoverItem;
 /**
  * 
  */
@@ -29,6 +32,7 @@ public:
 	virtual void OnItemHovered(UInv_InventoryItem* ItemsComponent) override;
 	virtual void OnItemUnhovered()override;
 	virtual bool HasHoverItem() const override;
+	virtual UInv_HoverItem* GetHoverItem() const override;
 	
 private:
 	
@@ -38,13 +42,19 @@ private:
 	void ShowConsumables();
 	UFUNCTION()
 	void ShowCraftables();
+	UFUNCTION()
+	void EquippedGridSlotClicked(UInv_EquippedGridSlot* EquippedGridSlot, const FGameplayTag& EquippedTypeTag);
 	
 	void DisableButton(UButton* Button);
 	void SetActiveGrid(UInv_InventoryGrid* Grid, UButton* Button);
 	UInv_ItemDescription* GetItemDescription();
 	void SetItemDescriptionSizeAnPosition(UInv_ItemDescription* ItemDescription, UCanvasPanel* InCanvasPanel) const;
 
-//--------------------------------------------------------------------------------------------------------------------//	
+//--------------------------------------------------------------------------------------------------------------------//
+
+	UPROPERTY()
+	TArray<TObjectPtr<UInv_EquippedGridSlot>> EquippedGridSlots;
+	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UWidgetSwitcher> Switcher;
 	

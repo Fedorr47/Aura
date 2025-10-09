@@ -40,6 +40,7 @@ public:
 	void ShowCursor();
 	void HideCursor();
 	bool HasHoverItem() const;
+	UInv_HoverItem* GetHoverItem() const;
 
 private:
 
