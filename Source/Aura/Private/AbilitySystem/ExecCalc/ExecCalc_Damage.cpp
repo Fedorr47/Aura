@@ -160,8 +160,6 @@ float UExecCalc_Damage::DetermineDamage(
 				nullptr
 				);
 		}
-				
-		Damage += DamageTypeValue;
 	}
 	return Damage;
 }

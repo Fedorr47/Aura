@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "EditorCategoryUtils.h"
 #include "GameplayTagContainer.h"
+#include "StructUtils/InstancedStruct.h"
 #include "Widgets/Composite/Inv_CompositeBase.h"
 
 #include "Inv_ItemFragment.generated.h"
@@ -11,6 +12,9 @@ class UInv_InventoryComponent;
 class APlayerController;
 class UInv_CompositeBase;
 
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/
 USTRUCT(BlueprintType)
 struct FInv_ItemFragment
 {
@@ -29,10 +33,13 @@ struct FInv_ItemFragment
 
 private:
 
-	UPROPERTY(EditAnywhere, Category = "Inventory")//, meta = (Categories="FragmentsTags"))
+	UPROPERTY(EditAnywhere, Category = "Inventory", meta = (Categories="Inventory.FragmentsTags"))
 	FGameplayTag FragmentTag = FGameplayTag::EmptyTag;
 };
 
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/
 USTRUCT(BlueprintType)
 struct FInv_InventoryItemFragment : public FInv_ItemFragment
 {
@@ -46,6 +53,9 @@ protected:
 	bool MatchesWidgetTag(const UInv_CompositeBase* CompositeBase) const;
 };
 
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/
 USTRUCT(BlueprintType)
 struct FInv_GridFragment : public FInv_ItemFragment
 {
@@ -65,6 +75,9 @@ private:
 	float GridPadding{0.0f};
 };
 
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/
 USTRUCT(BlueprintType)
 struct FInv_ImageFragment : public FInv_InventoryItemFragment
 {
@@ -96,6 +109,9 @@ private:
 	FText FragmentText;
 };
 
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/
 USTRUCT(BlueprintType)
 struct FInv_LabeledNumberFragment : public FInv_InventoryItemFragment
 {
@@ -104,6 +120,7 @@ struct FInv_LabeledNumberFragment : public FInv_InventoryItemFragment
 	void SetText(FText InText) { LabelText = InText; }
 	virtual bool Assimilate(UInv_CompositeBase* CompositeBase) const override;
 	virtual void Manifest() override;
+	float GetValue() const { return Value; }
 private:
 
 	UPROPERTY(EditAnywhere, Category = "Inventory")
@@ -131,6 +148,9 @@ private:
 	int32 MaxFractionalDigits{1};
 };
 
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/
 USTRUCT(BlueprintType)
 struct FInv_StackableFragment : public FInv_ItemFragment
 {
@@ -149,21 +169,41 @@ private:
 	int32 StackCount{1};
 };
 
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/
 USTRUCT(BlueprintType)
-struct FInv_ConsumableFragment : public FInv_ItemFragment
+struct FInv_ConsumableFragment : public FInv_InventoryItemFragment
 {
 	GENERATED_BODY()
 
-	virtual void OnConsume(const UInv_InventoryComponent* InventoryComponent);
+	virtual void OnConsume(UInv_InventoryComponent* InventoryComponent);
+	virtual bool Assimilate(UInv_CompositeBase* CompositeBase) const override;
+	virtual void Manifest() override;
+private:
+
+	UPROPERTY(EditAnywhere, Category = "Inventory", meta = (ExcludeBaseStruct))
+	TArray<TInstancedStruct<FInv_ConsumeModifier>> ConsumeModifiers;
 };
 
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/
 USTRUCT(BlueprintType)
-struct FInv_HealthPotionFragment : public FInv_ConsumableFragment
+struct FInv_ConsumeModifier : public FInv_LabeledNumberFragment
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = "Inventory")
-	float HealAmount{20.0f};
+	virtual void OnConsume(UInv_InventoryComponent* InventoryComponent){}
+};
+
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/
+USTRUCT(BlueprintType)
+struct FInv_HealthPotionFragment : public FInv_ConsumeModifier
+{
+	GENERATED_BODY()
 	
-	virtual void OnConsume(const UInv_InventoryComponent* InventoryComponent) override;
+	virtual void OnConsume(UInv_InventoryComponent* InventoryComponent) override;
 };

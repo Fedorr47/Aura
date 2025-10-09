@@ -6,6 +6,9 @@
 #include "Widgets/Composite/Inv_Leaf_LabledValue.h"
 #include "Widgets/Composite/Inv_Leaf_Text.h"
 
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/
 bool FInv_InventoryItemFragment::MatchesWidgetTag(const UInv_CompositeBase* CompositeBase) const
 {
 	return CompositeBase->GetFragmentTag().MatchesTagExact(GetFragmentTag());
@@ -21,6 +24,9 @@ bool FInv_InventoryItemFragment::Assimilate(UInv_CompositeBase* CompositeBase) c
 	return true;
 }
 
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/
 bool FInv_ImageFragment::Assimilate(UInv_CompositeBase* CompositeBase) const
 {
 	if (!FInv_InventoryItemFragment::Assimilate(CompositeBase))
@@ -41,6 +47,9 @@ bool FInv_ImageFragment::Assimilate(UInv_CompositeBase* CompositeBase) const
 	return true;
 }
 
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/
 bool FInv_TextFragment::Assimilate(UInv_CompositeBase* CompositeBase) const
 {
 	if (!FInv_InventoryItemFragment::Assimilate(CompositeBase))
@@ -58,9 +67,13 @@ bool FInv_TextFragment::Assimilate(UInv_CompositeBase* CompositeBase) const
 	return true;
 }
 
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/
 bool FInv_LabeledNumberFragment::Assimilate(UInv_CompositeBase* CompositeBase) const
 {
-	if (!FInv_InventoryItemFragment::Assimilate(CompositeBase))
+	FInv_InventoryItemFragment::Assimilate(CompositeBase);
+	if (!MatchesWidgetTag(CompositeBase))
 	{
 		return false;
 	}
@@ -92,13 +105,48 @@ void FInv_LabeledNumberFragment::Manifest()
 	bRandomizeOnManifest = false;
 }
 
-void FInv_ConsumableFragment::OnConsume(const UInv_InventoryComponent* InventoryComponent)
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/
+void FInv_ConsumableFragment::OnConsume(UInv_InventoryComponent* InventoryComponent)
 {
-	InventoryComponent->OnHealthEffectDelegate.Broadcast(0);
+	for (TInstancedStruct<FInv_ConsumeModifier>& ConsumeModifier : ConsumeModifiers)
+	{
+		FInv_ConsumeModifier& ModifierRef = ConsumeModifier.GetMutable();
+		ModifierRef.OnConsume(InventoryComponent);
+	}
 }
 
-void FInv_HealthPotionFragment::OnConsume(
-	const UInv_InventoryComponent* InventoryComponent)
+bool FInv_ConsumableFragment::Assimilate(UInv_CompositeBase* CompositeBase) const
 {
-	InventoryComponent->OnHealthEffectDelegate.Broadcast(HealAmount);
+	Super::Assimilate(CompositeBase);
+	
+	for (const TInstancedStruct<FInv_ConsumeModifier>& ConsumeModifier : ConsumeModifiers)
+	{
+		const FInv_ConsumeModifier& ModifierRef = ConsumeModifier.Get();
+		if (!ModifierRef.Assimilate(CompositeBase))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+void FInv_ConsumableFragment::Manifest()
+{
+	for (TInstancedStruct<FInv_ConsumeModifier>& ConsumeModifier : ConsumeModifiers)
+	{
+		FInv_ConsumeModifier& ModifierRef = ConsumeModifier.GetMutable();
+		ModifierRef.Manifest();
+	}
+}
+
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/
+void FInv_HealthPotionFragment::OnConsume(
+	UInv_InventoryComponent* InventoryComponent)
+{
+	InventoryComponent->OnHealthEffectDelegate.Broadcast(GetValue());
 }
