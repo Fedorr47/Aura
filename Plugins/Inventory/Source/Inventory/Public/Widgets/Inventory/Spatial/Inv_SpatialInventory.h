@@ -33,6 +33,7 @@ public:
 	virtual void OnItemUnhovered()override;
 	virtual bool HasHoverItem() const override;
 	virtual UInv_HoverItem* GetHoverItem() const override;
+	virtual float GetTileSize() const override;
 	
 private:
 	
@@ -43,12 +44,15 @@ private:
 	UFUNCTION()
 	void ShowCraftables();
 	UFUNCTION()
-	void EquippedGridSlotClicked(UInv_EquippedGridSlot* EquippedGridSlot, const FGameplayTag& EquippedTypeTag);
+	void EquippedGridSlotClicked( UInv_EquippedGridSlot* EquippedGridSlot, const FGameplayTag& EquippedTypeTag);
+	UFUNCTION()
+	void EquippedSlottedItemClicked(UInv_EquippedSlottedItem* EquippedSlottedItem);
 	
 	void DisableButton(UButton* Button);
 	void SetActiveGrid(UInv_InventoryGrid* Grid, UButton* Button);
 	UInv_ItemDescription* GetItemDescription();
 	void SetItemDescriptionSizeAnPosition(UInv_ItemDescription* ItemDescription, UCanvasPanel* InCanvasPanel) const;
+	bool CanEquipHoverItem(const UInv_EquippedGridSlot* EquippedGridSlot, const FGameplayTag& EquippedTypeTag) const;
 
 //--------------------------------------------------------------------------------------------------------------------//
 

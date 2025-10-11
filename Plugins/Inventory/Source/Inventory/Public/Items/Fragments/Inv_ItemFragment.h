@@ -12,6 +12,15 @@ class UInv_InventoryComponent;
 class APlayerController;
 class UInv_CompositeBase;
 
+UENUM()
+enum class EAttributeCodes : uint8
+{
+	Health,
+	Strength,
+
+	None
+};
+
 //--------------------------------------------------------------------------------------------------------------------//
 /*																													  */
 //--------------------------------------------------------------------------------------------------------------------/
@@ -206,4 +215,49 @@ struct FInv_HealthPotionFragment : public FInv_ConsumeModifier
 	GENERATED_BODY()
 	
 	virtual void OnConsume(UInv_InventoryComponent* InventoryComponent) override;
+};
+
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/
+
+USTRUCT(BlueprintType)
+struct FInv_EquipModifier : public FInv_LabeledNumberFragment
+{
+	GENERATED_BODY()
+
+	virtual void OnEquip(UInv_InventoryComponent* InventoryComponent){}
+	virtual void OnUnequip(UInv_InventoryComponent* InventoryComponent){}
+};
+
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/
+
+USTRUCT(BlueprintType)
+struct FInv_StrengthModifier : public FInv_EquipModifier
+{
+	GENERATED_BODY()
+
+	virtual void OnEquip(UInv_InventoryComponent* InventoryComponent) override;
+	virtual void OnUnequip(UInv_InventoryComponent* InventoryComponent) override;
+};
+
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/
+USTRUCT(BlueprintType)
+struct FInv_EquipmentFragment : public FInv_InventoryItemFragment
+{
+	GENERATED_BODY()
+
+	bool bEquipped{false};
+	virtual void OnEquip(UInv_InventoryComponent* InventoryComponent);
+	virtual void OnUnequip(UInv_InventoryComponent* InventoryComponent);
+	virtual bool Assimilate(UInv_CompositeBase* CompositeBase) const override;
+	
+private:
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	TArray<TInstancedStruct<FInv_EquipModifier>> EquipModifiers;
 };

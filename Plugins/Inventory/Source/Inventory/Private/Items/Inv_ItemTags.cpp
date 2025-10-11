@@ -22,10 +22,6 @@ const FInventoryGameplayTags& FInventoryGameplayTags::Get()
 
 void FInventoryGameplayTags::InitializeNativeGameplayTags()
 {
-	ItemInstance.Equipment = FGeneralStatics::AddInputTag(
-		"Equipment tag",
-		"Inventory", "GameItems", "Equipment");
-	
 	ItemInstance.Equipment_Weapons_Axe = FGeneralStatics::AddInputTag(
 		"Axe",
 		"Inventory", "GameItems", "Equipment", "Weapons", "Axe");

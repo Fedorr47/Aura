@@ -148,5 +148,73 @@ void FInv_ConsumableFragment::Manifest()
 void FInv_HealthPotionFragment::OnConsume(
 	UInv_InventoryComponent* InventoryComponent)
 {
-	InventoryComponent->OnHealthEffectDelegate.Broadcast(GetValue());
+	InventoryComponent->OnInvAttributeChangedDelegate.Broadcast(
+		static_cast<int32>(EAttributeCodes::Health),GetValue(), true);
 }
+
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/
+void FInv_StrengthModifier::OnEquip(UInv_InventoryComponent* InventoryComponent)
+{
+	InventoryComponent->OnInvAttributeChangedDelegate.Broadcast(
+		static_cast<int32>(EAttributeCodes::Strength),GetValue(), true);
+}
+
+void FInv_StrengthModifier::OnUnequip(UInv_InventoryComponent* InventoryComponent)
+{
+	InventoryComponent->OnInvAttributeChangedDelegate.Broadcast(
+		static_cast<int32>(EAttributeCodes::Strength), GetValue(), false);
+}
+
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/
+
+void FInv_EquipmentFragment::OnEquip(UInv_InventoryComponent* InventoryComponent)
+{
+	if (bEquipped)
+	{
+		return;
+	}
+	bEquipped = true;
+	for (TInstancedStruct<FInv_EquipModifier>& EquipModifier : EquipModifiers)
+	{
+		FInv_EquipModifier& ModifierRef = EquipModifier.GetMutable();
+		ModifierRef.OnEquip(InventoryComponent);
+	}
+}
+
+void FInv_EquipmentFragment::OnUnequip(UInv_InventoryComponent* InventoryComponent)
+{
+	if (!bEquipped)
+	{
+		return;
+	}
+	bEquipped = false;
+	for (TInstancedStruct<FInv_EquipModifier>& EquipModifier : EquipModifiers)
+	{
+		FInv_EquipModifier& ModifierRef = EquipModifier.GetMutable();
+		ModifierRef.OnUnequip(InventoryComponent);
+	}
+}
+
+bool FInv_EquipmentFragment::Assimilate(UInv_CompositeBase* CompositeBase) const
+{
+	Super::Assimilate(CompositeBase);
+	
+	for (const TInstancedStruct<FInv_EquipModifier>& EquipModifier : EquipModifiers)
+	{
+		const FInv_EquipModifier& ModifierRef = EquipModifier.Get();
+		if (!ModifierRef.Assimilate(CompositeBase))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+//--------------------------------------------------------------------------------------------------------------------//
+/*																													  */
+//--------------------------------------------------------------------------------------------------------------------/

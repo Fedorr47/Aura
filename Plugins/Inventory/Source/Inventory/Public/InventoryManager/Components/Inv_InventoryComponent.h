@@ -12,7 +12,8 @@ class UInv_InventoryBase;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInventoryItemChangedSignature, UInv_InventoryItem*, InventoryItem);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNoRoomInventorySignature);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FStackChangedSignature, const FInv_SlotAvailabilityResult&, AvailabilityResult);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInvHealthEffectSignature, float, HealthAmount);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnInvAttributeChangedSignature, int32, AttributeCode, float, Value, bool, IsIncreasing);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FItemEquipSignature, UInv_InventoryItem*, InventoryItem);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable)
 class INVENTORY_API UInv_InventoryComponent : public UActorComponent
@@ -38,6 +39,10 @@ public:
 	void Server_DropItem(UInv_InventoryItem* InventoryItem, int32 StackCount);
 	UFUNCTION(Server, Reliable)
 	void Server_ConsumeItem(UInv_InventoryItem* InventoryItem);
+	UFUNCTION(Server, Reliable)
+	void Server_EquipSlotClicked(UInv_InventoryItem* InventoryItemToEquip, UInv_InventoryItem* EquippedSlotToUnequip);
+	UFUNCTION(NetMulticast, Reliable)
+	void Multicast_EquipSlotClicked(UInv_InventoryItem* InventoryItemToEquip, UInv_InventoryItem* InventoryItemToUnequip);
 
 	void ToggleInventoryMenu();
 	void AddRepSubObject(UObject* SubObj);
@@ -49,7 +54,9 @@ public:
 	FNoRoomInventorySignature OnNoRoomInventoryDelegate;
 	FStackChangedSignature OnStackChangedDelegate;
 	UPROPERTY(BlueprintAssignable)
-	FOnInvHealthEffectSignature OnHealthEffectDelegate;
+	FOnInvAttributeChangedSignature OnInvAttributeChangedDelegate;
+	FItemEquipSignature OnItemEquipDelegate;
+	FItemEquipSignature OnItemUnequipDelegate;
 
 protected:
 	virtual void BeginPlay() override;

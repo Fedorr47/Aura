@@ -156,6 +156,19 @@ void UInv_InventoryComponent::Server_ConsumeItem_Implementation(UInv_InventoryIt
 	}
 }
 
+void UInv_InventoryComponent::Server_EquipSlotClicked_Implementation(UInv_InventoryItem* InventoryItemToEquip,
+	UInv_InventoryItem* EquippedSlotToUnequip)
+{
+	Multicast_EquipSlotClicked(InventoryItemToEquip, EquippedSlotToUnequip);
+}
+
+void UInv_InventoryComponent::Multicast_EquipSlotClicked_Implementation(UInv_InventoryItem* InventoryItemToEquip,
+	UInv_InventoryItem* InventoryItemToUnequip)
+{
+	OnItemEquipDelegate.Broadcast(InventoryItemToEquip);
+	OnItemEquipDelegate.Broadcast(InventoryItemToUnequip);
+}
+
 void UInv_InventoryComponent::ToggleInventoryMenu()
 {
 	if (bInventoryMenuOpen)

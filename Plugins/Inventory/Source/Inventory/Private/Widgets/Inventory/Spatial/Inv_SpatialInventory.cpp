@@ -15,7 +15,9 @@
 #include "InventoryManager/Utils/Inv_InventoryStatics.h"
 #include "Items/Components/Inv_ItemComponent.h"
 #include "Widgets/Inventory/GridSlots/Inv_EquippedGridSlot.h"
+#include "Widgets/Inventory/HoverItem/Inv_HoverItem.h"
 #include "Widgets/Inventory/ItemDescription/Inv_ItemDescription.h"
+#include "Widgets/Inventory/SlottedItems/Inv_EquippedSlottedItem.h"
 
 void UInv_SpatialInventory::NativeOnInitialized()
 {
@@ -36,7 +38,7 @@ void UInv_SpatialInventory::NativeOnInitialized()
 		if (UInv_EquippedGridSlot* EquippedGridSlot = Cast<UInv_EquippedGridSlot>(Widget); IsValid(EquippedGridSlot))
 		{
 			EquippedGridSlots.Add(EquippedGridSlot);
-			EquippedGridSlot->OnFEquippedGridSlotClickedDelegate.AddDynamic(this, &ThisClass::EquippedGridSlotClicked);
+			EquippedGridSlot->OnEquippedGridSlotClickedDelegate.AddDynamic(this, &ThisClass::EquippedGridSlotClicked);
 		}
 	});
 }
@@ -45,8 +47,63 @@ void UInv_SpatialInventory::EquippedGridSlotClicked(
 	UInv_EquippedGridSlot* EquippedGridSlot,
 	const FGameplayTag& EquippedTypeTag)
 {
-	
+	if (!CanEquipHoverItem(EquippedGridSlot, EquippedTypeTag))
+	{
+		return;
+	}
+	const UInv_HoverItem* HoverItem = GetHoverItem();
+	const float TileSize = UInv_InventoryStatics::GetInventoryWidget(GetOwningPlayer())->GetTileSize();
+	UInv_EquippedSlottedItem* EquippedSlottedItem = EquippedGridSlot->OnItemEquipped(
+		HoverItem->GetInventoryItem(),
+		EquippedTypeTag,
+		TileSize);
+
+	EquippedSlottedItem->OnClickedSlottedItemClickedDelegate.AddDynamic(this, &ThisClass::EquippedSlottedItemClicked);
+
+	Grid_Equippables->ClearHoverItem();
+
+	UInv_InventoryComponent* InventoryComponent = UInv_InventoryStatics::GetInventoryComponent(GetOwningPlayer());
+	check(IsValid(InventoryComponent));
+
+	InventoryComponent->Server_EquipSlotClicked(HoverItem->GetInventoryItem(), nullptr);
+
+	if (GetOwningPlayer()->GetNetMode() != NM_DedicatedServer)
+	{
+		InventoryComponent->OnItemEquipDelegate.Broadcast(HoverItem->GetInventoryItem());
+	}
+	// Work here
 }
+
+void UInv_SpatialInventory::EquippedSlottedItemClicked(UInv_EquippedSlottedItem* EquippedSlottedItem)
+{
+}
+
+bool UInv_SpatialInventory::CanEquipHoverItem(
+	const UInv_EquippedGridSlot* EquippedGridSlot,
+	const FGameplayTag& EquippedTypeTag) const
+{
+	if (!IsValid(EquippedGridSlot) || EquippedGridSlot->GetInventoryItem().IsValid())
+	{
+		return false;
+	}
+
+	UInv_HoverItem* HoverItem = GetHoverItem();
+	if (!IsValid(HoverItem))
+	{
+		return false;
+	}
+
+	UInv_InventoryItem* HeldItem = HoverItem->GetInventoryItem();
+
+	bool bHasHover = HasHoverItem();
+	bool bHeldCheck = IsValid(HeldItem)
+					&& !HoverItem->IsStackable()
+					&& HeldItem->GetItemManifest().GetItemCategory() == EInv_ItemCategory::Equippable
+					&& HeldItem->GetItemManifest().GetItemType().MatchesTag(EquippedTypeTag);
+	
+	return bHasHover && bHeldCheck;
+}
+
 
 void UInv_SpatialInventory::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
@@ -131,6 +188,11 @@ UInv_HoverItem* UInv_SpatialInventory::GetHoverItem() const
 	}
 
 	return ActiveGrid->GetHoverItem();
+}
+
+float UInv_SpatialInventory::GetTileSize() const
+{
+	return Grid_Equippables->GetTileSize();
 }
 
 FInv_SlotAvailabilityResult UInv_SpatialInventory::HasRoomForItem(UInv_ItemComponent* ItemComponent) const
