@@ -23,7 +23,7 @@ public:
 	FGameplayTag GetEquippedSlottedItemType() const { return EquippedTypeTag; }
 	//----------------------------------------------------------------------------------------------------------------//
 
-	FEquippedSlottedItemClickedSignature OnClickedSlottedItemClickedDelegate;
+	FEquippedSlottedItemClickedSignature OnSlottedItemClickedDelegate;
 	
 private:
 

@@ -26,6 +26,8 @@ public:
 		UInv_InventoryItem* InInventoryItem,
 		const FGameplayTag& InEquippedTypeTag,
 		float TileSize);
+	void SetEquippedSlottedItem(UInv_EquippedSlottedItem* InEquippedSlottedItemWidget)
+	{ EquippedSlottedItemWidget = InEquippedSlottedItemWidget; }
 	//----------------------------------------------------------------------------------------------------------------//
 	
 	FEquippedGridSlotClickedSignature OnEquippedGridSlotClickedDelegate;

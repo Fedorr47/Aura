@@ -5,9 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "Components/Button.h"
+#include "Items/Inv_InventoryItem.h"
 #include "Widgets/Inventory/InventoryBase/Inv_InventoryBase.h"
 #include "Inv_SpatialInventory.generated.h"
 
+class UInv_EquippedSlottedItem;
 class UInv_EquippedGridSlot;
 class UInv_ItemDescription;
 class UCanvasPanel;
@@ -53,6 +55,14 @@ private:
 	UInv_ItemDescription* GetItemDescription();
 	void SetItemDescriptionSizeAnPosition(UInv_ItemDescription* ItemDescription, UCanvasPanel* InCanvasPanel) const;
 	bool CanEquipHoverItem(const UInv_EquippedGridSlot* EquippedGridSlot, const FGameplayTag& EquippedTypeTag) const;
+	UInv_EquippedGridSlot* FindSlotWithEquippedItem(UInv_InventoryItem* EquippedItem) const;
+	void ClearSlotOfItem(UInv_EquippedGridSlot* EquippedGridSlot);
+	void RemoveEquippedSlottedItem(UInv_EquippedSlottedItem* InEquippedSlottedItem);
+	void MakeEquippedSlottedItem(
+		UInv_EquippedSlottedItem* InEquippedSlottedItem,
+		UInv_EquippedGridSlot* InEquippedGridSlot,
+		UInv_InventoryItem* InItemToEquip);
+	void BroadcastSlotClickedDelegates(UInv_InventoryItem* InItemToEquip, UInv_InventoryItem* InItemToUnequip) const;
 
 //--------------------------------------------------------------------------------------------------------------------//
 
@@ -95,4 +105,3 @@ private:
 	UPROPERTY(EditAnywhere, Category = Inventory)
 	float DescriptionTimerDelay = 0.5f;
 };
-	

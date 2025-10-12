@@ -76,10 +76,11 @@ UInv_EquippedSlottedItem* UInv_EquippedGridSlot::OnItemEquipped(
 	}
 	const FIntPoint GridDimension = GridFragment->GetGridSize();
 	
-	const float IconTileSize = TileSize - GridFragment->GetGridPadding() * 2;
-	const FVector2D DrawSize = GridDimension * IconTileSize;
+	const float IconTileWidth  = TileSize - GridFragment->GetGridPadding() * 2;
+	const FVector2D DrawSize = GridDimension * IconTileWidth ;
 
 	EquippedSlottedItemWidget = CreateWidget<UInv_EquippedSlottedItem>(GetOwningPlayer(), EquippedSlottedItemClass);
+	EquippedSlottedItemWidget->SetInventoryItem(InInventoryItem);
 	EquippedSlottedItemWidget->SetEquippedSlottedItemType(InEquippedTypeTag);
 	EquippedSlottedItemWidget->UpdateStackCount(0);
 	SetInventoryItem(InInventoryItem);
@@ -91,7 +92,7 @@ UInv_EquippedSlottedItem* UInv_EquippedGridSlot::OnItemEquipped(
 	}
 
 	FSlateBrush Brush;
-	Brush.SetResourceObject((ImageFragment->GetIcon()));
+	Brush.SetResourceObject(ImageFragment->GetIcon());
 	Brush.DrawAs = ESlateBrushDrawType::Image;
 	Brush.ImageSize = DrawSize;
 
@@ -102,8 +103,8 @@ UInv_EquippedSlottedItem* UInv_EquippedGridSlot::OnItemEquipped(
 	//auto OverlayPosition = OverlayGeometry.Position;
 	FVector2D OverlaySize = OverlayGeometry.Size;
 
-	const float LeftPadding = OverlaySize.X / 2.0f + DrawSize.X / 2.0f;
-	const float TopPadding = OverlaySize.Y / 2.0f + DrawSize.Y / 2.0f;
+	const float LeftPadding = OverlaySize.X / 2.0f - DrawSize.X / 2.0f;
+	const float TopPadding = OverlaySize.Y / 2.0f - DrawSize.Y / 2.0f;
 
 	UOverlaySlot* OverlaySlot = UWidgetLayoutLibrary::SlotAsOverlaySlot(EquippedSlottedItemWidget);
 	OverlaySlot->SetPadding(FMargin(LeftPadding, TopPadding));

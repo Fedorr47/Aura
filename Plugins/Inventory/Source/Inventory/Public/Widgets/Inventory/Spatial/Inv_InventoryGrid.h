@@ -43,6 +43,7 @@ public:
 	UInv_HoverItem* GetHoverItem() const;
 	float GetTileSize() const { return TileSize; };
 	void ClearHoverItem();
+	void AssignHoverItem(UInv_InventoryItem* InInventoryItem);
 
 private:
 
@@ -117,7 +118,6 @@ private:
 	UFUNCTION()
 	void AddStacks(const FInv_SlotAvailabilityResult& AvailabilityResult);
 	void PickUp(UInv_InventoryItem* ClickedInventoryItem, const int32 GridIndex);
-	void AssignHoverItem(UInv_InventoryItem* InInventoryItem);
 	void AssignHoverItem(UInv_InventoryItem* InInventoryItem, const int32 GridIndex, const int32 PreviousGridIndex);
 	void RemoveItemFromGrid(UInv_InventoryItem* InInventoryItem, const int32 GridIndex);
 	void UpdateTileParameters(const FVector2D& CanvasPosition, const FVector2D& MousePosition);
