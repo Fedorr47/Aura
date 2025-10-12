@@ -179,6 +179,7 @@ void UInv_InventoryComponent::ToggleInventoryMenu()
 	{
 		OpenInventoryMenu();
 	}
+	OnInventoryMenuToggledDelegate.Broadcast(bInventoryMenuOpen);
 }
 
 void UInv_InventoryComponent::AddRepSubObject(UObject* SubObj)

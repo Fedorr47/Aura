@@ -14,6 +14,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNoRoomInventorySignature);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FStackChangedSignature, const FInv_SlotAvailabilityResult&, AvailabilityResult);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnInvAttributeChangedSignature, int32, AttributeCode, float, Value, bool, IsIncreasing);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FItemEquipSignature, UInv_InventoryItem*, InventoryItem);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInventoryMenuToggledSignature, bool, bOpen);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable)
 class INVENTORY_API UInv_InventoryComponent : public UActorComponent
@@ -57,6 +58,7 @@ public:
 	FOnInvAttributeChangedSignature OnInvAttributeChangedDelegate;
 	FItemEquipSignature OnItemEquipDelegate;
 	FItemEquipSignature OnItemUnequipDelegate;
+	FInventoryMenuToggledSignature OnInventoryMenuToggledDelegate;
 
 protected:
 	virtual void BeginPlay() override;
