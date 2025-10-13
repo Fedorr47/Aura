@@ -104,7 +104,10 @@ void UInv_InventoryComponent::Server_AddStackToItem_Implementation(
 	}
 }
 
-void UInv_InventoryComponent::Server_DropItem_Implementation(UInv_InventoryItem* InventoryItem, int32 StackCount)
+void UInv_InventoryComponent::Server_DropItem_Implementation(
+	UInv_InventoryItem* InventoryItem,
+	int32 StackCount,
+	const FIntPoint MousePosition)
 {
 	const int32 NewStackCount = InventoryItem->GetTotalStackCount() - StackCount;
 	if (NewStackCount <= 0)
@@ -116,18 +119,29 @@ void UInv_InventoryComponent::Server_DropItem_Implementation(UInv_InventoryItem*
 		InventoryItem->SetTotalStackCount(NewStackCount);
 	}
 
-	SpawnDroppedItem(InventoryItem, StackCount);
+	SpawnDroppedItem(InventoryItem, StackCount, MousePosition);
 }
 
-void UInv_InventoryComponent::SpawnDroppedItem(UInv_InventoryItem* InventoryItem, int32 StackCount)
+void UInv_InventoryComponent::SpawnDroppedItem(
+	UInv_InventoryItem* InventoryItem,
+	int32 StackCount,
+	const FIntPoint MousePosition)
 {
 	const APawn* OwnningPawn = OwningController->GetPawn();
 	FVector RotatedForward = OwnningPawn->GetActorForwardVector();
 	RotatedForward =
 		RotatedForward.RotateAngleAxis(FMath::FRandRange(DropSpawnAngMin,DropSpawnAngMax), FVector::UpVector);
-	FVector SpawnLocation =
-		OwnningPawn->GetActorLocation() + RotatedForward * FMath::FRandRange(DropSpawnDistanceMin, DropSpawnDistanceMax);
-	SpawnLocation.Z -= RelativeSpawnElevation;
+	FVector SpawnLocation;
+	if (FMath::Abs(MousePosition.X) < INT_MAX && FMath::Abs(MousePosition.Y) < INT_MAX)
+	{
+		SpawnLocation = FVector(MousePosition.X, MousePosition.Y, RelativeSpawnElevation);
+	}
+	else
+	{
+		SpawnLocation =	OwnningPawn->GetActorLocation() + RotatedForward * FMath::FRandRange(DropSpawnDistanceMin, DropSpawnDistanceMax);
+		SpawnLocation.Z -= RelativeSpawnElevation;
+	}
+	
 	const FRotator SpawnRotation = FRotator::ZeroRotator;
 
 	FInv_ItemManifest& ItemManifest = InventoryItem->GetItemManifestMutable();

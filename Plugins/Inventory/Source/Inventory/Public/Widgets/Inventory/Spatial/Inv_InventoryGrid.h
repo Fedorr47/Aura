@@ -36,7 +36,7 @@ public:
 
 	UFUNCTION()
 	void AddItem(UInv_InventoryItem* InItem);
-	void DropItem();
+	void DropItem(const FIntPoint InMousePosition);
 	void ShowCursor();
 	void HideCursor();
 	bool HasHoverItem() const;

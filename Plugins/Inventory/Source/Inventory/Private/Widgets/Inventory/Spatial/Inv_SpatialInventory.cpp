@@ -59,9 +59,7 @@ void UInv_SpatialInventory::EquippedGridSlotClicked(
 		TileSize);
 
 	EquippedSlottedItem->OnSlottedItemClickedDelegate.AddDynamic(this, &ThisClass::EquippedSlottedItemClicked);
-
-	Grid_Equippables->ClearHoverItem();
-
+	
 	UInv_InventoryComponent* InventoryComponent = UInv_InventoryStatics::GetInventoryComponent(GetOwningPlayer());
 	check(IsValid(InventoryComponent));
 
@@ -71,6 +69,8 @@ void UInv_SpatialInventory::EquippedGridSlotClicked(
 	{
 		InventoryComponent->OnItemEquipDelegate.Broadcast(HoverItem->GetInventoryItem());
 	}
+
+	Grid_Equippables->ClearHoverItem();
 }
 
 void UInv_SpatialInventory::EquippedSlottedItemClicked(UInv_EquippedSlottedItem* EquippedSlottedItem)
@@ -227,7 +227,17 @@ void UInv_SpatialInventory::SetItemDescriptionSizeAnPosition(
 FReply UInv_SpatialInventory::NativeOnMouseButtonDown(const FGeometry& InGeometry,
                                                       const FPointerEvent& InMouseEvent)
 {
-	ActiveGrid->DropItem();
+	FHitResult Hit;
+	FIntPoint MousePoint(0,0);
+	APlayerController* PlayerController = GetOwningPlayer();
+	if (IsValid(PlayerController) && PlayerController->GetHitResultUnderCursorByChannel(
+			UEngineTypes::ConvertToTraceType(ECC_Visibility), /*bTraceComplex=*/false, Hit))
+	{
+		MousePoint.X = Hit.ImpactPoint.X;
+		MousePoint.Y = Hit.ImpactPoint.Y;
+	}
+	
+	ActiveGrid->DropItem(MousePoint);
 	return FReply::Handled();
 }
 

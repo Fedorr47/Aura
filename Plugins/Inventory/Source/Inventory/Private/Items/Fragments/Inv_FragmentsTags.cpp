@@ -23,6 +23,9 @@ void FInventoryFragmentsTags::InitializeNativeGameplayTags()
 	FragInstance.ConsumableFragment = FGeneralStatics::AddInputTag(
 		"Consumable fragment",
 		"Inventory", "FragmentTags", "ConsumableFragment");
+	FragInstance.EquipmentFragment = FGeneralStatics::AddInputTag(
+		"Equipment fragment",
+		"Inventory", "FragmentTags", "EquipmentFragment");
 
 	FragInstance.ItemNameFragment = FGeneralStatics::AddInputTag(
 		"Item name Fragment",

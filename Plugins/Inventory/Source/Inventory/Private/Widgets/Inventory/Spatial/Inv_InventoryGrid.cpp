@@ -920,14 +920,14 @@ void UInv_InventoryGrid::CreateItemPopUp(const int32 GridIndex)
 	}
 }
 
-void UInv_InventoryGrid::DropItem()
+void UInv_InventoryGrid::DropItem(const FIntPoint InMousePosition)
 {
 	if (!IsValid(HoverItem) || !IsValid(HoverItem->GetInventoryItem()))
 	{
 		return;
 	}
 
-	InventoryComponent->Server_DropItem(HoverItem->GetInventoryItem(), HoverItem->GetStackCount());
+	InventoryComponent->Server_DropItem(HoverItem->GetInventoryItem(), HoverItem->GetStackCount(), InMousePosition);
 
 	ClearHoverItem();
 	ShowCursor();
@@ -962,7 +962,7 @@ void UInv_InventoryGrid::OnPopUpMenuDrop(int32 Index)
 	}
 
 	PickUp(RightClickedItem, Index);
-	DropItem();
+	DropItem(FIntPoint(INT_MAX, INT_MAX));
 }
 
 void UInv_InventoryGrid::OnPopUpMenuConsume(int32 Index)

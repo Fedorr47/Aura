@@ -13,6 +13,7 @@ public:
 	FGameplayTag IconFragment;
 	FGameplayTag StackableFragment;
 	FGameplayTag ConsumableFragment;
+	FGameplayTag EquipmentFragment;
 
 	FGameplayTag ItemNameFragment;
 	FGameplayTag PrimaryStatFragment;

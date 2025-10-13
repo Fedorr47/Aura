@@ -37,7 +37,7 @@ public:
 		int32 StackCount,
 		int32 Remainder);
 	UFUNCTION(Server, Reliable)
-	void Server_DropItem(UInv_InventoryItem* InventoryItem, int32 StackCount);
+	void Server_DropItem(UInv_InventoryItem* InventoryItem, int32 StackCount, const FIntPoint MousePosition);
 	UFUNCTION(Server, Reliable)
 	void Server_ConsumeItem(UInv_InventoryItem* InventoryItem);
 	UFUNCTION(Server, Reliable)
@@ -47,7 +47,10 @@ public:
 
 	void ToggleInventoryMenu();
 	void AddRepSubObject(UObject* SubObj);
-	void SpawnDroppedItem(UInv_InventoryItem* InventoryItem, int32 StackCount);
+	void SpawnDroppedItem(
+		UInv_InventoryItem* InventoryItem,
+		int32 StackCount,
+		const FIntPoint MousePosition);
 	UInv_InventoryBase* GetInventoryWidget() const { return InventoryMenuWidget; }
 
 	FInventoryItemChangedSignature OnItemAddedDelegate;

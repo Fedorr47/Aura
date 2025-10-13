@@ -8,6 +8,7 @@
 
 #include "Inv_ItemFragment.generated.h"
 
+class AInv_EquipActor;
 class UInv_InventoryComponent;
 class APlayerController;
 class UInv_CompositeBase;
@@ -255,9 +256,26 @@ struct FInv_EquipmentFragment : public FInv_InventoryItemFragment
 	virtual void OnEquip(UInv_InventoryComponent* InventoryComponent);
 	virtual void OnUnequip(UInv_InventoryComponent* InventoryComponent);
 	virtual bool Assimilate(UInv_CompositeBase* CompositeBase) const override;
+	virtual void Manifest() override;
+
+	AInv_EquipActor* SpawnAttachedActor(USkeletalMeshComponent* AttachMesh) const;
+	void DestroyAttachedActor() const;
+	FGameplayTag GetEquipmentType() const { return EquipmentType; }
+	void SetEquippedActor(AInv_EquipActor* InEquippedActor);
 	
 private:
 
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	TArray<TInstancedStruct<FInv_EquipModifier>> EquipModifiers;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	TSubclassOf<AInv_EquipActor> EquipActorClass{nullptr};
+
+	TWeakObjectPtr<AInv_EquipActor> EquippedActor{nullptr};
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	FName SocketAttachPoint{NAME_None};
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	FGameplayTag EquipmentType{FGameplayTag::EmptyTag};
 };
