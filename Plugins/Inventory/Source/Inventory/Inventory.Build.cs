@@ -28,7 +28,8 @@ public class Inventory : ModuleRules
 				"Core",
 				"NetCore",
 				"StructUtils",
-				"GameplayTags"
+				"GameplayTags",
+				"AnimGraphRuntime"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -43,7 +44,8 @@ public class Inventory : ModuleRules
 				"SlateCore",
                 "EnhancedInput",
                 "UMG",
-                "InputCore"
+                "InputCore",
+                "AnimGraphRuntime"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
