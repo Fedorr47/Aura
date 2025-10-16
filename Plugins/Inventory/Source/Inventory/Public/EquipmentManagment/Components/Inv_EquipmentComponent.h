@@ -22,6 +22,7 @@ public:
 	void SetOwningSkeletalMesh(USkeletalMeshComponent* InOwningMesh);
 	void SetIsProxy(bool InIsProxy) { bIsProxy = InIsProxy; }
 	void InitializeOwner(APlayerController* InPlayerController);
+	void InitInventoryComponent();
 //--------------------------------------------------------------------------------------------------------------------//
 protected:
 	virtual void BeginPlay() override;
@@ -33,8 +34,7 @@ private:
 	void OnItemUnequipped(UInv_InventoryItem* UnequippedItem);
 	UFUNCTION()
 	void OnPossessedPawnChanged(APawn* OldPawn, APawn* NewPawn);
-
-	void InitInventoryComponent();
+	
 	void InitPlayerController();
 	AInv_EquipActor* SpawnEquippedActor(
 		FInv_EquipmentFragment* EquipmentFragment,

@@ -30,6 +30,7 @@ public:
 	FGameplayTag Equipment_Weapons_Sword;
 
 	FGameplayTag Equipment_Cloaks_RedCloak;
+	FGameplayTag Equipment_Cloaks_BlueCloak;
 
 	FGameplayTag Equipment_Masks_SteelMask;
 

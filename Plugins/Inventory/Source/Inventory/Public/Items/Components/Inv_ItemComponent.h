@@ -24,6 +24,7 @@ public:
 	FString GetPickupMessage() {return PickupMessage;};
 	void InitItemManifest(FInv_ItemManifest CopyOfManifest);
 	FInv_ItemManifest GetItemManifest() const { return ItemManifest; }
+	FInv_ItemManifest& GetItemManifestMutable() { return ItemManifest; }
 	void PickedUp();
 	
 protected:

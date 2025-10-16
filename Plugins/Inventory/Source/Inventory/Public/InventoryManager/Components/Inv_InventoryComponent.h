@@ -30,7 +30,10 @@ public:
 	void TryAddItem(UInv_ItemComponent* ItemComponent);
 
 	UFUNCTION(Server, Reliable)
-	void Server_AddNewItem(UInv_ItemComponent* ItemsComponent, int32 StackCount);
+	void Server_AddNewItem(
+		UInv_ItemComponent* ItemComponent,
+		int32 StackCount,
+		int32 Remainder);
 	UFUNCTION(Server, Reliable)
 	void Server_AddStackToItem(
 		UInv_ItemComponent* ItemComponent,
@@ -52,6 +55,7 @@ public:
 		int32 StackCount,
 		const FIntPoint MousePosition);
 	UInv_InventoryBase* GetInventoryWidget() const { return InventoryMenuWidget; }
+	bool IsInventoryMenuOpen() const { return bInventoryMenuOpen; }
 
 	FInventoryItemChangedSignature OnItemAddedDelegate;
 	FInventoryItemChangedSignature OnItemRemovedDelegate;

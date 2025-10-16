@@ -33,6 +33,9 @@ void FInventoryGameplayTags::InitializeNativeGameplayTags()
 	ItemInstance.Equipment_Cloaks_RedCloak = FGeneralStatics::AddInputTag(
 		"Red cloak",
 		"Inventory", "GameItems", "Equipment", "Cloaks", "RedCloak");
+	ItemInstance.Equipment_Cloaks_BlueCloak = FGeneralStatics::AddInputTag(
+		"Blue cloak",
+		"Inventory", "GameItems", "Equipment", "Cloaks", "BlueCloak");
 
 	ItemInstance.Equipment_Masks_SteelMask = FGeneralStatics::AddInputTag(
 		"Steel mask",

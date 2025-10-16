@@ -9,6 +9,7 @@
 AInv_ProxyMesh::AInv_ProxyMesh()
 {
 	PrimaryActorTick.bCanEverTick = false;
+	SetReplicates(false);
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>("Root");
 	ProxySkeletalMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>("Mesh");
@@ -59,9 +60,13 @@ void AInv_ProxyMesh::DelayedInitializeOwner()
 	auto Instances = GetLinkedAnimInstancesInternal(SourceMesh.Get());
 	if (Instances.Num() > 0)
 	{
-		ProxySkeletalMeshComponent->LinkAnimClassLayers(Instances[0]->GetClass());
+		ProxyAnimInstance = Instances[0]->GetClass();
+		ProxySkeletalMeshComponent->LinkAnimClassLayers(ProxyAnimInstance);
 	}
-
+	else if (ProxyAnimInstance != nullptr)
+	{
+		ProxySkeletalMeshComponent->LinkAnimClassLayers(ProxyAnimInstance);
+	}
 	////----------------------------------------------------------/////
 	EquipmentComponent->InitializeOwner(PlayerController);
 }

@@ -9,7 +9,7 @@
 
 template <typename T>
 using TStaticAttributeFuncPtr = typename TBaseStaticDelegateInstance<T, FDefaultDelegateUserPolicy>::FFuncPtr;
-
+    
 #define CLAMP_ATTRIBUTE(AttributeName, Attribute, MinAttributeValue, MaxAttributeValue, NewValue) \
 if (Attribute == Get##AttributeName##Attribute()) \
 { \

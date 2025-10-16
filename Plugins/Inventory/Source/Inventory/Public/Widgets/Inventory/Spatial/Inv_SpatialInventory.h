@@ -31,7 +31,7 @@ public:
 	virtual FInv_SlotAvailabilityResult HasRoomForItem(UInv_ItemComponent* ItemComponent) const;
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 
-	virtual void OnItemHovered(UInv_InventoryItem* ItemsComponent) override;
+	virtual void OnItemHovered(UInv_InventoryItem* Item) override;
 	virtual void OnItemUnhovered()override;
 	virtual bool HasHoverItem() const override;
 	virtual UInv_HoverItem* GetHoverItem() const override;
@@ -49,11 +49,18 @@ private:
 	void EquippedGridSlotClicked( UInv_EquippedGridSlot* EquippedGridSlot, const FGameplayTag& EquippedTypeTag);
 	UFUNCTION()
 	void EquippedSlottedItemClicked(UInv_EquippedSlottedItem* EquippedSlottedItem);
+	UFUNCTION()
+	void ShowEquippedItemDescription(UInv_InventoryItem* InventoryItem);
 	
 	void DisableButton(UButton* Button);
 	void SetActiveGrid(UInv_InventoryGrid* Grid, UButton* Button);
 	UInv_ItemDescription* GetItemDescription();
+	UInv_ItemDescription* GetEquippedItemDescription();
 	void SetItemDescriptionSizeAnPosition(UInv_ItemDescription* ItemDescription, UCanvasPanel* InCanvasPanel) const;
+	void SetEquippedItemDescriptionSizeAnPosition(
+		UInv_ItemDescription* ItemDescription,
+		UInv_ItemDescription* EquippedItemDescription,
+		UCanvasPanel* InCanvasPanel) const;
 	bool CanEquipHoverItem(const UInv_EquippedGridSlot* EquippedGridSlot, const FGameplayTag& EquippedTypeTag) const;
 	UInv_EquippedGridSlot* FindSlotWithEquippedItem(UInv_InventoryItem* EquippedItem) const;
 	void ClearSlotOfItem(UInv_EquippedGridSlot* EquippedGridSlot);
@@ -101,7 +108,18 @@ private:
 	UPROPERTY()
 	TObjectPtr<UInv_ItemDescription> ItemDescriptionWidget;
 
+	UPROPERTY(EditAnywhere, Category = Inventory)
+	TSubclassOf<UInv_ItemDescription> EquippedItemDescriptionClass;
+
+	UPROPERTY()
+	TObjectPtr<UInv_ItemDescription> EquippedItemDescriptionWidget;
+
 	FTimerHandle DescriptionTimer;
+	FTimerHandle EquippedDescriptionTimer;
+	
 	UPROPERTY(EditAnywhere, Category = Inventory)
 	float DescriptionTimerDelay = 0.5f;
+
+	UPROPERTY(EditAnywhere, Category = Inventory)
+	float EquippedDescriptionTimerDelay = 0.5f;
 };

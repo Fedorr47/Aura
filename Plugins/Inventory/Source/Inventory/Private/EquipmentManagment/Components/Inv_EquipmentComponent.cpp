@@ -58,7 +58,7 @@ void UInv_EquipmentComponent::InitializeOwner(APlayerController* InPlayerControl
 		return;
 	}
 	OwningPlayerController = InPlayerController;
-	InitPlayerController();
+	InitInventoryComponent();
 }
 
 void UInv_EquipmentComponent::OnPossessedPawnChanged(APawn* OldPawn, APawn* NewPawn)
