@@ -235,6 +235,16 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& CheckpointTag)
 	}
 }
 
+USpringArmComponent* AAuraCharacter::GetPlayerCamera_Implementation() const
+{
+	return CameraBoom;
+}
+
+void AAuraCharacter::ApplyJump_Implementation()
+{
+	Jump();
+}
+
 void AAuraCharacter::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();

@@ -87,16 +87,12 @@ public:
 	virtual USkeletalMeshComponent* GetWeapon_Implementation() override;
 	virtual bool IsBeingInShock_Implementation() override;
 	virtual void SetBeingInShock_Implementation(bool InShock) override;
-	void EquipAllPickUpsInternal();
-	virtual void EquipAllPickUps_Implementation() override;
 
 	virtual FOnDamageSignature& GetOnDamageSignature() override;
 	virtual FOnAbilitySystemComponentRegistrated& GetOnAbilitySystemComponentRegistratedDelegate() override;
 	virtual FOnDeath GetOnDeathDelegate() override;
 	/* End Combat Interface */
-
-	UFUNCTION(Server, Reliable)
-	void ServerEquipAllPickUps();
+	
 
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath(const FVector& DeathImpulse);

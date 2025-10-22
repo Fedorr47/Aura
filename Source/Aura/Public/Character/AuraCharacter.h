@@ -49,6 +49,8 @@ public:
 	virtual void HideMagicCircle_Implementation() override;
 	virtual void SetMagicCircleMaterial_Implementation(UMaterialInterface* InMaterial);
 	virtual void SaveProgress_Implementation(const FName& CheckpointTag) override;
+	virtual USpringArmComponent* GetPlayerCamera_Implementation() const;
+	virtual void ApplyJump_Implementation() override;
 	/* End Player Interface */
 
 	virtual void OnRep_Shocked() override;

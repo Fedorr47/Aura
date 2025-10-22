@@ -203,42 +203,6 @@ void AAuraCharacterBase::SetBeingInShock_Implementation(bool InShock)
 	bBeingInShock = InShock;
 }
 
-void AAuraCharacterBase::ServerEquipAllPickUps_Implementation()
-{
-	EquipAllPickUpsInternal();
-}
-
-
-void AAuraCharacterBase::EquipAllPickUpsInternal()
-{
-	for (AItemActor* Item : PickableItems)
-	{
-		if (Item->Implements<UWeaponInterface>())
-		{
-			USkeletalMesh* PickupMesh = IWeaponInterface::Execute_GetWeaponSkeletalMesh(Item);
-			IWeaponInterface::Execute_SwapWeapon(Item, this);
-			Weapon->SetSkeletalMesh(PickupMesh);
-			if (ReplicatedWeaponMesh == PickupMesh)
-			{
-				ReplicatedWeaponMesh = nullptr; 
-			}
-			ReplicatedWeaponMesh = PickupMesh;
-		}
-	}
-}
-
-void AAuraCharacterBase::EquipAllPickUps_Implementation()
-{
-	if (!HasAuthority())
-	{
-		ServerEquipAllPickUps();
-	}
-	else
-	{
-		EquipAllPickUpsInternal();
-	}
-}
-
 bool AAuraCharacterBase::IsHitReacting()
 {
 	return bHitReacting;

@@ -55,6 +55,7 @@ protected:
 private:
 	void Move(const FInputActionValue& InputActionValue);
 	void Look(const FInputActionValue& InputActionValue);
+	void Zoom(const FInputActionValue& InputActionValue);
 	
 	void ShiftPressed() {bShiftPressed = true;}
 	void ShiftReleased(){bShiftPressed = false;}
@@ -80,6 +81,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> MoveAction;
+
+	UPROPERTY(EditAnywhere, Category="Input")
+	TObjectPtr<UInputAction> ZoomAction;
 
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> ShiftAction;
@@ -125,4 +129,3 @@ private:
 	UPROPERTY()
 	TObjectPtr<AMagicCircle> MagicCircle;
 };
-

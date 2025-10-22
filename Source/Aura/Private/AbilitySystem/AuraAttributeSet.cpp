@@ -105,7 +105,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	const auto Attribute = Data.EvaluatedData.Attribute;
 	CLAMP_ATTRIBUTE_POST(Health, Attribute, 0.0f, GetMaxHealth());
 #if !UE_BUILD_SHIPPING
-	if (Props.TargetCharacter->GetPlayerState()->Implements<UCheatInterface>()
+	if (Props.TargetCharacter->Implements<UPlayerInterface>()
+		&& Props.TargetCharacter->GetPlayerState()->Implements<UCheatInterface>()
 		&& ICheatInterface::Execute_IsUnlimitedMana(Props.TargetCharacter->GetPlayerState()))
 	{
 		SetMana(GetMaxMana()); 

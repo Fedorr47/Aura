@@ -17,8 +17,10 @@
 #include "Components/SplineComponent.h"
 #include "GameFramework/Character.h"
 #include "Input/AuraInputComponent.h"
+#include "Interaction/CombatInterface.h"
 #include "Interaction/EnemyInterface.h"
 #include "Interaction/HighlightInterface.h"
+#include "Interaction/PlayerInterface.h"
 #include "InventoryManager/Components/Inv_InventoryComponent.h"
 #include "UI/Widgets/DamageTextComponent.h"
 
@@ -331,6 +333,7 @@ void AAuraPlayerController::SetupInputComponent()
 		UAuraInputComponent* AuraInputComponent = CastChecked<UAuraInputComponent>(InputComponent);
 		AuraInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
 		AuraInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Look);
+		AuraInputComponent->BindAction(ZoomAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Zoom);
 		// TODO: Replace it to BindAbilityActions
 		AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &ThisClass::ShiftPressed);
 		AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &ThisClass::ShiftReleased);
@@ -379,3 +382,18 @@ void AAuraPlayerController::Look(const FInputActionValue& InputActionValue)
 	ControlledPawn->AddControllerYawInput(LookInput.X);
 	ControlledPawn->AddControllerPitchInput(LookInput.Y);
 }
+
+void AAuraPlayerController::Zoom(const FInputActionValue& InputActionValue)
+{
+	APawn* ControlledPawn = GetPawn<APawn>();
+	if (ControlledPawn->Implements<UPlayerInterface>())
+	{
+		USpringArmComponent* PlayerCamera = IPlayerInterface::Execute_GetPlayerCamera(ControlledPawn);
+		if (PlayerCamera == nullptr)
+		{
+			return;
+		}
+		
+	}
+}
+

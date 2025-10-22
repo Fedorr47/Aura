@@ -67,6 +67,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	Instance.InputTag_PickUp	= UAuraAbilitySystemLibrary::AddInputTag("Input Tag for PickUp", "InputTag", "PickUp");
 	Instance.InputTag_Passive_1 = UAuraAbilitySystemLibrary::AddInputTag("Input Tag for Passive 1", "InputTag", "Passive", "1");
 	Instance.InputTag_Passive_2 = UAuraAbilitySystemLibrary::AddInputTag("Input Tag for Passive 2", "InputTag", "Passive", "2");
+	Instance.InputTag_SpaceBar	= UAuraAbilitySystemLibrary::AddInputTag("Input Tag for SpaceBar", "InputTag", "SpaceBar");
 
 	// Base tag
 	Instance.Damage = UAuraAbilitySystemLibrary::AddInputTag("Damage", "Damage");
@@ -129,6 +130,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	Instance.Abilities_Passive_ManaSiphon = UAuraAbilitySystemLibrary::AddInputTag("Mana Siphon", "Abilities", "Passive", "ManaSiphon");
 	// Passive tool abilities
 	Instance.Abilities_PickUp		= UAuraAbilitySystemLibrary::AddInputTag("Pickup", "Abilities", "Passive", "Pickup");
+	Instance.Abilities_Jump		= UAuraAbilitySystemLibrary::AddInputTag("Pickup", "Abilities", "Passive", "Jump");
 	
 	// Cooldown.Fire.FireBolt
 	Instance.Cooldown_Fire_FireBolt = UAuraAbilitySystemLibrary::AddInputTag("Fire Bolt Cooldown Tag", "Cooldown", "Fire", "FireBolt");

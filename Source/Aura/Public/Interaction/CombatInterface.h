@@ -106,7 +106,4 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void SetBeingInShock(bool InShock);
-
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void EquipAllPickUps();
 };

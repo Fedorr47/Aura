@@ -63,4 +63,10 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void SaveProgress(const FName& CheckpointTag);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	USpringArmComponent* GetPlayerCamera() const;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void ApplyJump();
 };
