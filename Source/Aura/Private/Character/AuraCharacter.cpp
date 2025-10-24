@@ -18,6 +18,7 @@
 #include "NiagaraComponent.h"
 #include "AbilitySystem/Debuff/DebuffNiagaraComponent.h"
 #include "Aura/Aura.h"
+#include "Components/SplineComponent.h"
 #include "Game/LoadScreenSaveGame.h"
 #include "GameModes/AuraGameModeBase.h"
 #include "UI/HUD/AuraHUD.h"
@@ -34,6 +35,9 @@ AAuraCharacter::AAuraCharacter()
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("CharacterCamera"));
 	CameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	CameraComponent->bUsePawnControlRotation = false;
+
+	SplineComponent = CreateDefaultSubobject<USplineComponent>(TEXT("SplineComponent"));
+	SplineComponent->SetupAttachment(RootComponent);
 
 	LevelUpEffect = CreateDefaultSubobject<UNiagaraComponent>(TEXT("LevelUpEffect"));
 	LevelUpEffect->SetupAttachment(GetRootComponent());

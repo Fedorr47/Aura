@@ -12,6 +12,7 @@
 #include "NiagaraFunctionLibrary.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Actor/MagicCircle.h"
+#include "Camera/CameraComponent.h"
 #include "Cheats/DebugCheatManager.h"
 #include "Components/DecalComponent.h"
 #include "Components/SplineComponent.h"
@@ -23,6 +24,8 @@
 #include "Interaction/PlayerInterface.h"
 #include "InventoryManager/Components/Inv_InventoryComponent.h"
 #include "UI/Widgets/DamageTextComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
@@ -334,6 +337,7 @@ void AAuraPlayerController::SetupInputComponent()
 		AuraInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
 		AuraInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Look);
 		AuraInputComponent->BindAction(ZoomAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Zoom);
+		AuraInputComponent->BindAction(RotateCamera, ETriggerEvent::Triggered, this, &ThisClass::Rotate);
 		// TODO: Replace it to BindAbilityActions
 		AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &ThisClass::ShiftPressed);
 		AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &ThisClass::ShiftReleased);
@@ -388,12 +392,33 @@ void AAuraPlayerController::Zoom(const FInputActionValue& InputActionValue)
 	APawn* ControlledPawn = GetPawn<APawn>();
 	if (ControlledPawn->Implements<UPlayerInterface>())
 	{
-		USpringArmComponent* PlayerCamera = IPlayerInterface::Execute_GetPlayerCamera(ControlledPawn);
-		if (PlayerCamera == nullptr)
+		USpringArmComponent* PlayerSpringArmComponent = IPlayerInterface::Execute_GetPlayerCamera(ControlledPawn);
+		if (PlayerSpringArmComponent == nullptr)
 		{
 			return;
 		}
 		
+	}
+}
+
+void AAuraPlayerController::Rotate(const FInputActionValue& InputActionValue)
+{
+	APawn* ControlledPawn = GetPawn<APawn>();
+	if (ControlledPawn->Implements<UPlayerInterface>())
+	{
+		USpringArmComponent* PlayerSpringArmComponent = IPlayerInterface::Execute_GetPlayerCamera(ControlledPawn);
+		if (PlayerSpringArmComponent == nullptr)
+		{
+			return;
+		}
+		
+		const FVector2D Delta = InputActionValue.Get<FVector2D>();
+		
+		OrbitYaw = FMath::UnwindDegrees(OrbitYaw + Delta.X);
+
+		FRotator R = PlayerSpringArmComponent->GetRelativeRotation();
+		R.Yaw = OrbitYaw;
+		PlayerSpringArmComponent->SetRelativeRotation(R);
 	}
 }
 

@@ -56,6 +56,7 @@ private:
 	void Move(const FInputActionValue& InputActionValue);
 	void Look(const FInputActionValue& InputActionValue);
 	void Zoom(const FInputActionValue& InputActionValue);
+	void Rotate(const FInputActionValue& InputActionValue);
 	
 	void ShiftPressed() {bShiftPressed = true;}
 	void ShiftReleased(){bShiftPressed = false;}
@@ -90,6 +91,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> LookAction;
+	
+	UPROPERTY(EditAnywhere, Category="Input")
+	TObjectPtr<UInputAction> RotateCamera;
 
 	UPROPERTY()
 	TObjectPtr<AActor> LastActor{nullptr};
@@ -128,4 +132,6 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<AMagicCircle> MagicCircle;
+	
+	float OrbitYaw = 0.f;
 };
