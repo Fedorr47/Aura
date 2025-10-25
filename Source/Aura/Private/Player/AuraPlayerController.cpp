@@ -181,6 +181,18 @@ void AAuraPlayerController::UnHighlightActor(AActor* InActor)
 	}
 }
 
+void AAuraPlayerController::SetCameraZoomAlongSpline(
+	UCameraComponent* InSpringArmComponent,
+	USplineComponent* InSplineComponent,
+	float ZoomAmount)
+{
+	auto LocationAtTime = SplineComponent->GetLocationAtTime(ZoomAmount, ESplineCoordinateSpace::Local, true);
+	InSpringArmComponent->SetRelativeLocation(LocationAtTime);
+
+	//FRotator R = InSpringArmComponent->GetRelativeRotation();
+	//InSpringArmComponent->SetRelativeRotation(R);
+}
+
 void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
 	if (GetAbilitySystemComponent() && GetAbilitySystemComponent()->HasMatchingGameplayTag(FAuraGameplayTags::Get().Player_Block_InputPressed))
@@ -392,12 +404,21 @@ void AAuraPlayerController::Zoom(const FInputActionValue& InputActionValue)
 	APawn* ControlledPawn = GetPawn<APawn>();
 	if (ControlledPawn->Implements<UPlayerInterface>())
 	{
-		USpringArmComponent* PlayerSpringArmComponent = IPlayerInterface::Execute_GetPlayerCamera(ControlledPawn);
-		if (PlayerSpringArmComponent == nullptr)
+		USpringArmComponent* PlayerArmCameraComponent = IPlayerInterface::Execute_GetArmPlayerCamera(ControlledPawn);
+		if (PlayerArmCameraComponent == nullptr)
 		{
 			return;
 		}
 		
+		
+		const float Axis = InputActionValue.Get<float>();
+		if (FMath::IsNearlyZero(Axis))
+		{
+			return;
+		}
+
+		ZoomPercent = (Axis * ZoomSpeed);
+		PlayerArmCameraComponent->TargetArmLength = PlayerArmCameraComponent->TargetArmLength + ZoomPercent;
 	}
 }
 
@@ -406,8 +427,14 @@ void AAuraPlayerController::Rotate(const FInputActionValue& InputActionValue)
 	APawn* ControlledPawn = GetPawn<APawn>();
 	if (ControlledPawn->Implements<UPlayerInterface>())
 	{
-		USpringArmComponent* PlayerSpringArmComponent = IPlayerInterface::Execute_GetPlayerCamera(ControlledPawn);
+		USpringArmComponent* PlayerSpringArmComponent = IPlayerInterface::Execute_GetArmPlayerCamera(ControlledPawn);
 		if (PlayerSpringArmComponent == nullptr)
+		{
+			return;
+		}
+
+		USplineComponent* CameraSplineComponent = IPlayerInterface::Execute_GetCameraSpline(ControlledPawn);
+		if (CameraSplineComponent == nullptr)
 		{
 			return;
 		}
@@ -419,6 +446,7 @@ void AAuraPlayerController::Rotate(const FInputActionValue& InputActionValue)
 		FRotator R = PlayerSpringArmComponent->GetRelativeRotation();
 		R.Yaw = OrbitYaw;
 		PlayerSpringArmComponent->SetRelativeRotation(R);
+		CameraSplineComponent->SetRelativeRotation(R);
 	}
 }
 

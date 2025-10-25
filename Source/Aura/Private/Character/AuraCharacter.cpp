@@ -239,9 +239,19 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& CheckpointTag)
 	}
 }
 
-USpringArmComponent* AAuraCharacter::GetPlayerCamera_Implementation() const
+USpringArmComponent* AAuraCharacter::GetArmPlayerCamera_Implementation() const
 {
 	return CameraBoom;
+}
+
+UCameraComponent* AAuraCharacter::GetPlayerCamera_Implementation() const
+{
+	return CameraComponent;
+}
+
+USplineComponent* AAuraCharacter::GetCameraSpline_Implementation() const
+{
+	return SplineComponent;
 }
 
 void AAuraCharacter::ApplyJump_Implementation()

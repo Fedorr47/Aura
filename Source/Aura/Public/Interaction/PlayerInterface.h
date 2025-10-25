@@ -6,6 +6,8 @@
 #include "UObject/Interface.h"
 #include "PlayerInterface.generated.h"
 
+class UCameraComponent;
+class USplineComponent;
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI, BlueprintType)
 class UPlayerInterface : public UInterface
@@ -65,7 +67,13 @@ public:
 	void SaveProgress(const FName& CheckpointTag);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	USpringArmComponent* GetPlayerCamera() const;
+	USpringArmComponent* GetArmPlayerCamera() const;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UCameraComponent* GetPlayerCamera() const;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	USplineComponent* GetCameraSpline() const;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void ApplyJump();

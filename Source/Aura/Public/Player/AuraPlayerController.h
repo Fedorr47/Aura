@@ -5,9 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "GameFramework/PlayerController.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "Player/Inv_PlayerController.h"
 #include "AuraPlayerController.generated.h"
 
+class UCameraComponent;
 class IHighlightInterface;
 class AMagicCircle;
 class UNiagaraSystem;
@@ -75,6 +77,11 @@ private:
 	static void HighlightActor(AActor* InActor);
 	static void UnHighlightActor(AActor* InActor);
 
+	void SetCameraZoomAlongSpline(
+		UCameraComponent* InSpringArmComponent,
+		USplineComponent* InSplineComponent,
+		float ZoomAmount);
+
 	// -------------------------------------//
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
@@ -121,7 +128,6 @@ private:
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<USplineComponent> SplineComponent{nullptr};
 
-	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UNiagaraSystem> ClickNiagaraSystem;
 
 	UPROPERTY(EditDefaultsOnly)
@@ -133,5 +139,10 @@ private:
 	UPROPERTY()
 	TObjectPtr<AMagicCircle> MagicCircle;
 	
-	float OrbitYaw = 0.f;
+	float OrbitYaw {0.0f};
+
+	UPROPERTY(EditAnywhere, Category="Camera")
+	float ZoomSpeed {5.0f};
+	
+	float ZoomPercent {0.0f};
 };
