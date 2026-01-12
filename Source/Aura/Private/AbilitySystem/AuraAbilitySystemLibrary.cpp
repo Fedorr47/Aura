@@ -12,6 +12,7 @@
 #include "Game/LoadScreenSaveGame.h"
 #include "GameModes/AuraGameModeBase.h"
 #include "Interaction/CombatInterface.h"
+#include "Engine/OverlapResult.h"
 
 
 UOverlayWidgetController* UAuraAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)

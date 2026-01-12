@@ -12,8 +12,9 @@ FString UAuraGameplayAbility::GetDescription(int32 Level)
 
 FString UAuraGameplayAbility::GetNextLevelDescription(int32 Level)
 {
-	return FString::Printf(TEXT("<Default>Next Level: </><Level>%d</>\n<Default>Added something to somethings </>"),
-		L"Default Ability", Level);
+	return FString::Printf(TEXT("<Default>%s</>\n<Default>Next Level: </><Level>%d</>\n<Default>Added something to somethings </>"),
+		TEXT("Default Ability"),
+		Level);
 }
 
 FString UAuraGameplayAbility::GetLockeDescription(int32 Level)

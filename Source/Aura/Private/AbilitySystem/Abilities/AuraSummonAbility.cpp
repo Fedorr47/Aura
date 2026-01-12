@@ -6,6 +6,7 @@
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/Character.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Engine/OverlapResult.h"
 
 TArray<FVector> UAuraSummonAbility::GetSpawnLocations()
 {

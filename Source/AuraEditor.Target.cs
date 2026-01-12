@@ -11,5 +11,9 @@ public class AuraEditorTarget : TargetRules
 		DefaultBuildSettings = BuildSettingsVersion.V4;
 
 		ExtraModuleNames.AddRange( new string[] { "Aura" } );
-	}
+
+		UndefinedIdentifierWarningLevel = WarningLevel.Error;
+        DefaultBuildSettings = BuildSettingsVersion.V6;
+        IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_7;
+    }
 }

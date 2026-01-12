@@ -31,7 +31,7 @@ void AAuraGameModeBase::SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex)
 		const bool res = UGameplayStatics::SaveGameToSlot(LoadScreenSaveGame, LoadSlot->GetLoadSlotName(), SlotIndex);
 		if (!res)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Game wasn't saved = %s"));
+			UE_LOG(LogTemp, Warning, TEXT("Game wasn't saved"));
 		}
 	}
 }
